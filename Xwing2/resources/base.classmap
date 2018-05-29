@@ -90,14 +90,3 @@
 
 @cat-characters
     @xw2-comp-pilot = diy:components/pilot-card/pilot-card.js | components/pilot-card/images/pilot-card-icon.png | XW2
-#    @xw2-comp-huge = diy:components/huge-ship-card/huge-ship-card.js | components/pilot-card/images/pilot-card-icon.png | XW2
-#    
-#@cat-effects
-#    @xw2-comp-condition = diy:components/condition-card/condition-card.js | components/condition-card/images/condition-card-icon.png | XW2
-#
-#@cat-inventory
-#    @xw2-comp-upgrade = diy:components/upgrade-card/upgrade-card.js | components/upgrade-card/images/upgrade-card-icon.png | XW2
-#
-#@cat-markers
-#    @xw2-comp-maneuver = diy:components/maneuver-dial/maneuver-dial.js | components/maneuver-dial/images/maneuver-dial-icon.png | XW2
-#  
