@@ -125,6 +125,8 @@ function createInterface( diy, editor ) {
 	bindings = new Bindings( editor, diy );
 
 	// Main Panel
+	mainHelpButton = helpButton( "http://github.com/Hinny/strange-eons-xwing2/wiki" );
+	
 	affiliationItems = [];
 	affiliationItems.push(ListItem( 'custom', @xw2-affiliation-custom ));
 	affiliationItems.push(ListItem( 'alliance', @xw2-affiliation-rebel ));
@@ -158,10 +160,6 @@ function createInterface( diy, editor ) {
 	pilotTextArea = textArea( '', 6, 15, true );
 	bindings.add( 'Text', pilotTextArea, [0] );
 	
-	symbolsTagTip = tipButton( @xw2-symbol-tooltip );
-	headersTagTip = tipButton( @xw2-header-tooltip );
-	shipsTagTip = tipButton( @xw2-ship-tooltip );
-
 	chargeValueItems = ['-', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 	chargeValueBox = comboBox( chargeValueItems );
 	bindings.add( 'ChargeValue', chargeValueBox, [0] );
@@ -181,6 +179,7 @@ function createInterface( diy, editor ) {
 
 	mainPanel = new Grid( '', '[min:pref][min:pref][min:pref][min:pref,grow]', '');
 	mainPanel.setTitle( @xw2-info );
+	mainPanel.place( mainHelpButton, 'wrap para' );
 	mainPanel.place( @xw2-affiliation, '', affiliationBox, 'wmin 180, span 3, wrap' );	
 	mainPanel.place( @xw2-ship, '', shipBox, 'wmin 180, span 3, wrap' );
 	mainPanel.place( @xw2-pilotname, '', nameField, 'span, growx, wrap' );
@@ -193,12 +192,13 @@ function createInterface( diy, editor ) {
 	mainPanel.place( pilotTextArea, 'span, grow, wrap para' );
 	mainPanel.place( @xw2-charge-value, '', chargeValueBox, 'wmin 52', chargeRegenCheckbox,  'wrap' );
 	mainPanel.place( @xw2-force-value, '', forceValueBox, 'wmin 52', forceRegenCheckbox,  'wrap' );
-	mainPanel.place( symbolsTagTip, '', headersTagTip, '', shipsTagTip, 'span, grow, wrap para' );
 	mainPanel.place( separator(), 'span, growx, wrap para' );
 	mainPanel.place( pilotPanel, 'span, growx, wrap' );
 	mainPanel.editorTabScrolling = true;
 
-	// Custom Ship Panel	
+	// Custom Ship Panel
+	customShipHelpButton = helpButton( "http://github.com/Hinny/strange-eons-xwing2/wiki" );
+	
 	customShipNameField = textField( 'X', 30 );
 	bindings.add( 'CustomShipName', customShipNameField, [0,2] );
 	
@@ -265,32 +265,32 @@ function createInterface( diy, editor ) {
 	actionItems.push(ListItem( 'jam', @xw2-action-jam ));
 	customActionNameBox1 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionName1', customActionNameBox1, [0,2] );
-	customActionRedBox1 = checkBox( @xw2-action-red );
-	bindings.add( 'CustomShipActionRed1', customActionRedBox1, [0,2] );
+	customActionRedCheckBox1 = checkBox( @xw2-action-red );
+	bindings.add( 'CustomShipActionRed1', customActionRedCheckBox1, [0,2] );
 	customActionLinkedBox1 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionLinked1', customActionLinkedBox1, [0,2] );
 	customActionNameBox2 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionName2', customActionNameBox2, [0,2] );
-	customActionRedBox2 = checkBox( @xw2-action-red );
-	bindings.add( 'CustomShipActionRed2', customActionRedBox2, [0,2] );
+	customActionRedCheckBox2 = checkBox( @xw2-action-red );
+	bindings.add( 'CustomShipActionRed2', customActionRedCheckBox2, [0,2] );
 	customActionLinkedBox2 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionLinked2', customActionLinkedBox2, [0,2] );
 	customActionNameBox3 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionName3', customActionNameBox3, [0,2] );
-	customActionRedBox3 = checkBox( @xw2-action-red );
-	bindings.add( 'CustomShipActionRed3', customActionRedBox3, [0,2] );
+	customActionRedCheckBox3 = checkBox( @xw2-action-red );
+	bindings.add( 'CustomShipActionRed3', customActionRedCheckBox3, [0,2] );
 	customActionLinkedBox3 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionLinked3', customActionLinkedBox3, [0,2] );
 	customActionNameBox4 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionName4', customActionNameBox4, [0,2] );
-	customActionRedBox4 = checkBox( @xw2-action-red );
-	bindings.add( 'CustomShipActionRed4', customActionRedBox4, [0,2] );
+	customActionRedCheckBox4 = checkBox( @xw2-action-red );
+	bindings.add( 'CustomShipActionRed4', customActionRedCheckBox4, [0,2] );
 	customActionLinkedBox4 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionLinked4', customActionLinkedBox4, [0,2] );
 	customActionNameBox5 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionName5', customActionNameBox5, [0,2] );
-	customActionRedBox5 = checkBox( @xw2-action-red );
-	bindings.add( 'CustomShipActionRed5', customActionRedBox5, [0,2] );
+	customActionRedCheckBox5 = checkBox( @xw2-action-red );
+	bindings.add( 'CustomShipActionRed5', customActionRedCheckBox5, [0,2] );
 	customActionLinkedBox5 = comboBox( actionItems );
 	bindings.add( 'CustomShipActionLinked5', customActionLinkedBox5, [0,2] );
 
@@ -314,40 +314,207 @@ function createInterface( diy, editor ) {
 	customIconMarkerPanel = portraitPanel( diy, 2 );
 	customIconMarkerPanel.setParentPanel( customIconCardPanel );		
 	customIconMarkerPanel.panelTitle = @xw2-icon-token;
-	customPanel = new Grid( '', '[min:pref][min:pref][min:pref][min:pref,grow]', '');
-	customPanel.setTitle( @xw2-custom-ship );
-	customPanel.place( @xw2-ship, '', customShipNameField, 'span, growx, wrap' );
-	customPanel.place( @xw2-size, '', customSizeBox, 'wmin 100, span 2, wrap' );
-	customPanel.place( @xw2-agility-value, '', customAgilityBox, 'wmin 52' );
-	customPanel.place( @xw2-hull-value, '', customHullBox, 'wmin 52, wrap' );
-	customPanel.place( @xw2-shield-value, '', customShieldBox, 'wmin 52' );
-	customPanel.place( customShieldRegenCheckbox, 'wmin 52, wrap para' );
-	customPanel.place( separator(), 'span, growx, wrap para' );
-	customPanel.place( @xw2-action-1, '', customActionNameBox1, 'wmin 120', customActionRedBox1, '' );
-	customPanel.place( customActionLinkedBox1,  'wmin 120, wrap' );
-	customPanel.place( @xw2-action-2, '', customActionNameBox2, 'wmin 120', customActionRedBox2, '' );
-	customPanel.place( customActionLinkedBox2,  'wmin 120, wrap' );
-	customPanel.place( @xw2-action-3, '', customActionNameBox3, 'wmin 120', customActionRedBox3, '' );
-	customPanel.place( customActionLinkedBox3,  'wmin 120, wrap' );
-	customPanel.place( @xw2-action-4, '', customActionNameBox4, 'wmin 120', customActionRedBox4, '' );
-	customPanel.place( customActionLinkedBox4,  'wmin 120, wrap' );
-	customPanel.place( @xw2-action-5, '', customActionNameBox5, 'wmin 120', customActionRedBox5, '' );
-	customPanel.place( customActionLinkedBox5,  'wmin 120, wrap para' );
-	customPanel.place( separator(), 'span, growx, wrap para' );
-	customPanel.place( @xw2-ship-ability-name, '', customShipAbilityNameField, 'span, grow, wrap para' );
-	customPanel.place( customShipAbilityTextArea, 'span, grow, wrap para' );
-	customPanel.place( symbolsTagTip, '', headersTagTip, '', shipsTagTip, 'span, grow, wrap para' );
-	customPanel.place( separator(), 'span, growx, wrap para' );
-	customPanel.place( @xw2-icon, '', customShipIconBox, 'wmin 180, span 3, wrap para');
-	customPanel.place( customIconCardPanel, 'span, growx, wrap' );
-	customPanel.place( customIconMarkerPanel, 'span, growx, wrap' );
-	customPanel.editorTabScrolling = true;
+	
+	customShipPanel = new Grid( '', '[min:pref][min:pref][min:pref][min:pref,grow]', '');
+	customShipPanel.setTitle( @xw2-custom-ship );
+	customShipPanel.place( customShipHelpButton, 'wrap para' );
+	customShipPanel.place( @xw2-ship, '', customShipNameField, 'span, growx, wrap' );
+	customShipPanel.place( @xw2-size, '', customSizeBox, 'wmin 100, span 2, wrap' );
+	customShipPanel.place( @xw2-agility-value, '', customAgilityBox, 'wmin 52' );
+	customShipPanel.place( @xw2-hull-value, '', customHullBox, 'wmin 52, wrap' );
+	customShipPanel.place( @xw2-shield-value, '', customShieldBox, 'wmin 52' );
+	customShipPanel.place( customShieldRegenCheckbox, 'wmin 52, wrap para' );
+	customShipPanel.place( separator(), 'span, growx, wrap para' );
+	customShipPanel.place( @xw2-action-1, '', customActionNameBox1, 'wmin 120', customActionRedCheckBox1, '' );
+	customShipPanel.place( customActionLinkedBox1,  'wmin 120, wrap' );
+	customShipPanel.place( @xw2-action-2, '', customActionNameBox2, 'wmin 120', customActionRedCheckBox2, '' );
+	customShipPanel.place( customActionLinkedBox2,  'wmin 120, wrap' );
+	customShipPanel.place( @xw2-action-3, '', customActionNameBox3, 'wmin 120', customActionRedCheckBox3, '' );
+	customShipPanel.place( customActionLinkedBox3,  'wmin 120, wrap' );
+	customShipPanel.place( @xw2-action-4, '', customActionNameBox4, 'wmin 120', customActionRedCheckBox4, '' );
+	customShipPanel.place( customActionLinkedBox4,  'wmin 120, wrap' );
+	customShipPanel.place( @xw2-action-5, '', customActionNameBox5, 'wmin 120', customActionRedCheckBox5, '' );
+	customShipPanel.place( customActionLinkedBox5,  'wmin 120, wrap para' );
+	customShipPanel.place( separator(), 'span, growx, wrap para' );
+	customShipPanel.place( @xw2-ship-ability-name, '', customShipAbilityNameField, 'span, grow, wrap para' );
+	customShipPanel.place( customShipAbilityTextArea, 'span, grow, wrap para' );
+	customShipPanel.place( separator(), 'span, growx, wrap para' );
+	customShipPanel.place( @xw2-icon, '', customShipIconBox, 'wmin 180, span 3, wrap para');
+	customShipPanel.place( customIconCardPanel, 'span, growx, wrap' );
+	customShipPanel.place( customIconMarkerPanel, 'span, growx, wrap' );
+	customShipPanel.editorTabScrolling = true;
 
  	diy.setNameField( nameField );
 
+	function actionFunction( actionEvent ) {
+		try {
+			if( shipBox.getSelectedItem() != 'custom' ) {
+				customShipNameField.setEnabled(false);
+				customSizeBox.setEnabled(false);
+				customWeaponValueBox1.setEnabled(false);
+				customWeaponValueBox2.setEnabled(false);
+				customWeaponValueBox3.setEnabled(false);
+				customWeaponArcBox1.setEnabled(false);
+				customWeaponArcBox2.setEnabled(false);
+				customWeaponArcBox3.setEnabled(false);
+				customAgilityBox.setEnabled(false);
+				customHullBox.setEnabled(false);
+				customShieldBox.setEnabled(false);
+				customShieldRegenCheckbox.setEnabled(false);
+				customActionNameBox1.setEnabled(false);
+				customActionRedCheckBox1.setEnabled(false);
+				customActionLinkedBox1.setEnabled(false);
+				customActionNameBox2.setEnabled(false);
+				customActionRedCheckBox2.setEnabled(false);
+				customActionLinkedBox2.setEnabled(false);
+				customActionNameBox3.setEnabled(false);
+				customActionRedCheckBox3.setEnabled(false);
+				customActionLinkedBox3.setEnabled(false);
+				customActionNameBox4.setEnabled(false);
+				customActionRedCheckBox4.setEnabled(false);
+				customActionLinkedBox4.setEnabled(false);
+				customActionNameBox5.setEnabled(false);
+				customActionRedCheckBox5.setEnabled(false);
+				customActionLinkedBox5.setEnabled(false);
+				customShipAbilityNameField.setEnabled(false);
+				customShipAbilityTextArea.setVisible(false);
+				customShipIconBox.setEnabled(false);
+				customIconCardPanel.setVisible(false);
+				customIconMarkerPanel.setVisible(false);
+			} else {
+				customShipNameField.setEnabled(true);
+				customSizeBox.setEnabled(true);
+				customWeaponValueBox1.setEnabled(true);
+				customWeaponValueBox2.setEnabled(true);
+				customWeaponValueBox3.setEnabled(true);
+				customWeaponArcBox1.setEnabled(true);
+				customWeaponArcBox2.setEnabled(true);
+				customWeaponArcBox3.setEnabled(true);
+				customAgilityBox.setEnabled(true);
+				customHullBox.setEnabled(true);
+				customShieldBox.setEnabled(true);
+				customShieldRegenCheckbox.setEnabled(true);
+				customActionNameBox1.setEnabled(true);
+				if( customActionNameBox1.getSelectedItem() == '-' ){
+					customActionRedCheckBox1.setEnabled(false);
+					customActionLinkedBox1.setEnabled(false);
+				} else {
+					customActionLinkedBox1.setEnabled(true);
+					if( customActionLinkedBox1.getSelectedItem() != '-') {
+						customActionRedCheckBox1.setEnabled(false);
+					} else {
+						customActionRedCheckBox1.setEnabled(true);
+					}
+					if( customActionRedCheckBox1.isSelected() ){
+						customActionLinkedBox1.setEnabled(false);
+					} else {
+						customActionLinkedBox1.setEnabled(true);
+					}
+				}
+				if( customActionNameBox2.getSelectedItem() == '-' ){
+					customActionRedCheckBox2.setEnabled(false);
+					customActionLinkedBox2.setEnabled(false);
+				} else {
+					customActionLinkedBox2.setEnabled(true);
+					if( customActionLinkedBox2.getSelectedItem() != '-') {
+						customActionRedCheckBox2.setEnabled(false);
+					} else {
+						customActionRedCheckBox2.setEnabled(true);
+					}
+					if( customActionRedCheckBox2.isSelected() ){
+						customActionLinkedBox2.setEnabled(false);
+					} else {
+						customActionLinkedBox2.setEnabled(true);
+					}
+				}
+				if( customActionNameBox3.getSelectedItem() == '-' ){
+					customActionRedCheckBox3.setEnabled(false);
+					customActionLinkedBox3.setEnabled(false);
+				} else {
+					customActionLinkedBox3.setEnabled(true);
+					if( customActionLinkedBox3.getSelectedItem() != '-') {
+						customActionRedCheckBox3.setEnabled(false);
+					} else {
+						customActionRedCheckBox3.setEnabled(true);
+					}
+					if( customActionRedCheckBox3.isSelected() ){
+						customActionLinkedBox3.setEnabled(false);
+					} else {
+						customActionLinkedBox3.setEnabled(true);
+					}
+				}
+				if( customActionNameBox4.getSelectedItem() == '-' ){
+					customActionRedCheckBox4.setEnabled(false);
+					customActionLinkedBox4.setEnabled(false);
+				} else {
+					customActionLinkedBox4.setEnabled(true);
+					if( customActionLinkedBox4.getSelectedItem() != '-') {
+						customActionRedCheckBox4.setEnabled(false);
+					} else {
+						customActionRedCheckBox4.setEnabled(true);
+					}
+					if( customActionRedCheckBox4.isSelected() ){
+						customActionLinkedBox4.setEnabled(false);
+					} else {
+						customActionLinkedBox4.setEnabled(true);
+					}
+				}
+				if( customActionNameBox5.getSelectedItem() == '-' ){
+					customActionRedCheckBox5.setEnabled(false);
+					customActionLinkedBox5.setEnabled(false);
+				} else {
+					customActionLinkedBox5.setEnabled(true);
+					if( customActionLinkedBox5.getSelectedItem() != '-') {
+						customActionRedCheckBox5.setEnabled(false);
+					} else {
+						customActionRedCheckBox5.setEnabled(true);
+					}
+					if( customActionRedCheckBox5.isSelected() ){
+						customActionLinkedBox5.setEnabled(false);
+					} else {
+						customActionLinkedBox5.setEnabled(true);
+					}
+				}
+				customShipAbilityNameField.setEnabled(true);
+				customShipAbilityTextArea.setVisible(true);
+				customShipIconBox.setEnabled(true);				
+				if( customShipIconBox.getSelectedItem() != 'custom' ){
+					customIconCardPanel.setVisible(false);
+					customIconMarkerPanel.setVisible(false);
+				} else {
+					customIconCardPanel.setVisible(true);
+					customIconMarkerPanel.setVisible(true);
+				}
+			}
+		} catch( ex ) {
+			Error.handleUncaught( ex );
+		}
+	}
+
 	mainPanel.addToEditor( editor, @xw2-info, null, null, 0 );
-	customPanel.addToEditor( editor, @xw2-custom-ship, null, null, 1 );
+	customShipPanel.addToEditor( editor, @xw2-custom-ship, null, null, 1 );
+	editor.addFieldPopulationListener( actionFunction );
 	bindings.bind();
+	
+	// Add an action listener
+	shipBox.addActionListener( actionFunction );
+	customActionNameBox1.addActionListener( actionFunction );
+	customActionRedCheckBox1.addActionListener( actionFunction );
+	customActionLinkedBox1.addActionListener( actionFunction );
+	customActionNameBox2.addActionListener( actionFunction );
+	customActionRedCheckBox2.addActionListener( actionFunction );
+	customActionLinkedBox2.addActionListener( actionFunction );
+	customActionNameBox3.addActionListener( actionFunction );
+	customActionRedCheckBox3.addActionListener( actionFunction );
+	customActionLinkedBox3.addActionListener( actionFunction );
+	customActionNameBox4.addActionListener( actionFunction );
+	customActionRedCheckBox4.addActionListener( actionFunction );
+	customActionLinkedBox4.addActionListener( actionFunction );
+	customActionNameBox5.addActionListener( actionFunction );
+	customActionRedCheckBox5.addActionListener( actionFunction );
+	customActionLinkedBox5.addActionListener( actionFunction );
+	customShipIconBox.addActionListener( actionFunction );
+	
 }
 	
 function createFrontPainter( diy, sheet ) {
