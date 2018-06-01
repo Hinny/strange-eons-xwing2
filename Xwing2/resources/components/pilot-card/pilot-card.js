@@ -37,7 +37,6 @@ function getPortrait( index ) {
 	return portraits[ index ];
 }
 
-
 function create( diy ) {
 	diy.version = 1;
 	diy.extensionName = 'Xwing2.seext';
@@ -45,8 +44,8 @@ function create( diy ) {
 	diy.transparentFaces = true;
 	diy.variableSizedFaces = true;
 	
-	diy.frontTemplateKey = 'pilot-rebel-front-full';
-	diy.backTemplateKey = 'pilot-rebel-back';
+	diy.frontTemplateKey = 'pilot-blank';
+	diy.backTemplateKey = 'pilot-blank';
 	diy.setTemplateKey( 2, 'pilot-large-token' );
 	
 	// Card Art
@@ -125,11 +124,11 @@ function createInterface( diy, editor ) {
 	bindings = new Bindings( editor, diy );
 
 	// Main Panel
-	mainHelpButton = helpButton( "http://github.com/Hinny/strange-eons-xwing2/wiki" );
+	mainHelpButton = helpButton( "http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards" );
 	
 	affiliationItems = [];
-	affiliationItems.push(ListItem( 'custom', @xw2-affiliation-custom ));
-	affiliationItems.push(ListItem( 'alliance', @xw2-affiliation-rebel ));
+	//affiliationItems.push(ListItem( 'custom', @xw2-affiliation-custom ));
+	affiliationItems.push(ListItem( 'rebel', @xw2-affiliation-rebel ));
 	affiliationItems.push(ListItem( 'empire', @xw2-affiliation-imperial ));
 	affiliationItems.push(ListItem( 'scum', @xw2-affiliation-scum ));
 	affiliationBox = comboBox( affiliationItems );
@@ -197,7 +196,7 @@ function createInterface( diy, editor ) {
 	mainPanel.editorTabScrolling = true;
 
 	// Custom Ship Panel
-	customShipHelpButton = helpButton( "http://github.com/Hinny/strange-eons-xwing2/wiki" );
+	customShipHelpButton = helpButton( "http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-ships" );
 	
 	customShipNameField = textField( 'X', 30 );
 	bindings.add( 'CustomShipName', customShipNameField, [0,2] );
@@ -496,7 +495,7 @@ function createInterface( diy, editor ) {
 	editor.addFieldPopulationListener( actionFunction );
 	bindings.bind();
 	
-	// Add an action listener
+	// Add action listeners
 	shipBox.addActionListener( actionFunction );
 	customActionNameBox1.addActionListener( actionFunction );
 	customActionRedCheckBox1.addActionListener( actionFunction );
@@ -526,7 +525,11 @@ function createBackPainter( diy, sheet ) {
 }
 
 function paintFront( g, diy, sheet ) {
-
+	imageTemplate =  'pilot-blank-template';
+	sheet.paintImage( g, imageTemplate, 0, 0);
+	
+	imageTemplate =  'pilot-' + $Affiliation + '-front-full-template';
+	sheet.paintImage( g, imageTemplate, 0, 0);
 }
 
 function paintBack( g, diy, sheet ) {

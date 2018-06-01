@@ -278,30 +278,6 @@ function Xwing2Object() {
 		return box;
 	};
 	
-	if( $Affiliation == 'alliance' || $Affiliation == 'resistance' ) {
-		primaryFaction = 'rebel';
-	} else if( $Affiliation == 'empire' || $Affiliation == 'firstorder' ) {
-		primaryFaction = 'imperial';
-	} else {
-		primaryFaction = 'scum';
-	}	
-	
-	this.getPrimaryFaction = function getPrimaryFaction( affiliation ) {
-		if( affiliation == 'alliance' ) {
-			return 'rebel';
-		} else if ( affiliation == 'resistance' ) {
-			return 'rebel';
-		} else if ( affiliation == 'empire' ) {
-			return 'imperial';
-		} else if ( affiliation == 'firstorder' ) {
-			return 'imperial';
-		} else if ( affiliation == 'scum' ) {
-			return 'scum';
-		} else {
-			return '-';
-		}
-	};
-
 	this.getColor = function getColor( keyword ) {
 		if( keyword == 'rebel' ) {
 			color = Color(239/255,12/255,45/255);

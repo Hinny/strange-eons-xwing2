@@ -9,19 +9,20 @@
 # will be ignored.
 #
 
-
-pilot-rebel-front-full-template = components/pilot-card/images/blank-empire-full-text.png
-pilot-rebel-front-dpi = 300
-pilot-empire-front-full-template = components/pilot-card/images/blank-empire-full-text.png
-pilot-empire-front-dpi = 300
-pilot-scum-front-full-template = components/pilot-card/images/blank-empire-full-text.png
-pilot-scum-front-dpi = 300
-pilot-rebel-front-reduced-template = components/pilot-card/images/blank-empire-reduced-text.png
-pilot-rebel-front-dpi = 300
-pilot-empire-front-reduced-template = components/pilot-card/images/blank-empire-reduced-text.png
-pilot-empire-front-dpi = 300
-pilot-scum-front-reduced-template = components/pilot-card/images/blank-empire-reduced-text.png
-pilot-scum-front-dpi = 300
+pilot-blank-template = components/pilot-card/images/blank.png
+pilot-blank-dpi = 300
+pilot-rebel-front-full-template = components/pilot-card/images/blank-imperial-full-text.png
+pilot-rebel-front-full-dpi = 300
+pilot-imperial-front-full-template = components/pilot-card/images/blank-imperial-full-text.png
+pilot-imperial-front-full-dpi = 300
+pilot-scum-front-full-template = components/pilot-card/images/template-imperial.png
+pilot-scum-front-full-dpi = 300
+pilot-rebel-front-reduced-template = components/pilot-card/images/blank-imperial-reduced-text.png
+pilot-rebel-front-reduced-dpi = 300
+pilot-imperial-front-reduced-template = components/pilot-card/images/blank-imperial-reduced-text.png
+pilot-imperial-front-reduced-dpi = 300
+pilot-scum-front-reduced-template = components/pilot-card/images/template-imperial.png
+pilot-scum-front-reduced-dpi = 300
 
 pilot-small-token-template = components/pilot-card/images/small-token.jp2
 pilot-small-token-dpi = 300
