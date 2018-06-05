@@ -1,0 +1,21 @@
+@charset "UTF-8";
+/*
+ * Icons
+ */
+@font-face {
+  font-family: XWing;
+  src: url("/Xwing2/resources/fonts/xwing-miniatures.ttf"); }
+
+i.xwing-miniatures-font {
+  font-family: XWing;
+  font-style: normal;
+  font-size: 1.5em; }
+
+@font-face {
+  font-family: XWingShip;
+  src: url("/Xwing2/resources/fonts/xwing-miniatures-ships.ttf"); }
+
+i.xwing-miniatures-ship {
+  font-family: XWingShip;
+  font-style: normal;
+  font-size: 1.5em; }
