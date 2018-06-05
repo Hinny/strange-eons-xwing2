@@ -78,7 +78,7 @@ function create( diy ) {
 	diy.name = #xw2-pilot-name;
 	$Epithet = #xw2-pilot-epithet;
 	$ShipType = #xw2-pilot-ship;
-	$Affiliation = #xw2-pilot-affiliation;
+	$Faction = #xw2-pilot-faction;
 	$Initiative = #xw2-pilot-initiative;
 	$UniquePilot = #xw2-pilot-unique;
 	$Droid = #xw2-pilot-droid;
@@ -126,13 +126,13 @@ function createInterface( diy, editor ) {
 	// Main Panel
 	mainHelpButton = helpButton( "http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards" );
 	
-	affiliationItems = [];
-	//affiliationItems.push(ListItem( 'custom', @xw2-affiliation-custom ));
-	affiliationItems.push(ListItem( 'rebel', @xw2-affiliation-rebel ));
-	affiliationItems.push(ListItem( 'empire', @xw2-affiliation-imperial ));
-	affiliationItems.push(ListItem( 'scum', @xw2-affiliation-scum ));
-	affiliationBox = comboBox( affiliationItems );
-	bindings.add( 'Affiliation', affiliationBox, [0,1,2] );	
+	factionItems = [];
+	//factionItems.push(ListItem( 'custom', @xw2-faction-custom ));
+	factionItems.push(ListItem( 'rebel', @xw2-faction-rebel ));
+	factionItems.push(ListItem( 'imperial', @xw2-faction-imperial ));
+	factionItems.push(ListItem( 'scum', @xw2-faction-scum ));
+	factionBox = comboBox( factionItems );
+	bindings.add( 'Faction', factionBox, [0,1,2] );	
 
 	shipItems = [];
 	shipItems.push(ListItem( 'custom', @xw2-ship-custom-name ));
@@ -179,7 +179,7 @@ function createInterface( diy, editor ) {
 	mainPanel = new Grid( '', '[min:pref][min:pref][min:pref][min:pref,grow]', '');
 	mainPanel.setTitle( @xw2-info );
 	mainPanel.place( mainHelpButton, 'wrap para' );
-	mainPanel.place( @xw2-affiliation, '', affiliationBox, 'wmin 180, span 3, wrap' );	
+	mainPanel.place( @xw2-faction, '', factionBox, 'wmin 180, span 3, wrap' );	
 	mainPanel.place( @xw2-ship, '', shipBox, 'wmin 180, span 3, wrap' );
 	mainPanel.place( @xw2-pilotname, '', nameField, 'span, growx, wrap' );
 	mainPanel.place( @xw2-epithet, '', epithetField, 'span, growx, wrap' );
@@ -527,19 +527,30 @@ function createBackPainter( diy, sheet ) {
 function paintFront( g, diy, sheet ) {
 	imageTemplate =  'pilot-blank-template';
 	sheet.paintImage( g, imageTemplate, 0, 0);
+		
+	textBoxStyle = 'full';
+	if( $CustomShipActionLinked1 != '-') {textBoxStyle = 'reduced';}
+	if( $CustomShipActionLinked2 != '-') {textBoxStyle = 'reduced';}
+	if( $CustomShipActionLinked3 != '-') {textBoxStyle = 'reduced';}
+	if( $CustomShipActionLinked4 != '-') {textBoxStyle = 'reduced';}
+	if( $CustomShipActionLinked5 != '-') {textBoxStyle = 'reduced';}
 	
-	imageTemplate =  'pilot-' + $Affiliation + '-front-full-template';
-	sheet.paintImage( g, imageTemplate, 0, 0);
+	imageTemplate =  'pilot-' + $Faction + '-front-' + textBoxStyle + '-template';
+	sheet.paintImage( g, imageTemplate, 0, 0);	
 }
 
 function paintBack( g, diy, sheet ) {
+	imageTemplate =  'pilot-blank-template';
+	sheet.paintImage( g, imageTemplate, 0, 0);
 
+	imageTemplate =  'pilot-' + $Faction + '-back-template';
+	sheet.paintImage( g, imageTemplate, 0, 0);
 }
 
 function onClear() {
 	$Epithet = '';
-	$ShipType = 't65xwing';
-	$Affiliation = 'rebel';
+	$ShipType = 'custom';
+	$Faction = 'rebel';
 	$Initiative = '1';
 	$UniquePilot = 'no';
 	$Droid = 'no';
@@ -578,7 +589,7 @@ function onClear() {
 	$CustomShipActionName5 = '-';
 	$CustomShipActionRed5 = 'no';
 	$CustomShipActionLinked5 = '-';
-	$CustomShipIcon = 't65xwing';
+	$CustomShipIcon = 'custom';
 }
 
 // These can be used to perform special processing during open/save.

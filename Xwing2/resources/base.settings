@@ -24,6 +24,13 @@ pilot-imperial-front-reduced-dpi = 300
 pilot-scum-front-reduced-template = components/pilot-card/images/template-imperial.png
 pilot-scum-front-reduced-dpi = 300
 
+pilot-rebel-back-template = components/pilot-card/images/rebel-back.png
+pilot-rebel-back-dpi = 300
+pilot-imperial-back-template = components/pilot-card/images/imperial-back.png
+pilot-imperial-back-dpi = 300
+pilot-scum-back-template = components/pilot-card/images/scum-back.png
+pilot-scum-back-dpi = 300
+
 pilot-small-token-template = components/pilot-card/images/small-token.jp2
 pilot-small-token-dpi = 300
 pilot-medium-token-template = components/pilot-card/images/medium-token.jp2
