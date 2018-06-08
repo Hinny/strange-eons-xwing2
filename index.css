@@ -11,8 +11,163 @@ i.xwing-miniatures-font {
   font-style: normal;
   font-size: 1.5em; }
 
-i.xwing-miniatures-font-astromech:before {
+/* Upgrade Tags */
+i.astromech:before {
   content: "A"; }
+
+i.device:before {
+  content: "B"; }
+
+i.cannon:before {
+  content: "C"; }
+
+i.talent:before {
+  content: "E"; }
+
+i.illicit:before {
+  content: "I"; }
+
+i.missile:before {
+  content: "M"; }
+
+i.torpedo:before {
+  content: "P"; }
+
+i.system:before {
+  content: "S"; }
+
+i.turret:before {
+  content: "U"; }
+
+i.crew:before {
+  content: "W"; }
+
+i.tech:before {
+  content: "X"; }
+
+i.gunner:before {
+  content: "Y"; }
+
+i.modification:before {
+  content: "m"; }
+
+i.configuration:before {
+  content: "n"; }
+
+i.title:before {
+  content: "t"; }
+
+/* Action Tags */
+i.focus:before {
+  content: "f"; }
+
+i.evade:before {
+  content: "e"; }
+
+i.lock:before {
+  content: "l"; }
+
+i.roll:before {
+  content: "r"; }
+
+i.boost:before {
+  content: "b"; }
+
+i.reload:before {
+  content: "="; }
+
+i.rotate:before {
+  content: "R"; }
+
+i.calculate:before {
+  content: "a"; }
+
+i.reinfoce:before {
+  content: "i"; }
+
+i.jam:before {
+  content: "j"; }
+
+i.cloak:before {
+  content: "k"; }
+
+i.slam:before {
+  content: "s"; }
+
+/* Maneuver Tags */
+i.straight:before {
+  content: "8"; }
+
+i.rbank:before {
+  content: "9"; }
+
+i.lbank:before {
+  content: "7"; }
+
+i.rturn:before {
+  content: "6"; }
+
+i.lturn:before {
+  content: "4"; }
+
+i.stationary:before {
+  content: "5"; }
+
+i.kturn:before {
+  content: "2"; }
+
+i.rsloop:before {
+  content: "3"; }
+
+i.lsloop:before {
+  content: "1"; }
+
+i.rtroll:before {
+  content: ";"; }
+
+i.ltroll:before {
+  content: ":"; }
+
+i.reversestraight:before {
+  content: "K"; }
+
+i.rreversebank:before {
+  content: "L"; }
+
+i.lreversebank:before {
+  content: "J"; }
+
+/* Dice Result Tags */
+/*i.focus:before {
+  content: "f"; }*/
+
+i.damage:before {
+  content: "d"; }
+
+i.critical:before {
+  content: "c"; }
+
+/*i.evade:before {
+  content: "e"; }*/
+
+/* Arc Tags */
+i.front:before {
+  content: "{"; }
+
+i.rear:before {
+  content: "|"; }
+
+i.bullseye:before {
+  content: "}"; }
+
+i.singleturret:before {
+  content: "p"; }
+
+i.doubleturret:before {
+  content: "q"; }
+
+i.fronthalf:before {
+  content: "~"; }
 
 @font-face {
   font-family: XWingShip;
@@ -22,3 +177,32 @@ i.xwing-miniatures-ship {
   font-family: XWingShip;
   font-style: normal;
   font-size: 1.5em; }
+
+/* Rebel Ship Tags */
+i.sheathipede:before {
+  content: "%"; }
+
+i.auzituck:before {
+  content: "@"; }
+
+i.ghost:before {
+  content: "G"; }
+
+/* Imperial Ship Tags */
+i.tieadvanced:before {
+  content: "A"; }
+
+i.tiebomber:before {
+  content: "B"; }
+
+i.tiebomber:before {
+  content: "D"; }
+
+i.tiefighter:before {
+  content: "F"; }
+
+/* Scum Ship Tags */
+i.ghost:before {
+  content: "G"; }
+
+
