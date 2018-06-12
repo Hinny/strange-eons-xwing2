@@ -11,8 +11,163 @@ i.xwing-miniatures-font {
   font-style: normal;
   font-size: 1.5em; }
 
-i.xwing-miniatures-font-astromech:before {
+/* Upgrade Tags */
+i.astromech:before {
   content: "A"; }
+
+i.device:before {
+  content: "B"; }
+
+i.cannon:before {
+  content: "C"; }
+
+i.talent:before {
+  content: "E"; }
+
+i.illicit:before {
+  content: "I"; }
+
+i.missile:before {
+  content: "M"; }
+
+i.torpedo:before {
+  content: "P"; }
+
+i.system:before {
+  content: "S"; }
+
+i.turret:before {
+  content: "U"; }
+
+i.crew:before {
+  content: "W"; }
+
+i.tech:before {
+  content: "X"; }
+
+i.gunner:before {
+  content: "Y"; }
+
+i.modification:before {
+  content: "m"; }
+
+i.configuration:before {
+  content: "n"; }
+
+i.title:before {
+  content: "t"; }
+
+/* Action Tags */
+i.focus:before {
+  content: "f"; }
+
+i.evade:before {
+  content: "e"; }
+
+i.lock:before {
+  content: "l"; }
+
+i.barrelroll:before {
+  content: "r"; }
+
+i.boost:before {
+  content: "b"; }
+
+i.reload:before {
+  content: "="; }
+
+i.rotate:before {
+  content: "R"; }
+
+i.calculate:before {
+  content: "a"; }
+
+i.reinfoce:before {
+  content: "i"; }
+
+i.jam:before {
+  content: "j"; }
+
+i.cloak:before {
+  content: "k"; }
+
+i.slam:before {
+  content: "s"; }
+
+/* Maneuver Tags */
+i.straight:before {
+  content: "8"; }
+
+i.rightbank:before {
+  content: "9"; }
+
+i.leftbank:before {
+  content: "7"; }
+
+i.rightturn:before {
+  content: "6"; }
+
+i.leftturn:before {
+  content: "4"; }
+
+i.stationary:before {
+  content: "5"; }
+
+i.koiogranturn:before {
+  content: "2"; }
+
+i.rightsegnorsloop:before {
+  content: "3"; }
+
+i.leftsegnorsloop:before {
+  content: "1"; }
+
+i.rightallonroll:before {
+  content: ";"; }
+
+i.leftallonroll:before {
+  content: ":"; }
+
+i.reversestraight:before {
+  content: "K"; }
+
+i.rightreversebank:before {
+  content: "L"; }
+
+i.leftreversebank:before {
+  content: "J"; }
+
+/* Dice Result Tags */
+/*i.focus:before {
+  content: "f"; }*/
+
+i.hit:before {
+  content: "d"; }
+
+i.critical:before {
+  content: "c"; }
+
+/*i.evade:before {
+  content: "e"; }*/
+
+/* Arc Tags */
+i.front:before {
+  content: "{"; }
+
+i.rear:before {
+  content: "|"; }
+
+i.bullseye:before {
+  content: "}"; }
+
+i.singleturret:before {
+  content: "p"; }
+
+i.doubleturret:before {
+  content: "q"; }
+
+i.fronthalf:before {
+  content: "~"; }
 
 @font-face {
   font-family: XWingShip;
@@ -22,3 +177,139 @@ i.xwing-miniatures-ship {
   font-family: XWingShip;
   font-style: normal;
   font-size: 1.5em; }
+
+/* Rebel Ship Tags */
+i.sheathipede:before {
+  content: "%"; }
+
+i.auzituck:before {
+  content: "@"; }
+
+i.vcx100:before {
+  content: "G"; }
+
+i.awing:before {
+  content: "a"; }
+
+i.bwing:before {
+  content: "b"; }
+
+i.arc170:before {
+  content: "c"; }
+
+i.ewing:before {
+  content: "e"; }
+
+i.attackshuttle:before {
+  content: "g"; }
+
+i.hwk290:before {
+  content: "h"; }
+
+i.kwing:before {
+  content: "k"; }
+
+i.yt1300:before {
+  content: "m"; }
+
+i.yt2400:before {
+  content: "o"; }
+
+i.uwing:before {
+  content: "u"; }
+
+i.xwing:before {
+  content: "x"; }
+
+i.ywing:before {
+  content: "y"; }
+
+i.z95:before {
+  content: "z"; }
+
+
+/* Imperial Ship Tags */
+i.tieadvancedx1:before {
+  content: "A"; }
+
+i.tiebomber:before {
+  content: "B"; }
+
+i.tiebomber:before {
+  content: "D"; }
+
+i.tiefighter:before {
+  content: "F"; }
+  
+i.tieinterceptor:before {
+  content: "I"; }
+
+i.tiepunisher:before {
+  content: "N"; }
+
+i.tiephantom:before {
+  content: "P"; }
+
+i.tieadvancedv1:before {
+  content: "R"; }
+
+i.tiestriker:before {
+  content: "T"; }
+
+i.tieaggressor:before {
+  content: "`"; }
+
+i.decimator:before {
+  content: "d"; }
+
+i.lambda:before {
+  content: "l"; }
+
+/* Scum Ship Tags */
+i.scurrg:before {
+  content: "H"; }
+
+i.kimogila:before {
+  content: "K"; }
+  
+i.lancer:before {
+  content: "L"; }
+
+i.protectorate:before {
+  content: "M"; }
+
+i.firespray:before {
+  content: "f"; }
+
+/*i.hwk290:before {
+  content: "h"; }*/
+
+i.agressor:before {
+  content: "i"; }
+
+i.g1a:before {
+  content: "n"; }
+
+i.jumpmaster:before {
+  content: "p"; }
+  
+i.quadjumper:before {
+  content: "q"; }
+
+i.kihraxz:before {
+  content: "r"; }
+
+i.m3a:before {
+  content: "s"; }
+
+i.yv666:before {
+  content: "t"; }
+
+i.starviper:before {
+  content: "v"; }
+
+/*i.ywing:before {
+  content: "y"; }*/
+
+/*i.z95:before {
+  content: "z"; }*/
