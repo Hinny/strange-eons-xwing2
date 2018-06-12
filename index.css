@@ -67,7 +67,7 @@ i.evade:before {
 i.lock:before {
   content: "l"; }
 
-i.roll:before {
+i.barrelroll:before {
   content: "r"; }
 
 i.boost:before {
@@ -98,50 +98,50 @@ i.slam:before {
 i.straight:before {
   content: "8"; }
 
-i.rbank:before {
+i.rightbank:before {
   content: "9"; }
 
-i.lbank:before {
+i.leftbank:before {
   content: "7"; }
 
-i.rturn:before {
+i.rightturn:before {
   content: "6"; }
 
-i.lturn:before {
+i.leftturn:before {
   content: "4"; }
 
 i.stationary:before {
   content: "5"; }
 
-i.kturn:before {
+i.koiogranturn:before {
   content: "2"; }
 
-i.rsloop:before {
+i.rightsegnorsloop:before {
   content: "3"; }
 
-i.lsloop:before {
+i.leftsegnorsloop:before {
   content: "1"; }
 
-i.rtroll:before {
+i.rightallonroll:before {
   content: ";"; }
 
-i.ltroll:before {
+i.leftallonroll:before {
   content: ":"; }
 
 i.reversestraight:before {
   content: "K"; }
 
-i.rreversebank:before {
+i.rightreversebank:before {
   content: "L"; }
 
-i.lreversebank:before {
+i.leftreversebank:before {
   content: "J"; }
 
 /* Dice Result Tags */
 /*i.focus:before {
   content: "f"; }*/
 
-i.damage:before {
+i.hit:before {
   content: "d"; }
 
 i.critical:before {
@@ -185,11 +185,51 @@ i.sheathipede:before {
 i.auzituck:before {
   content: "@"; }
 
-i.ghost:before {
+i.vcx100:before {
   content: "G"; }
 
+i.awing:before {
+  content: "a"; }
+
+i.bwing:before {
+  content: "b"; }
+
+i.arc170:before {
+  content: "c"; }
+
+i.ewing:before {
+  content: "e"; }
+
+i.attackshuttle:before {
+  content: "g"; }
+
+i.hwk290:before {
+  content: "h"; }
+
+i.kwing:before {
+  content: "k"; }
+
+i.yt1300:before {
+  content: "m"; }
+
+i.yt2400:before {
+  content: "o"; }
+
+i.uwing:before {
+  content: "u"; }
+
+i.xwing:before {
+  content: "x"; }
+
+i.ywing:before {
+  content: "y"; }
+
+i.z95:before {
+  content: "z"; }
+
+
 /* Imperial Ship Tags */
-i.tieadvanced:before {
+i.tieadvancedx1:before {
   content: "A"; }
 
 i.tiebomber:before {
@@ -200,9 +240,76 @@ i.tiebomber:before {
 
 i.tiefighter:before {
   content: "F"; }
+  
+i.tieinterceptor:before {
+  content: "I"; }
+
+i.tiepunisher:before {
+  content: "N"; }
+
+i.tiephantom:before {
+  content: "P"; }
+
+i.tieadvancedv1:before {
+  content: "R"; }
+
+i.tiestriker:before {
+  content: "T"; }
+
+i.tieaggressor:before {
+  content: "`"; }
+
+i.decimator:before {
+  content: "d"; }
+
+i.lambda:before {
+  content: "l"; }
 
 /* Scum Ship Tags */
-i.ghost:before {
-  content: "G"; }
+i.scurrg:before {
+  content: "H"; }
 
+i.kimogila:before {
+  content: "K"; }
+  
+i.lancer:before {
+  content: "L"; }
 
+i.protectorate:before {
+  content: "M"; }
+
+i.firespray:before {
+  content: "f"; }
+
+/*i.hwk290:before {
+  content: "h"; }*/
+
+i.agressor:before {
+  content: "i"; }
+
+i.g1a:before {
+  content: "n"; }
+
+i.jumpmaster:before {
+  content: "p"; }
+  
+i.quadjumper:before {
+  content: "q"; }
+
+i.kihraxz:before {
+  content: "r"; }
+
+i.m3a:before {
+  content: "s"; }
+
+i.yv666:before {
+  content: "t"; }
+
+i.starviper:before {
+  content: "v"; }
+
+/*i.ywing:before {
+  content: "y"; }*/
+
+/*i.z95:before {
+  content: "z"; }*/
