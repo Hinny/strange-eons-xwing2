@@ -49,8 +49,9 @@ ship-marker-portrait-template = components/pilot-card/images/example-icon.png
 ship-marker-portrait-clip-region = 38,387,170,170
 ship-marker-portrait-true-clip-region = 38,387,170,170
 
-pilot-name-region = 117,330,507,60
-pilot-shiptype-region = 134,964,477,44
+pilot-name-region = 128,330,484,56
+pilot-epithet-region = 184,403,371,40
+pilot-shipmodel-region = 134,964,477,44
 pilot-initiative-region = 19,327,70,84
 pilot-text-region = 10,463,582,325
 pilot-icon-region = 22,965,65,65

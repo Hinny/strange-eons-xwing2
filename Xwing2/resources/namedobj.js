@@ -8,11 +8,11 @@
  * script that is run at a later time.
  */
 
-useLibrary( 'fontutils' );
-useLibrary( 'imageutils' );
-useLibrary( 'markup' );
+useLibrary('fontutils');
+useLibrary('imageutils');
+useLibrary('markup');
 
-importClass( resources.ResourceKit );
+importClass(resources.ResourceKit);
 
 // Note that anything that we put in 'this' while inside this function will
 // be available from our named object later.
@@ -23,26 +23,26 @@ function Xwing2Object() {
 	this.base = base;
 
 	// Register the fonts needed for our cards, and store the family names
-    var bank_gothic = new Array( 'fonts/bank-gothic-md-bt.ttf' );
-    var kimberly = new Array( 'fonts/kimberley-bl.ttf' );
-    var eurostile = new Array( 'fonts/eurostile.ttf, eurostile-bold.ttf' );
-    var xwing = new Array( 'fonts/xwing-miniatures.ttf' );
-    var xwingships = new Array( 'fonts/xwing-miniatures-ships.ttf' );
+    var bank_gothic = new Array('fonts/bank-gothic-md-bt.ttf');
+    var kimberly = new Array('fonts/kimberley-bl.ttf');
+    var eurostile = new Array('fonts/eurostile.ttf, eurostile-bold.ttf');
+    var xwing = new Array('fonts/xwing-miniatures.ttf');
+    var xwingships = new Array('fonts/xwing-miniatures-ships.ttf');
     		
-	this.headingFamily = FontUtils.registerFontFamilyFromResources.apply( this, bank_gothic );
-	this.numberFamily = FontUtils.registerFontFamilyFromResources.apply( this, kimberly );
-	this.abilityFamily = FontUtils.registerFontFamilyFromResources.apply( this, eurostile );
-	this.iconFamily = FontUtils.registerFontFamilyFromResources.apply( this, xwing );
-	this.shipFamily = FontUtils.registerFontFamilyFromResources.apply( this, xwingships );	
+	this.headingFamily = FontUtils.registerFontFamilyFromResources.apply(this, bank_gothic);
+	this.numberFamily = FontUtils.registerFontFamilyFromResources.apply(this, kimberly);
+	this.abilityFamily = FontUtils.registerFontFamilyFromResources.apply(this, eurostile);
+	this.iconFamily = FontUtils.registerFontFamilyFromResources.apply(this, xwing);
+	this.shipFamily = FontUtils.registerFontFamilyFromResources.apply(this, xwingships);	
 	
-	// The font we use for stats like Pilot skill and Upgrade bar; when you draw text
+	// The font we use for stats like initiative and Upgrade bar; when you draw text
 	// using one of the sheet's text drawing methods, you need to create
 	// a Font object for it; when you draw text in a markup box, you
 	// set the font's family name (e.g., 'Arial'), style, and size using
 	// TextStyles (see the definition of titleBox, for example).
-	this.iconFont = new Font( this.iconFamily, Font.PLAIN, 7 );
-	this.shipFont = new Font( this.shipFamily, Font.PLAIN, 7 );
-	this.numberFont = new Font( this.numberFamily, Font.PLAIN, 7 );
+	this.iconFont = new Font(this.iconFamily, Font.PLAIN, 7);
+	this.shipFont = new Font(this.shipFamily, Font.PLAIN, 7);
+	this.numberFont = new Font(this.numberFamily, Font.PLAIN, 7);
 	
 	
 	//
@@ -50,47 +50,71 @@ function Xwing2Object() {
 	//
 		
 	/**
-	 * headingBox( sheet, size )
+	 * headingBox(sheet, size)
 	 * Creates a new markup box for title areas.
 	 *
 	 * sheet : the sheet to create the box for
 	 * size : font size
 	 */
-	this.headingBox = function titleBox( sheet, size ) {
-		var box = markupBox( sheet );
+	this.headingBox = function titleBox(sheet, size) {
+		var box = markupBox(sheet);
 		
 		box.defaultStyle = new TextStyle(
-			FAMILY, this.headingFamily,
-			COLOR, Color.BLACK,
-			SIZE,   size
+			FAMILY,		this.headingFamily,
+			COLOR,		Color.WHITE,
+			SIZE,		size,
+			WIDTH,		WIDTH_SEMICONDENSED,
+			TRACKING,	-0.1
 		);
 		
 		iconStyle = new TextStyle(
 			FAMILY,		this.iconFamily,
 			SIZE,		size,
-			COLOR,		Color(0,0,0),
+			COLOR,		Color.WHITE,
 			WEIGHT,		WEIGHT_REGULAR,
 			WIDTH,		WIDTH_REGULAR,
 			POSTURE,	POSTURE_REGULAR
 		);
 		box.setStyleForTag('icon',iconStyle);
-		box.setReplacementForTag( 'uni', '<icon>u</icon>');
-		box.setReplacementForTag( 'epic', '<icon>)</icon>');
-		//box.setReplacementForTag( 'epic', '<icon><u+0029></icon>');
+		box.setReplacementForTag('uni', '<icon>u</icon> ');
+		box.setReplacementForTag('epic', '<icon>)</icon>');
+		//box.setReplacementForTag('epic', '<icon><u+0029></icon>');
 		
 		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
 		box.headlineAlignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
 		
-		box.lineTightness = -0.5;
-		box.tightnessLimit = -0.5;
+		//box.lineTightness = -0.5;
+		//box.tightnessLimit = -0.5;
+		//box.lineTightness = 1.5;
+		//box.tightnessLimit = 1.5;
 		
 		box.textFitting = box.FIT_SCALE_TEXT;
 		
 		return box;
 	};
 	
-	this.abilityBox = function bodyBox( sheet, size ) {
-		var box = markupBox( sheet );
+	this.epithetBox = function bodyBox(sheet, size) {
+		var box = markupBox(sheet);
+
+		box.defaultStyle = new TextStyle(
+			FAMILY,		this.abilityFamily,
+			SIZE,		size,
+			COLOR,		Color(180/255,180/255,180/255),
+			WEIGHT,		WEIGHT_EXTRABOLD,
+			WIDTH,		WIDTH_CONDENSED,
+			POSTURE,	POSTURE_OBLIQUE
+		);
+
+		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
+		box.headlineAlignment = box.LAYOUT_CENTER;
+		box.lineTightness = 1.5;	
+		box.textFitting= box.FIT_SCALE_TEXT;
+
+		return box;		
+	};
+	
+	this.abilityBox = function bodyBox(sheet, size) {
+		var box = markupBox(sheet);
 
 		box.defaultStyle = new TextStyle(
 			FAMILY,		this.abilityFamily,
@@ -101,12 +125,12 @@ function Xwing2Object() {
 			POSTURE,	POSTURE_REGULAR
 		);
 		
-		box.setReplacementForTag( 'attack', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ':</b></width>');
-		box.setReplacementForTag( 'attack-focus', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ' (' + this.smallCaps(#xw2-cardtext-focus) + '):</b></width>');
-		box.setReplacementForTag( 'attack-lock', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ' (' + this.smallCaps(#xw2-cardtext-lock) + '):</b></width>');
-		box.setReplacementForTag( 'attack-energy', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ' (' + this.smallCaps(#xw2-cardtext-energy) + '):</b></width>');
-		box.setReplacementForTag( 'action', '<width regular><b>' + this.smallCaps(#xw2-cardtext-action) + ':</b></width>');
-		box.setReplacementForTag( 'energy', '<width regular><b>' + this.smallCaps(#xw2-cardtext-capital-energy) + ':</b></width>');
+		box.setReplacementForTag('attack', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ':</b></width>');
+		box.setReplacementForTag('attack-focus', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ' (' + this.smallCaps(#xw2-cardtext-focus) + '):</b></width>');
+		box.setReplacementForTag('attack-lock', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ' (' + this.smallCaps(#xw2-cardtext-lock) + '):</b></width>');
+		box.setReplacementForTag('attack-energy', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ' (' + this.smallCaps(#xw2-cardtext-energy) + '):</b></width>');
+		box.setReplacementForTag('action', '<width regular><b>' + this.smallCaps(#xw2-cardtext-action) + ':</b></width>');
+		box.setReplacementForTag('energy', '<width regular><b>' + this.smallCaps(#xw2-cardtext-capital-energy) + ':</b></width>');
 
 		iconStyle = new TextStyle(
 			FAMILY,		this.iconFamily,
@@ -119,52 +143,52 @@ function Xwing2Object() {
 
 		box.setStyleForTag('icon',iconStyle);
 		
-		box.setReplacementForTag( 'focus', '<icon>f</icon>');
-		box.setReplacementForTag( 'evade', '<icon>e</icon>');
-		box.setReplacementForTag( 'boost', '<icon>b</icon>');
-		box.setReplacementForTag( 'roll', '<icon>r</icon>');
-		box.setReplacementForTag( 'lock', '<icon>l</icon>');
-		box.setReplacementForTag( 'cloak', '<icon>k</icon>');
-		box.setReplacementForTag( 'slam', '<icon>s</icon>');
-		box.setReplacementForTag( 'arc', '<icon>R</icon>');
-		box.setReplacementForTag( 'reinforce', '<icon>i</icon>');
-		box.setReplacementForTag( 'recover', '<icon>v</icon>');
-		box.setReplacementForTag( 'coordinate', '<icon>o</icon>');
-		box.setReplacementForTag( 'jam', '<icon>j</icon>');
-		box.setReplacementForTag( 'hit', '<icon>d</icon>');
-		box.setReplacementForTag( 'damage', '<icon>d</icon>');
-		box.setReplacementForTag( 'critical', '<icon>c</icon>');
-		box.setReplacementForTag( 'crit', '<icon>c</icon>');
-		box.setReplacementForTag( 'straight', '<icon>8</icon>');
-		box.setReplacementForTag( 'leftturn', '<icon>4</icon>');
-		box.setReplacementForTag( 'rightturn', '<icon>6</icon>');
-		box.setReplacementForTag( 'leftbank', '<icon>7</icon>');
-		box.setReplacementForTag( 'rightbank', '<icon>9</icon>');
-		box.setReplacementForTag( 'leftloop', '<icon>1</icon>');
-		box.setReplacementForTag( 'rightloop', '<icon>3</icon>');
-		box.setReplacementForTag( 'leftroll', '<icon>:</icon>');
-		box.setReplacementForTag( 'rightroll', '<icon>;</icon>');
-		box.setReplacementForTag( 'kturn', '<icon>2</icon>');
-		box.setReplacementForTag( 'stationary', '<icon>5</icon>');
-		box.setReplacementForTag( 'astromech', '<icon>A</icon>');
-		box.setReplacementForTag( 'bomb', '<icon>B</icon>');
-		box.setReplacementForTag( 'cannon', '<icon>C</icon>');
-		box.setReplacementForTag( 'crew', '<icon>W</icon>');
-		box.setReplacementForTag( 'missile', '<icon>M</icon>');
-		box.setReplacementForTag( 'system', '<icon>S</icon>');
-		box.setReplacementForTag( 'team', '<icon>T</icon>');
-		box.setReplacementForTag( 'elite', '<icon>E</icon>');
-		box.setReplacementForTag( 'torpedo', '<icon>P</icon>');
-		box.setReplacementForTag( 'turret', '<icon>U</icon>');
-		box.setReplacementForTag( 'hardpoint', '<icon>H</icon>');
-		box.setReplacementForTag( 'team', '<icon>T</icon>');
-		box.setReplacementForTag( 'cargo', '<icon>G</icon>');
-		box.setReplacementForTag( 'salvaged', '<icon>V</icon>');
-		box.setReplacementForTag( 'illicit', '<icon>I</icon>');
-		box.setReplacementForTag( 'tech', '<icon>X</icon>');
-		box.setReplacementForTag( 'modification', '<icon>m</icon>');
-		box.setReplacementForTag( 'title', '<icon>t</icon>');
-		box.setReplacementForTag( 'reload', '<icon>=</icon>');
+		box.setReplacementForTag('focus', '<icon>f</icon>');
+		box.setReplacementForTag('evade', '<icon>e</icon>');
+		box.setReplacementForTag('boost', '<icon>b</icon>');
+		box.setReplacementForTag('roll', '<icon>r</icon>');
+		box.setReplacementForTag('lock', '<icon>l</icon>');
+		box.setReplacementForTag('cloak', '<icon>k</icon>');
+		box.setReplacementForTag('slam', '<icon>s</icon>');
+		box.setReplacementForTag('arc', '<icon>R</icon>');
+		box.setReplacementForTag('reinforce', '<icon>i</icon>');
+		box.setReplacementForTag('recover', '<icon>v</icon>');
+		box.setReplacementForTag('coordinate', '<icon>o</icon>');
+		box.setReplacementForTag('jam', '<icon>j</icon>');
+		box.setReplacementForTag('hit', '<icon>d</icon>');
+		box.setReplacementForTag('damage', '<icon>d</icon>');
+		box.setReplacementForTag('critical', '<icon>c</icon>');
+		box.setReplacementForTag('crit', '<icon>c</icon>');
+		box.setReplacementForTag('straight', '<icon>8</icon>');
+		box.setReplacementForTag('leftturn', '<icon>4</icon>');
+		box.setReplacementForTag('rightturn', '<icon>6</icon>');
+		box.setReplacementForTag('leftbank', '<icon>7</icon>');
+		box.setReplacementForTag('rightbank', '<icon>9</icon>');
+		box.setReplacementForTag('leftloop', '<icon>1</icon>');
+		box.setReplacementForTag('rightloop', '<icon>3</icon>');
+		box.setReplacementForTag('leftroll', '<icon>:</icon>');
+		box.setReplacementForTag('rightroll', '<icon>;</icon>');
+		box.setReplacementForTag('kturn', '<icon>2</icon>');
+		box.setReplacementForTag('stationary', '<icon>5</icon>');
+		box.setReplacementForTag('astromech', '<icon>A</icon>');
+		box.setReplacementForTag('bomb', '<icon>B</icon>');
+		box.setReplacementForTag('cannon', '<icon>C</icon>');
+		box.setReplacementForTag('crew', '<icon>W</icon>');
+		box.setReplacementForTag('missile', '<icon>M</icon>');
+		box.setReplacementForTag('system', '<icon>S</icon>');
+		box.setReplacementForTag('team', '<icon>T</icon>');
+		box.setReplacementForTag('elite', '<icon>E</icon>');
+		box.setReplacementForTag('torpedo', '<icon>P</icon>');
+		box.setReplacementForTag('turret', '<icon>U</icon>');
+		box.setReplacementForTag('hardpoint', '<icon>H</icon>');
+		box.setReplacementForTag('team', '<icon>T</icon>');
+		box.setReplacementForTag('cargo', '<icon>G</icon>');
+		box.setReplacementForTag('salvaged', '<icon>V</icon>');
+		box.setReplacementForTag('illicit', '<icon>I</icon>');
+		box.setReplacementForTag('tech', '<icon>X</icon>');
+		box.setReplacementForTag('modification', '<icon>m</icon>');
+		box.setReplacementForTag('title', '<icon>t</icon>');
+		box.setReplacementForTag('reload', '<icon>=</icon>');
 		
 		shipStyle = new TextStyle(
 			FAMILY,		this.shipFamily,
@@ -176,54 +200,54 @@ function Xwing2Object() {
 		);
 		box.setStyleForTag('ship',shipStyle);
 		
-		box.setReplacementForTag( 'awing', '<ship>a</ship>');
-		box.setReplacementForTag( 'bwing', '<ship>b</ship>');
-		box.setReplacementForTag( 'vt49', '<ship>d</ship>');
-		box.setReplacementForTag( 'ewing', '<ship>e</ship>');
-		box.setReplacementForTag( 'firespray31', '<ship>f</ship>');
-		box.setReplacementForTag( 'hwk290', '<ship>h</ship>');
-		box.setReplacementForTag( 'attackshuttle', '<ship>g</ship>');
-		box.setReplacementForTag( 'aggressor', '<ship>i</ship>');
-		box.setReplacementForTag( 'kwing', '<ship>k</ship>');
-		box.setReplacementForTag( 'lambdashuttle', '<ship>l</ship>');
-		box.setReplacementForTag( 'yt1300', '<ship>m</ship>');
-		box.setReplacementForTag( 'yt2400', '<ship>o</ship>');
-		box.setReplacementForTag( 'vcx100', '<ship>G</ship>');
-		box.setReplacementForTag( 'arc170', '<ship>c</ship>');
-		box.setReplacementForTag( 'kihraxz', '<ship>r</ship>');
-		box.setReplacementForTag( 'm3a', '<ship>s</ship>');
-		box.setReplacementForTag( 'g1a', '<ship>n</ship>');
-		box.setReplacementForTag( 'yv666', '<ship>t</ship>');
-		box.setReplacementForTag( 'lancer', '<ship>L</ship>');
-		box.setReplacementForTag( 'protectorate', '<ship>M</ship>');
-		box.setReplacementForTag( 'starviper', '<ship>v</ship>');
-		box.setReplacementForTag( 'jumpmaster', '<ship>p</ship>');
-		box.setReplacementForTag( 'xwing', '<ship>x</ship>');
-		box.setReplacementForTag( 't70xwing', '<ship>w</ship>');
-		box.setReplacementForTag( 'ywing', '<ship>y</ship>');
-		box.setReplacementForTag( 'headhunter', '<ship>z</ship>');
-		box.setReplacementForTag( 'tieadvanced', '<ship>A</ship>');
-		box.setReplacementForTag( 'tieprototype', '<ship>R</ship>');
-		box.setReplacementForTag( 'tiebomber', '<ship>B</ship>');
-		box.setReplacementForTag( 'tiedefender', '<ship>D</ship>');
-		box.setReplacementForTag( 'tiefighter', '<ship>F</ship>');
-		box.setReplacementForTag( 'tiefofighter', '<ship>O</ship>');
-		box.setReplacementForTag( 'tiesffighter', '<ship>S</ship>');
-		box.setReplacementForTag( 'tieinterceptor', '<ship>I</ship>');
-		box.setReplacementForTag( 'tiepunisher', '<ship>N</ship>');
-		box.setReplacementForTag( 'tiephantom', '<ship>P</ship>');
-		box.setReplacementForTag( 'upsilonshuttle', '<ship>U</ship>');
-		box.setReplacementForTag( 'quadjumper', '<ship>q</ship>');
-		box.setReplacementForTag( 'tiestriker', '<ship>T</ship>');
-		box.setReplacementForTag( 'uwing', '<ship>u</ship>');
-		box.setReplacementForTag( 'tieaggressor', '<ship>A</ship>');
-		box.setReplacementForTag( 'scurrg', '<ship>G</ship>');
-		box.setReplacementForTag( 'auzituck', '<ship>n</ship>');
-		box.setReplacementForTag( 'sheatipede', '<ship>%</ship>');
-		box.setReplacementForTag( 'starwing', '<ship>&</ship>');
-		box.setReplacementForTag( 'kimogila', '<ship>K</ship>');
-		box.setReplacementForTag( 'tiesilencer', '<ship>$</ship>');
-		box.setReplacementForTag( 'bsf17bomber', '<ship>Z</ship>');
+		box.setReplacementForTag('awing', '<ship>a</ship>');
+		box.setReplacementForTag('bwing', '<ship>b</ship>');
+		box.setReplacementForTag('vt49', '<ship>d</ship>');
+		box.setReplacementForTag('ewing', '<ship>e</ship>');
+		box.setReplacementForTag('firespray31', '<ship>f</ship>');
+		box.setReplacementForTag('hwk290', '<ship>h</ship>');
+		box.setReplacementForTag('attackshuttle', '<ship>g</ship>');
+		box.setReplacementForTag('aggressor', '<ship>i</ship>');
+		box.setReplacementForTag('kwing', '<ship>k</ship>');
+		box.setReplacementForTag('lambdashuttle', '<ship>l</ship>');
+		box.setReplacementForTag('yt1300', '<ship>m</ship>');
+		box.setReplacementForTag('yt2400', '<ship>o</ship>');
+		box.setReplacementForTag('vcx100', '<ship>G</ship>');
+		box.setReplacementForTag('arc170', '<ship>c</ship>');
+		box.setReplacementForTag('kihraxz', '<ship>r</ship>');
+		box.setReplacementForTag('m3a', '<ship>s</ship>');
+		box.setReplacementForTag('g1a', '<ship>n</ship>');
+		box.setReplacementForTag('yv666', '<ship>t</ship>');
+		box.setReplacementForTag('lancer', '<ship>L</ship>');
+		box.setReplacementForTag('protectorate', '<ship>M</ship>');
+		box.setReplacementForTag('starviper', '<ship>v</ship>');
+		box.setReplacementForTag('jumpmaster', '<ship>p</ship>');
+		box.setReplacementForTag('xwing', '<ship>x</ship>');
+		box.setReplacementForTag('t70xwing', '<ship>w</ship>');
+		box.setReplacementForTag('ywing', '<ship>y</ship>');
+		box.setReplacementForTag('headhunter', '<ship>z</ship>');
+		box.setReplacementForTag('tieadvanced', '<ship>A</ship>');
+		box.setReplacementForTag('tieprototype', '<ship>R</ship>');
+		box.setReplacementForTag('tiebomber', '<ship>B</ship>');
+		box.setReplacementForTag('tiedefender', '<ship>D</ship>');
+		box.setReplacementForTag('tiefighter', '<ship>F</ship>');
+		box.setReplacementForTag('tiefofighter', '<ship>O</ship>');
+		box.setReplacementForTag('tiesffighter', '<ship>S</ship>');
+		box.setReplacementForTag('tieinterceptor', '<ship>I</ship>');
+		box.setReplacementForTag('tiepunisher', '<ship>N</ship>');
+		box.setReplacementForTag('tiephantom', '<ship>P</ship>');
+		box.setReplacementForTag('upsilonshuttle', '<ship>U</ship>');
+		box.setReplacementForTag('quadjumper', '<ship>q</ship>');
+		box.setReplacementForTag('tiestriker', '<ship>T</ship>');
+		box.setReplacementForTag('uwing', '<ship>u</ship>');
+		box.setReplacementForTag('tieaggressor', '<ship>A</ship>');
+		box.setReplacementForTag('scurrg', '<ship>G</ship>');
+		box.setReplacementForTag('auzituck', '<ship>n</ship>');
+		box.setReplacementForTag('sheatipede', '<ship>%</ship>');
+		box.setReplacementForTag('starwing', '<ship>&</ship>');
+		box.setReplacementForTag('kimogila', '<ship>K</ship>');
+		box.setReplacementForTag('tiesilencer', '<ship>$</ship>');
+		box.setReplacementForTag('bsf17bomber', '<ship>Z</ship>');
 
 		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
 		box.headlineAlignment = box.LAYOUT_CENTER;
@@ -233,8 +257,8 @@ function Xwing2Object() {
 		return box;		
 	};
 	
-	this.flavorBox = function bodyBox( sheet, color, size, posture ) {
-		var box = markupBox( sheet );
+	this.flavorBox = function bodyBox(sheet, color, size, posture) {
+		var box = markupBox(sheet);
 
 		box.defaultStyle = new TextStyle(
 			FAMILY,		this.abilityFamily,
@@ -254,14 +278,14 @@ function Xwing2Object() {
 	};
 			
 	/**
-	 * attributeValue( sheet, size )
+	 * attributeValue(sheet, size)
 	 * Creates a new markup box for title areas.
 	 *
 	 * sheet : the sheet to create the box for
 	 * size : font size
 	 */
-	this.attributeValue = function numberBox( sheet, color, size ) {
-		var box = markupBox( sheet );
+	this.attributeValue = function numberBox(sheet, color, size) {
+		var box = markupBox(sheet);
 		
 		box.defaultStyle = new TextStyle(
 			FAMILY, this.numberFamily,
@@ -278,24 +302,24 @@ function Xwing2Object() {
 		return box;
 	};
 	
-	this.getColor = function getColor( keyword ) {
-		if( keyword == 'rebel' ) {
+	this.getColor = function getColor(keyword) {
+		if(keyword == 'rebel') {
 			color = Color(239/255,12/255,45/255);
-		} else if ( keyword == 'imperial' ) {
+		} else if (keyword == 'imperial') {
 			color = Color(154/255,216/255,30/255);
-		} else if ( keyword == 'scum' ) {
+		} else if (keyword == 'scum') {
 			color = Color(218/255,164/255,22/255);
-		} else if ( keyword == 'skill' ) {
+		} else if (keyword == 'skill') {
 			color = Color(251/255,135/255,12/255);
-		} else if ( keyword == 'attack' ) {
+		} else if (keyword == 'attack') {
 			color = Color(239/255,12/255,45/255);
-		} else if ( keyword == 'energy' ) {
+		} else if (keyword == 'energy') {
 			color = Color(214/255,177/255,211/255);
-		} else if ( keyword == 'agility' ) {
+		} else if (keyword == 'agility') {
 			color = Color(154/255,216/255,30/255);		
-		} else if ( keyword == 'hull' ) {
+		} else if (keyword == 'hull') {
 			color = Color(247/255,244/255,5/255);		
-		} else if ( keyword == 'shield' ) {
+		} else if (keyword == 'shield') {
 			color = Color(140/255,220/255,235/255);		
 		} else {
 			color = Color(1,1,1);
@@ -303,10 +327,10 @@ function Xwing2Object() {
 		return color;
 	};
 	
-	this.smallCaps = function smallCaps( text ) {
+	this.smallCaps = function smallCaps(text) {
 		smallCapsedText = '';
-		for( let i = 0; i < text.length; ++i ) {
-			if( text[i] == text[i].toUpperCase() ) {
+		for(let i = 0; i < text.length; ++i) {
+			if(text[i] == text[i].toUpperCase()) {
 				smallCapsedText = smallCapsedText + text[i];
 			} else {
 				smallCapsedText = smallCapsedText + '<size 70%>' + text[i].toUpperCase() + '</size>';
@@ -315,9 +339,9 @@ function Xwing2Object() {
 		return smallCapsedText;
 	};
 	
-	this.textToIconChar = function textToIconChar( text ) {
+	this.textToIconChar = function textToIconChar(text) {
 		iconChar = 'f';
-		switch( String( text ) ) {
+		switch(String(text)) {
 		    case 'focus': iconChar = 'f'; break;
 		    case 'evade': iconChar = 'e'; break;
 		    case 'boost': iconChar = 'b'; break;
@@ -368,9 +392,9 @@ function Xwing2Object() {
 		return iconChar;
 	};
 	
-	this.textToShipChar = function textToShipChar( text ) {
+	this.textToShipChar = function textToShipChar(text) {
 		iconChar = 'x';
-		switch( String( text ) ) {
+		switch(String(text)) {
 		    case 'awing': iconChar = 'a'; break;
 		    case 'bwing': iconChar = 'b'; break;
 		    case 'vt49': iconChar = 'd'; break;
@@ -429,7 +453,7 @@ function Xwing2Object() {
 // then we can look it up from other scripts in the same way, e.g.:
 //
 // const Xwing = Eons.namedObjects.Xwing;
-// println( Xwing.titleFamily );
+// println(Xwing.titleFamily);
 //
 
 Eons.namedObjects.Xwing2 = new Xwing2Object();
