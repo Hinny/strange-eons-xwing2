@@ -16,7 +16,7 @@ importClass(arkham.component.DefaultPortrait);
 // plug-in would have done if it was run. This lets us test and
 // develop the plug-in without having to rebuild the plug-in bundle
 // and start a new copy of Strange Eons every time we make a change.
-if(sourcefile == 'Quickscript') {
+if (sourcefile == 'Quickscript') {
 	useLibrary('project:Xwing2/resources/test-lib.js');
 }
 const Xwing2 = Eons.namedObjects.Xwing2;
@@ -31,7 +31,7 @@ function getPortraitCount() {
 // Given an index from 0 to getPortraitCount()-1,this
 // function must return the (index+1)th Portrait.
 function getPortrait(index) {
-	if(index < 0 || index >= portraits.length) {
+	if (index < 0 || index >= portraits.length) {
 		throw new Error('invalid portrait index: ' + index);
 	}
 	return portraits[ index ];
@@ -138,6 +138,7 @@ function createInterface(diy,editor) {
 	shipItems.push(ListItem('custom',@xw2-ship-custom-name));
 	shipItems.push(ListItem('t65xwing',@xw2-ship-t65xwing-name));
 	shipItems.push(ListItem('tielnfighter',@xw2-ship-tielnfighter-name));
+	shipItems.push(ListItem('fangfighter',@xw2-ship-fangfighter-name));
 	
 	shipBox = comboBox(shipItems);
 	bindings.add('ShipModel',shipBox,[0,2]);
@@ -181,7 +182,7 @@ function createInterface(diy,editor) {
 	mainPanel.setTitle(@xw2-info);
 	mainPanel.place(mainHelpButton,'wrap para');
 	mainPanel.place(@xw2-faction,'',factionBox,'wmin 180,span 3,wrap');	
-	mainPanel.place(@xw2-ship,'',shipBox,'wmin 180,span 3,wrap');
+	mainPanel.place(@xw2-ship-model,'',shipBox,'wmin 180,span 3,wrap');
 	mainPanel.place(@xw2-pilotname,'',nameField,'span,growx,wrap');
 	mainPanel.place(@xw2-epithet,'',epithetField,'span,growx,wrap');
 	mainPanel.place(@xw2-initiative,'',initiativeBox,'wmin 52');
@@ -306,6 +307,7 @@ function createInterface(diy,editor) {
 	shipIconItems.push(ListItem('custom',@xw2-ship-custom-name));
 	shipIconItems.push(ListItem('t65xwing',@xw2-ship-t65xwing-name));
 	shipIconItems.push(ListItem('tielnfighter',@xw2-ship-tielnfighter-name));
+	shipIconItems.push(ListItem('fangfighter',@xw2-ship-fangfighter-name));
 	customShipIconBox = comboBox(shipItems);
 	bindings.add('CustomShipIcon',customShipIconBox,[0,2]);
 
@@ -319,7 +321,7 @@ function createInterface(diy,editor) {
 	customShipPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref,grow]','');
 	customShipPanel.setTitle(@xw2-custom-ship);
 	customShipPanel.place(customShipHelpButton,'wrap para');
-	customShipPanel.place(@xw2-ship,'',customShipModelField,'span,growx,wrap');
+	customShipPanel.place(@xw2-ship-model,'',customShipModelField,'span,growx,wrap');
 	customShipPanel.place(@xw2-size,'',customSizeBox,'wmin 100,span 2,wrap');
 	customShipPanel.place(@xw2-agility-value,'',customAgilityBox,'wmin 52');
 	customShipPanel.place(@xw2-hull-value,'',customHullBox,'wmin 52,wrap');
@@ -349,12 +351,12 @@ function createInterface(diy,editor) {
 
 	function actionFunction(actionEvent) {
 		try {
-			if(!uniqueCheckbox.isSelected()) {
+			if (!uniqueCheckbox.isSelected()) {
 				epithetField.setEnabled(false);
 			} else {
 				epithetField.setEnabled(true);
 			}
-			if(shipBox.getSelectedItem() != 'custom') {
+			if (shipBox.getSelectedItem() != 'custom') {
 				customShipModelField.setEnabled(false);
 				customSizeBox.setEnabled(false);
 				customWeaponValueBox1.setEnabled(false);
@@ -401,81 +403,81 @@ function createInterface(diy,editor) {
 				customShieldBox.setEnabled(true);
 				customShieldRegenCheckbox.setEnabled(true);
 				customActionNameBox1.setEnabled(true);
-				if(customActionNameBox1.getSelectedItem() == '-'){
+				if (customActionNameBox1.getSelectedItem() == '-'){
 					customActionRedCheckBox1.setEnabled(false);
 					customActionLinkedBox1.setEnabled(false);
 				} else {
 					customActionLinkedBox1.setEnabled(true);
-					if(customActionLinkedBox1.getSelectedItem() != '-') {
+					if (customActionLinkedBox1.getSelectedItem() != '-') {
 						customActionRedCheckBox1.setEnabled(false);
 					} else {
 						customActionRedCheckBox1.setEnabled(true);
 					}
-					if(customActionRedCheckBox1.isSelected()){
+					if (customActionRedCheckBox1.isSelected()){
 						customActionLinkedBox1.setEnabled(false);
 					} else {
 						customActionLinkedBox1.setEnabled(true);
 					}
 				}
-				if(customActionNameBox2.getSelectedItem() == '-'){
+				if (customActionNameBox2.getSelectedItem() == '-'){
 					customActionRedCheckBox2.setEnabled(false);
 					customActionLinkedBox2.setEnabled(false);
 				} else {
 					customActionLinkedBox2.setEnabled(true);
-					if(customActionLinkedBox2.getSelectedItem() != '-') {
+					if (customActionLinkedBox2.getSelectedItem() != '-') {
 						customActionRedCheckBox2.setEnabled(false);
 					} else {
 						customActionRedCheckBox2.setEnabled(true);
 					}
-					if(customActionRedCheckBox2.isSelected()){
+					if (customActionRedCheckBox2.isSelected()){
 						customActionLinkedBox2.setEnabled(false);
 					} else {
 						customActionLinkedBox2.setEnabled(true);
 					}
 				}
-				if(customActionNameBox3.getSelectedItem() == '-'){
+				if (customActionNameBox3.getSelectedItem() == '-'){
 					customActionRedCheckBox3.setEnabled(false);
 					customActionLinkedBox3.setEnabled(false);
 				} else {
 					customActionLinkedBox3.setEnabled(true);
-					if(customActionLinkedBox3.getSelectedItem() != '-') {
+					if (customActionLinkedBox3.getSelectedItem() != '-') {
 						customActionRedCheckBox3.setEnabled(false);
 					} else {
 						customActionRedCheckBox3.setEnabled(true);
 					}
-					if(customActionRedCheckBox3.isSelected()){
+					if (customActionRedCheckBox3.isSelected()){
 						customActionLinkedBox3.setEnabled(false);
 					} else {
 						customActionLinkedBox3.setEnabled(true);
 					}
 				}
-				if(customActionNameBox4.getSelectedItem() == '-'){
+				if (customActionNameBox4.getSelectedItem() == '-'){
 					customActionRedCheckBox4.setEnabled(false);
 					customActionLinkedBox4.setEnabled(false);
 				} else {
 					customActionLinkedBox4.setEnabled(true);
-					if(customActionLinkedBox4.getSelectedItem() != '-') {
+					if (customActionLinkedBox4.getSelectedItem() != '-') {
 						customActionRedCheckBox4.setEnabled(false);
 					} else {
 						customActionRedCheckBox4.setEnabled(true);
 					}
-					if(customActionRedCheckBox4.isSelected()){
+					if (customActionRedCheckBox4.isSelected()){
 						customActionLinkedBox4.setEnabled(false);
 					} else {
 						customActionLinkedBox4.setEnabled(true);
 					}
 				}
-				if(customActionNameBox5.getSelectedItem() == '-'){
+				if (customActionNameBox5.getSelectedItem() == '-'){
 					customActionRedCheckBox5.setEnabled(false);
 					customActionLinkedBox5.setEnabled(false);
 				} else {
 					customActionLinkedBox5.setEnabled(true);
-					if(customActionLinkedBox5.getSelectedItem() != '-') {
+					if (customActionLinkedBox5.getSelectedItem() != '-') {
 						customActionRedCheckBox5.setEnabled(false);
 					} else {
 						customActionRedCheckBox5.setEnabled(true);
 					}
-					if(customActionRedCheckBox5.isSelected()){
+					if (customActionRedCheckBox5.isSelected()){
 						customActionLinkedBox5.setEnabled(false);
 					} else {
 						customActionLinkedBox5.setEnabled(true);
@@ -484,7 +486,7 @@ function createInterface(diy,editor) {
 				customShipAbilityNameField.setEnabled(true);
 				customShipAbilityTextArea.setVisible(true);
 				customShipIconBox.setEnabled(true);				
-				if(customShipIconBox.getSelectedItem() != 'custom'){
+				if (customShipIconBox.getSelectedItem() != 'custom'){
 					customIconCardPanel.setVisible(false);
 					customIconMarkerPanel.setVisible(false);
 				} else {
@@ -525,14 +527,20 @@ function createInterface(diy,editor) {
 	
 function createFrontPainter(diy,sheet) {
 
-	if(sheet.sheetIndex == 2) {
-		//============== Ship Token ==============
-		
-	} else {
+	if (sheet.sheetIndex == 0) {
 		//============== Front Face ==============
 		nameBox = Xwing2.headingBox(sheet,11);
 		epithetBox = Xwing2.epithetBox(sheet,7.5);
 		shipModelBox = Xwing2.headingBox(sheet,7.5);
+		abilityTextBox = Xwing2.abilityBox(sheet, 9);
+
+	} else {
+		//============== Ship Token ==============
+		nameBox = Xwing2.headingBox(sheet,11);
+		epithetBox = Xwing2.epithetBox(sheet,7.5);
+		shipModelBox = Xwing2.headingBox(sheet,7.5);
+		fullAbilityTextBox = Xwing2.abilityBox(sheet, 9);
+		reducedAbilityTextBox = Xwing2.abilityBox(sheet, 8);
 	}
 }
 
@@ -541,10 +549,10 @@ function createBackPainter(diy, sheet) {
 }
 
 function paintFront(g,diy,sheet) {
-	if(sheet.sheetIndex == 2) {
-		paintToken(g,diy,sheet);
-	} else {
+	if (sheet.sheetIndex == 0) {
 		paintCardFrontFace(g,diy,sheet);
+	} else {
+		paintToken(g,diy,sheet);
 	}	
 }
 
@@ -562,9 +570,13 @@ function paintToken(g,diy,sheet) {
 function paintCardFrontFace(g,diy,sheet) {
 	imageTemplate =  'pilot-blank-template';
 	sheet.paintImage(g,imageTemplate,0,0);
+	target = sheet.getRenderTarget();
+		
+	//Draw portrait
+	portraits[0].paint(g, target);
 	
 	//Draw template
-	if($ShipModel == 'custom') {
+	if ($ShipModel == 'custom') {
 		hasLinkedAction =
 			$CustomShipActionLinked1 != '-' ||
 			$CustomShipActionLinked2 != '-' ||
@@ -575,28 +587,28 @@ function paintCardFrontFace(g,diy,sheet) {
 		hasLinkedAction =
 			getShipStat($ShipModel,'action-1-linked') != '-' ||
 			getShipStat($ShipModel,'action-2-linked') != '-' ||
-			getShipStat($ShipModel,'action-3-linked') != '-'	||
+			getShipStat($ShipModel,'action-3-linked') != '-' ||
 			getShipStat($ShipModel,'action-4-linked') != '-' ||
 			getShipStat($ShipModel,'action-5-linked') != '-';
 	}
-	if(hasLinkedAction) {
+	if (hasLinkedAction) {
 		textBoxStyle = 'reduced';
 	} else {
 		textBoxStyle = 'full';
 	}
 	imageTemplate =  'pilot-' + $Faction + '-front-' + textBoxStyle + '-template';
 	sheet.paintImage(g,imageTemplate,0,0);
-		
+
 	// Draw the name
-	if($$UniquePilot.yesNo) {
+	if ($$UniquePilot.yesNo) {
 		nameBox.markupText = '<uni>' + diy.name;
 	} else {
 		nameBox.markupText = diy.name;
 	}
-	nameBox.drawAsSingleLine( g, R('name') );
+	nameBox.drawAsSingleLine(g,R('name'));
 	
 	// Draw the epithet
-	if($$UniquePilot.yesNo) {
+	if ($$UniquePilot.yesNo) {
 		epithetBox.markupText = $Epithet;
 	} else {
 		epithetBox.markupText = "";
@@ -604,12 +616,54 @@ function paintCardFrontFace(g,diy,sheet) {
 	epithetBox.drawAsSingleLine(g,R('epithet'));
 
 	// Draw the ship model
-	if($ShipModel == 'custom') {
+	if ($ShipModel == 'custom') {
 		shipModelBox.markupText = $CustomShipModel;
 	} else {
 		shipModelBox.markupText = getShipStat($ShipModel,'model');
 	}
 	shipModelBox.drawAsSingleLine(g,R('shipmodel'));
+	
+	// Draw the ship icon
+	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {	
+		portraits[1].paint(g,target);
+	} else {
+		if ( $ShipModel == 'custom' ) {
+			shipIcon = $CustomShipIcon;
+		} else {
+			shipIcon = getShipStat( $ShipModel, 'icon' );
+		}
+		g.setPaint(Color.WHITE);
+		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R('icon'), Xwing2.shipFont, 18, sheet.ALIGN_CENTER);
+  	}
+  	
+	// Draw Initiative
+	if ($Initiative == '\u25a0') {
+		g.setPaint(Xwing2.getColor('skill'));
+		initRect = R('initiative-square', 0, 0);
+		g.fillRect(initRect.getX(),initRect.getY(),initRect.getWidth(),initRect.getHeight());
+	} else {
+		sheet.drawOutlinedTitle( g, $Initiative, R('initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('skill'), Color.BLACK, sheet.ALIGN_CENTER, true);
+	}
+  	
+  	// Draw the Pilot Ability/Flavour Text and Ship ability
+	if ($$UniquePilot.yesNo) {
+		text = $Text;
+	} else {
+		text = '<flavour>' + $Text + '</flavour>';
+	}
+	if ($ShipModel == 'custom' && $CustomShipAbilityName != '' && $CustomShipAbilityText != '') {
+		text = text + '\n<div>\n<width regular><b><i>' + Xwing2.smallCaps($CustomShipAbilityName) + ': </i></b></width>'+ $CustomShipAbilityText;
+	} else if ($ShipModel != 'custom' && getShipStat($ShipModel, 'ability-name') != '') {
+		text = text + '\n<div>\n<width regular><b><i>' + Xwing2.smallCaps('' + getShipStat($ShipModel, 'ability-name')) + ': </i></b></width>'+ getShipStat($ShipModel, 'ability-text');
+	}
+	if (textBoxStyle == 'full') {
+		fullAbilityTextBox.markupText = text;
+		fullAbilityTextBox.draw(g, R('full-text'));
+	} else {
+		reducedAbilityTextBox.markupText = text;
+		reducedAbilityTextBox.draw(g, R('reduced-text'));
+	}
+  	
 }
 
 function onClear() {
@@ -684,7 +738,7 @@ function createTexturedImage(source,texture) {
 	g = null;
 	// if texture is a kind of Paint or colour,create a texture image
 	// using the paint
-	if(texture instanceof java.awt.Paint) {
+	if (texture instanceof java.awt.Paint) {
 		solidTexture = ImageUtils.create(source.width,source.height,true);
 		try {
 			g = solidTexture.createGraphics();
@@ -692,7 +746,7 @@ function createTexturedImage(source,texture) {
 			g.fillRect(0,0,source.width,source.height);
 			texture = solidTexture;
 		} finally {
-			if(g) g.dispose();
+			if (g) g.dispose();
 			g = null;
 		}
 	}
@@ -703,7 +757,7 @@ function createTexturedImage(source,texture) {
 		g.setComposite(java.awt.AlphaComposite.SrcIn);
 		g.drawImage(texture,0,0,null);
 	} finally {
-		if(g) g.dispose();
+		if (g) g.dispose();
 	}
 	return dest;
 }
@@ -715,9 +769,9 @@ function createTexturedImage(source,texture) {
  * like Photoshop.
  */
 function createTranslucentImage(source,opacity) {
-	if(opacity >= 1) return source;
+	if (opacity >= 1) return source;
 	im = ImageUtils.create(source.width,source.height,true);
-	if(opacity <= 0) return im;
+	if (opacity <= 0) return im;
 
 	g = im.createGraphics();
 	try {
@@ -731,7 +785,7 @@ function createTranslucentImage(source,opacity) {
 
 function getShipStat(shipId,stat) {
 	key = 'xw2-ship-' + shipId + '-' + stat;
-	if(!Language.getGame().isKeyDefined(key)) {
+	if (!Language.getGame().isKeyDefined(key)) {
 		throw new Error('shiptype or stat not defined: ' + shipId + stat);
 	}
 	return Language.game.get(key);
@@ -745,13 +799,13 @@ function getShipStat(shipId,stat) {
  */
 function R(nametag,x,y) {
 	value = $('pilot-' + nametag + '-region');
-	if(value == null) {
+	if (value == null) {
 		throw new Error('region not defined: ' + nametag);
 	}
-	if(x == null) {
+	if (x == null) {
 		x = 0;
 	}
-	if(y == null) {
+	if (y == null) {
 		y = 0;
 	}
 	temp = value.split(',');

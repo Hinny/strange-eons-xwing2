@@ -121,17 +121,10 @@ function Xwing2Object() {
 			SIZE,		size,
 			COLOR,		Color(0,0,0),
 			WEIGHT,		WEIGHT_LIGHT,
-			WIDTH,		WIDTH_CONDENSED,
+			WIDTH,		WIDTH_SEMI_CONDENSED,
 			POSTURE,	POSTURE_REGULAR
 		);
 		
-		box.setReplacementForTag('attack', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ':</b></width>');
-		box.setReplacementForTag('attack-focus', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ' (' + this.smallCaps(#xw2-cardtext-focus) + '):</b></width>');
-		box.setReplacementForTag('attack-lock', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ' (' + this.smallCaps(#xw2-cardtext-lock) + '):</b></width>');
-		box.setReplacementForTag('attack-energy', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ' (' + this.smallCaps(#xw2-cardtext-energy) + '):</b></width>');
-		box.setReplacementForTag('action', '<width regular><b>' + this.smallCaps(#xw2-cardtext-action) + ':</b></width>');
-		box.setReplacementForTag('energy', '<width regular><b>' + this.smallCaps(#xw2-cardtext-capital-energy) + ':</b></width>');
-
 		iconStyle = new TextStyle(
 			FAMILY,		this.iconFamily,
 			SIZE,		size,
@@ -140,55 +133,6 @@ function Xwing2Object() {
 			WIDTH,		WIDTH_REGULAR,
 			POSTURE,	POSTURE_REGULAR
 		);
-
-		box.setStyleForTag('icon',iconStyle);
-		
-		box.setReplacementForTag('focus', '<icon>f</icon>');
-		box.setReplacementForTag('evade', '<icon>e</icon>');
-		box.setReplacementForTag('boost', '<icon>b</icon>');
-		box.setReplacementForTag('roll', '<icon>r</icon>');
-		box.setReplacementForTag('lock', '<icon>l</icon>');
-		box.setReplacementForTag('cloak', '<icon>k</icon>');
-		box.setReplacementForTag('slam', '<icon>s</icon>');
-		box.setReplacementForTag('arc', '<icon>R</icon>');
-		box.setReplacementForTag('reinforce', '<icon>i</icon>');
-		box.setReplacementForTag('recover', '<icon>v</icon>');
-		box.setReplacementForTag('coordinate', '<icon>o</icon>');
-		box.setReplacementForTag('jam', '<icon>j</icon>');
-		box.setReplacementForTag('hit', '<icon>d</icon>');
-		box.setReplacementForTag('damage', '<icon>d</icon>');
-		box.setReplacementForTag('critical', '<icon>c</icon>');
-		box.setReplacementForTag('crit', '<icon>c</icon>');
-		box.setReplacementForTag('straight', '<icon>8</icon>');
-		box.setReplacementForTag('leftturn', '<icon>4</icon>');
-		box.setReplacementForTag('rightturn', '<icon>6</icon>');
-		box.setReplacementForTag('leftbank', '<icon>7</icon>');
-		box.setReplacementForTag('rightbank', '<icon>9</icon>');
-		box.setReplacementForTag('leftloop', '<icon>1</icon>');
-		box.setReplacementForTag('rightloop', '<icon>3</icon>');
-		box.setReplacementForTag('leftroll', '<icon>:</icon>');
-		box.setReplacementForTag('rightroll', '<icon>;</icon>');
-		box.setReplacementForTag('kturn', '<icon>2</icon>');
-		box.setReplacementForTag('stationary', '<icon>5</icon>');
-		box.setReplacementForTag('astromech', '<icon>A</icon>');
-		box.setReplacementForTag('bomb', '<icon>B</icon>');
-		box.setReplacementForTag('cannon', '<icon>C</icon>');
-		box.setReplacementForTag('crew', '<icon>W</icon>');
-		box.setReplacementForTag('missile', '<icon>M</icon>');
-		box.setReplacementForTag('system', '<icon>S</icon>');
-		box.setReplacementForTag('team', '<icon>T</icon>');
-		box.setReplacementForTag('elite', '<icon>E</icon>');
-		box.setReplacementForTag('torpedo', '<icon>P</icon>');
-		box.setReplacementForTag('turret', '<icon>U</icon>');
-		box.setReplacementForTag('hardpoint', '<icon>H</icon>');
-		box.setReplacementForTag('team', '<icon>T</icon>');
-		box.setReplacementForTag('cargo', '<icon>G</icon>');
-		box.setReplacementForTag('salvaged', '<icon>V</icon>');
-		box.setReplacementForTag('illicit', '<icon>I</icon>');
-		box.setReplacementForTag('tech', '<icon>X</icon>');
-		box.setReplacementForTag('modification', '<icon>m</icon>');
-		box.setReplacementForTag('title', '<icon>t</icon>');
-		box.setReplacementForTag('reload', '<icon>=</icon>');
 		
 		shipStyle = new TextStyle(
 			FAMILY,		this.shipFamily,
@@ -198,85 +142,166 @@ function Xwing2Object() {
 			WIDTH,		WIDTH_REGULAR,
 			POSTURE,	POSTURE_REGULAR
 		);
-		box.setStyleForTag('ship',shipStyle);
 		
-		box.setReplacementForTag('awing', '<ship>a</ship>');
-		box.setReplacementForTag('bwing', '<ship>b</ship>');
-		box.setReplacementForTag('vt49', '<ship>d</ship>');
-		box.setReplacementForTag('ewing', '<ship>e</ship>');
-		box.setReplacementForTag('firespray31', '<ship>f</ship>');
-		box.setReplacementForTag('hwk290', '<ship>h</ship>');
-		box.setReplacementForTag('attackshuttle', '<ship>g</ship>');
-		box.setReplacementForTag('aggressor', '<ship>i</ship>');
-		box.setReplacementForTag('kwing', '<ship>k</ship>');
-		box.setReplacementForTag('lambdashuttle', '<ship>l</ship>');
-		box.setReplacementForTag('yt1300', '<ship>m</ship>');
-		box.setReplacementForTag('yt2400', '<ship>o</ship>');
-		box.setReplacementForTag('vcx100', '<ship>G</ship>');
-		box.setReplacementForTag('arc170', '<ship>c</ship>');
-		box.setReplacementForTag('kihraxz', '<ship>r</ship>');
-		box.setReplacementForTag('m3a', '<ship>s</ship>');
-		box.setReplacementForTag('g1a', '<ship>n</ship>');
-		box.setReplacementForTag('yv666', '<ship>t</ship>');
-		box.setReplacementForTag('lancer', '<ship>L</ship>');
-		box.setReplacementForTag('protectorate', '<ship>M</ship>');
-		box.setReplacementForTag('starviper', '<ship>v</ship>');
-		box.setReplacementForTag('jumpmaster', '<ship>p</ship>');
-		box.setReplacementForTag('xwing', '<ship>x</ship>');
-		box.setReplacementForTag('t70xwing', '<ship>w</ship>');
-		box.setReplacementForTag('ywing', '<ship>y</ship>');
-		box.setReplacementForTag('headhunter', '<ship>z</ship>');
-		box.setReplacementForTag('tieadvanced', '<ship>A</ship>');
-		box.setReplacementForTag('tieprototype', '<ship>R</ship>');
-		box.setReplacementForTag('tiebomber', '<ship>B</ship>');
-		box.setReplacementForTag('tiedefender', '<ship>D</ship>');
-		box.setReplacementForTag('tiefighter', '<ship>F</ship>');
-		box.setReplacementForTag('tiefofighter', '<ship>O</ship>');
-		box.setReplacementForTag('tiesffighter', '<ship>S</ship>');
-		box.setReplacementForTag('tieinterceptor', '<ship>I</ship>');
-		box.setReplacementForTag('tiepunisher', '<ship>N</ship>');
-		box.setReplacementForTag('tiephantom', '<ship>P</ship>');
-		box.setReplacementForTag('upsilonshuttle', '<ship>U</ship>');
-		box.setReplacementForTag('quadjumper', '<ship>q</ship>');
-		box.setReplacementForTag('tiestriker', '<ship>T</ship>');
-		box.setReplacementForTag('uwing', '<ship>u</ship>');
-		box.setReplacementForTag('tieaggressor', '<ship>A</ship>');
-		box.setReplacementForTag('scurrg', '<ship>G</ship>');
-		box.setReplacementForTag('auzituck', '<ship>n</ship>');
-		box.setReplacementForTag('sheatipede', '<ship>%</ship>');
-		box.setReplacementForTag('starwing', '<ship>&</ship>');
-		box.setReplacementForTag('kimogila', '<ship>K</ship>');
-		box.setReplacementForTag('tiesilencer', '<ship>$</ship>');
-		box.setReplacementForTag('bsf17bomber', '<ship>Z</ship>');
-
-		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
-		box.headlineAlignment = box.LAYOUT_CENTER;
-		box.lineTightness = 1.5;	
-		box.textFitting= box.FIT_SCALE_TEXT;
-
-		return box;		
-	};
-	
-	this.flavorBox = function bodyBox(sheet, color, size, posture) {
-		var box = markupBox(sheet);
-
-		box.defaultStyle = new TextStyle(
+		flavourStyle = new TextStyle(
 			FAMILY,		this.abilityFamily,
-			SIZE,		6.5,
+			SIZE,		size,
 			COLOR,		Color(125/255,125/255,125/255),
 			WEIGHT,		WEIGHT_LIGHT,
 			WIDTH,		WIDTH_CONDENSED,
 			POSTURE,	POSTURE_OBLIQUE
 		);
+		
+		strikeStyle = new TextStyle(
+			FAMILY,			this.abilityFamily,
+			SIZE,			size / 2,
+			COLOR,			Color(125/255,125/255,125/255),
+			WEIGHT,			WEIGHT_LIGHT,
+			STRIKETHROUGH,	STRIKETHROUGH_ON,
+			WIDTH,			WIDTH_REGULAR,
+			POSTURE,		POSTURE_REGULAR
+		);
 
+		box.setStyleForTag('icon',iconStyle);
+		box.setStyleForTag('ship',shipStyle);
+		box.setStyleForTag('flavour',flavourStyle);
+		box.setStyleForTag('strike',strikeStyle);
+
+		box.setReplacementForTag( 'div', '<strike>---------------------------------------------------------------------------------------------------------------------------</strike>');
+		box.setReplacementForTag('attack', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + '</b></width>');
+		box.setReplacementForTag('attackfocus', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack)
+			+ ' (' + '<icon>' + this.textToIconChar('focus') + '</icon>' + ')</b></width>');
+		box.setReplacementForTag('attacklock', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack)
+			+ ' (' + '<icon>' + this.textToIconChar('lock') + '</icon>' + ')</b></width>');
+		box.setReplacementForTag('attack:', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack) + ':</b></width>');
+		box.setReplacementForTag('attackfocus:', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack)
+			+ ' (' + '<icon>' + this.textToIconChar('focus') + '</icon>' + '):</b></width>');
+		box.setReplacementForTag('attacklock:', '<width regular><b>' + this.smallCaps(#xw2-cardtext-attack)
+			+ ' (' + '<icon>' + this.textToIconChar('lock') + '</icon>' + '):</b></width>');
+		box.setReplacementForTag('action:', '<width regular><b>' + this.smallCaps(#xw2-cardtext-action) + ':</b></width>');
+		box.setReplacementForTag('setup:', '<width regular><b>' + this.smallCaps(#xw2-cardtext-setup) + ':</b></width>');
+		
+		box.setReplacementForTag('focus', '<icon>' + this.textToIconChar('focus') + '</icon>');
+		box.setReplacementForTag('evade', '<icon>' + this.textToIconChar('evade') + '</icon>');
+		box.setReplacementForTag('boost', '<icon>' + this.textToIconChar('boost') + '</icon>');
+		box.setReplacementForTag('barrelroll', '<icon>' + this.textToIconChar('barrelroll') + '</icon>');
+		box.setReplacementForTag('lock', '<icon>' + this.textToIconChar('lock') + '</icon>');
+		box.setReplacementForTag('cloak', '<icon>' + this.textToIconChar('cloak') + '</icon>');
+		box.setReplacementForTag('slam', '<icon>' + this.textToIconChar('slam') + '</icon>');
+		box.setReplacementForTag('rotate', '<icon>' + this.textToIconChar('rotate') + '</icon>');
+		box.setReplacementForTag('calculate', '<icon>' + this.textToIconChar('calculate') + '</icon>');
+		box.setReplacementForTag('reinforce', '<icon>' + this.textToIconChar('reinforce') + '</icon>');
+		box.setReplacementForTag('recover', '<icon>' + this.textToIconChar('recover') + '</icon>');
+		box.setReplacementForTag('coordinate', '<icon>' + this.textToIconChar('coordinate') + '</icon>');
+		box.setReplacementForTag('jam', '<icon>' + this.textToIconChar('jam') + '</icon>');
+		box.setReplacementForTag('reload', '<icon>' + this.textToIconChar('reload') + '</icon>');
+		box.setReplacementForTag('hit', '<icon>' + this.textToIconChar('hit') + '</icon>');
+		box.setReplacementForTag('damage', '<icon>' + this.textToIconChar('damage') + '</icon>');
+		box.setReplacementForTag('critical', '<icon>' + this.textToIconChar('critical') + '</icon>');
+		box.setReplacementForTag('crit', '<icon>' + this.textToIconChar('crit') + '</icon>');
+		box.setReplacementForTag('charge', '<icon>' + this.textToIconChar('charge') + '</icon>');
+		box.setReplacementForTag('force', '<icon>' + this.textToIconChar('force') + '</icon>');
+		box.setReplacementForTag('straight', '<icon>' + this.textToIconChar('straight') + '</icon>');
+		box.setReplacementForTag('leftturn', '<icon>' + this.textToIconChar('leftturn') + '</icon>');
+		box.setReplacementForTag('rightturn', '<icon>' + this.textToIconChar('rightturn') + '</icon>');
+		box.setReplacementForTag('leftbank', '<icon>' + this.textToIconChar('leftbank') + '</icon>');
+		box.setReplacementForTag('rightbank', '<icon>' + this.textToIconChar('rightbank') + '</icon>');
+		box.setReplacementForTag('leftsegnorsloop', '<icon>' + this.textToIconChar('leftsegnorsloop') + '</icon>');
+		box.setReplacementForTag('rightsegnorsloop', '<icon>' + this.textToIconChar('rightsegnorsloop') + '</icon>');
+		box.setReplacementForTag('leftallonroll', '<icon>' + this.textToIconChar('leftallonroll') + '</icon>');
+		box.setReplacementForTag('rightallonroll', '<icon>' + this.textToIconChar('rightallonroll') + '</icon>');
+		box.setReplacementForTag('koiogranturn', '<icon>' + this.textToIconChar('koiogranturn') + '</icon>');
+		box.setReplacementForTag('stationary', '<icon>' + this.textToIconChar('stationary') + '</icon>');
+		box.setReplacementForTag('reversestraight', '<icon>' + this.textToIconChar('reversestraight') + '</icon>');
+		box.setReplacementForTag('rightreversebank', '<icon>' + this.textToIconChar('rightreversebank') + '</icon>');
+		box.setReplacementForTag('leftreversebank', '<icon>' + this.textToIconChar('leftreversebank') + '</icon>');
+		box.setReplacementForTag('front', '<icon>' + this.textToIconChar('front') + '</icon>');
+		box.setReplacementForTag('rear', '<icon>' + this.textToIconChar('rear') + '</icon>');
+		box.setReplacementForTag('bullseye', '<icon>' + this.textToIconChar('bullseye') + '</icon>');
+		box.setReplacementForTag('singleturret', '<icon>' + this.textToIconChar('singleturret') + '</icon>');
+		box.setReplacementForTag('doubleturret', '<icon>' + this.textToIconChar('doubleturret') + '</icon>');
+		box.setReplacementForTag('fronthalf', '<icon>' + this.textToIconChar('fronthalf') + '</icon>');
+		box.setReplacementForTag('astromech', '<icon>' + this.textToIconChar('astromech') + '</icon>');
+		box.setReplacementForTag('device', '<icon>' + this.textToIconChar('device') + '</icon>');
+		box.setReplacementForTag('cannon', '<icon>' + this.textToIconChar('cannon') + '</icon>');
+		box.setReplacementForTag('crew', '<icon>' + this.textToIconChar('crew') + '</icon>');
+		box.setReplacementForTag('gunner', '<icon>' + this.textToIconChar('gunner') + '</icon>');
+		box.setReplacementForTag('missile', '<icon>' + this.textToIconChar('missile') + '</icon>');
+		box.setReplacementForTag('system', '<icon>' + this.textToIconChar('system') + '</icon>');
+		box.setReplacementForTag('team', '<icon>' + this.textToIconChar('team') + '</icon>');
+		box.setReplacementForTag('talent', '<icon>' + this.textToIconChar('talent') + '</icon>');
+		box.setReplacementForTag('torpedo', '<icon>' + this.textToIconChar('torpedo') + '</icon>');
+		box.setReplacementForTag('turret', '<icon>' + this.textToIconChar('turret') + '</icon>');
+		box.setReplacementForTag('hardpoint', '<icon>' + this.textToIconChar('hardpoint') + '</icon>');
+		box.setReplacementForTag('cargo', '<icon>' + this.textToIconChar('cargo') + '</icon>');
+		box.setReplacementForTag('illicit', '<icon>' + this.textToIconChar('illicit') + '</icon>');
+		box.setReplacementForTag('tech', '<icon>' + this.textToIconChar('tech') + '</icon>');
+		box.setReplacementForTag('modification', '<icon>' + this.textToIconChar('modification') + '</icon>');
+		box.setReplacementForTag('mod', '<icon>' + this.textToIconChar('mod') + '</icon>');
+		box.setReplacementForTag('title', '<icon>' + this.textToIconChar('title') + '</icon>');
+		box.setReplacementForTag('configuration', '<icon>' + this.textToIconChar('configuration') + '</icon>');
+		box.setReplacementForTag('config', '<icon>' + this.textToIconChar('config') + '</icon>');
+		
+		box.setReplacementForTag('awing', '<ship>' + this.textToShipChar('awing') + '</ship>');
+		box.setReplacementForTag('bwing', '<ship>' + this.textToShipChar('bwing') + '</ship>');
+		box.setReplacementForTag('vt49', '<ship>' + this.textToShipChar('vt49') + '</ship>');
+		box.setReplacementForTag('ewing', '<ship>' + this.textToShipChar('ewing') + '</ship>');
+		box.setReplacementForTag('firespray', '<ship>' + this.textToShipChar('firespray') + '</ship>');
+		box.setReplacementForTag('hwk290', '<ship>' + this.textToShipChar('hwk290') + '</ship>');
+		box.setReplacementForTag('attackshuttle', '<ship>' + this.textToShipChar('attackshuttle') + '</ship>');
+		box.setReplacementForTag('aggressor', '<ship>' + this.textToShipChar('aggressor') + '</ship>');
+		box.setReplacementForTag('kwing', '<ship>' + this.textToShipChar('kwing') + '</ship>');
+		box.setReplacementForTag('lambda', '<ship>' + this.textToShipChar('lambda') + '</ship>');
+		box.setReplacementForTag('yt1300', '<ship>' + this.textToShipChar('yt1300') + '</ship>');
+		box.setReplacementForTag('yt2400', '<ship>' + this.textToShipChar('yt2400') + '</ship>');
+		box.setReplacementForTag('vcx100', '<ship>' + this.textToShipChar('vcx100') + '</ship>');
+		box.setReplacementForTag('arc170', '<ship>' + this.textToShipChar('arc170') + '</ship>');
+		box.setReplacementForTag('kihraxz', '<ship>' + this.textToShipChar('kihraxz') + '</ship>');
+		box.setReplacementForTag('m3a', '<ship>' + this.textToShipChar('m3a') + '</ship>');
+		box.setReplacementForTag('g1a', '<ship>' + this.textToShipChar('g1a') + '</ship>');
+		box.setReplacementForTag('yv666', '<ship>' + this.textToShipChar('yv666') + '</ship>');
+		box.setReplacementForTag('lancer', '<ship>' + this.textToShipChar('lancer') + '</ship>');
+		box.setReplacementForTag('fangfighter', '<ship>' + this.textToShipChar('fangfighter') + '</ship>');
+		box.setReplacementForTag('starviper', '<ship>' + this.textToShipChar('starviper') + '</ship>');
+		box.setReplacementForTag('jumpmaster', '<ship>' + this.textToShipChar('jumpmaster') + '</ship>');
+		box.setReplacementForTag('t65xwing', '<ship>' + this.textToShipChar('t65xwing') + '</ship>');
+		box.setReplacementForTag('xwing', '<ship>' + this.textToShipChar('xwing') + '</ship>');
+		box.setReplacementForTag('t70xwing', '<ship>' + this.textToShipChar('t70xwing') + '</ship>');
+		box.setReplacementForTag('ywing', '<ship>' + this.textToShipChar('ywing') + '</ship>');
+		box.setReplacementForTag('z95', '<ship>' + this.textToShipChar('z95') + '</ship>');
+		box.setReplacementForTag('tieadvancedx1', '<ship>' + this.textToShipChar('tieadvancedx1') + '</ship>');
+		box.setReplacementForTag('tieadvancedv1', '<ship>' + this.textToShipChar('tieadvancedv1') + '</ship>');
+		box.setReplacementForTag('tiebomber', '<ship>' + this.textToShipChar('tiebomber') + '</ship>');
+		box.setReplacementForTag('tiedefender', '<ship>' + this.textToShipChar('tiedefender') + '</ship>');
+		box.setReplacementForTag('tielnfighter', '<ship>' + this.textToShipChar('tielnfighter') + '</ship>');
+		box.setReplacementForTag('tiefighter', '<ship>' + this.textToShipChar('tiefighter') + '</ship>');
+		box.setReplacementForTag('tiefofighter', '<ship>' + this.textToShipChar('tiefofighter') + '</ship>');
+		box.setReplacementForTag('tiesffighter', '<ship>' + this.textToShipChar('tiesffighter') + '</ship>');
+		box.setReplacementForTag('tieinterceptor', '<ship>' + this.textToShipChar('tieinterceptor') + '</ship>');
+		box.setReplacementForTag('tiepunisher', '<ship>' + this.textToShipChar('tiepunisher') + '</ship>');
+		box.setReplacementForTag('tiephantom', '<ship>' + this.textToShipChar('tiephantom') + '</ship>');
+		box.setReplacementForTag('upsilonshuttle', '<ship>' + this.textToShipChar('upsilonshuttle') + '</ship>');
+		box.setReplacementForTag('quadjumper', '<ship>' + this.textToShipChar('quadjumper') + '</ship>');
+		box.setReplacementForTag('tiestriker', '<ship>' + this.textToShipChar('tiestriker') + '</ship>');
+		box.setReplacementForTag('uwing', '<ship>' + this.textToShipChar('uwing') + '</ship>');
+		box.setReplacementForTag('tieaggressor', '<ship>' + this.textToShipChar('tieaggressor') + '</ship>');
+		box.setReplacementForTag('scurrg', '<ship>' + this.textToShipChar('scurrg') + '</ship>');
+		box.setReplacementForTag('auzituck', '<ship>' + this.textToShipChar('auzituck') + '</ship>');
+		box.setReplacementForTag('sheatipede', '<ship>' + this.textToShipChar('sheatipede') + '</ship>');
+		box.setReplacementForTag('starwing', '<ship>' + this.textToShipChar('starwing') + '</ship>');
+		box.setReplacementForTag('gunboat', '<ship>' + this.textToShipChar('gunboat') + '</ship>');
+		box.setReplacementForTag('kimogila', '<ship>' + this.textToShipChar('kimogila') + '</ship>');
+		box.setReplacementForTag('tiesilencer', '<ship>' + this.textToShipChar('tiesilencer') + '</ship>');
+		box.setReplacementForTag('bsf17bomber', '<ship>' + this.textToShipChar('bsf17bomber') + '</ship>');
+		
 		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
 		box.headlineAlignment = box.LAYOUT_CENTER;
-		box.lineTightness = 1.5;	
+		box.lineTightness = 1.0;	
 		box.textFitting= box.FIT_SCALE_TEXT;
 
 		return box;		
 	};
-			
+	
 	/**
 	 * attributeValue(sheet, size)
 	 * Creates a new markup box for title areas.
@@ -342,52 +367,66 @@ function Xwing2Object() {
 	this.textToIconChar = function textToIconChar(text) {
 		iconChar = 'f';
 		switch(String(text)) {
-		    case 'focus': iconChar = 'f'; break;
-		    case 'evade': iconChar = 'e'; break;
-		    case 'boost': iconChar = 'b'; break;
-		    case 'roll': iconChar = 'r'; break;
-		    case 'lock': iconChar = 'l'; break;
-		    case 'cloak': iconChar = 'k'; break;
-		    case 'slam': iconChar = 's'; break;
-		    case 'arc': iconChar = 'R'; break;
-		    case 'reinforce': iconChar = 'i'; break;
-		    case 'recover': iconChar = 'v'; break;
-		    case 'coordinate': iconChar = 'o'; break;
-		    case 'jam': iconChar = 'j'; break;
-		    case 'hit': iconChar = 'd'; break;
-		    case 'damage': iconChar = 'd'; break;
-		    case 'critical': iconChar = 'c'; break;
-		    case 'crit': iconChar = 'c'; break;
-		    case 'straight': iconChar = '8'; break;
-		    case 'leftturn': iconChar = '4'; break;
-		    case 'rightturn': iconChar = '6'; break;
-		    case 'leftbank': iconChar = '7'; break;
-		    case 'rightbank': iconChar = '9'; break;
-		    case 'leftloop': iconChar = '1'; break;
-		    case 'rightloop': iconChar = '3'; break;
-		    case 'leftroll': iconChar = ':'; break;
-		    case 'rightroll': iconChar = ';'; break;
-		    case 'kturn': iconChar = '2'; break;
-		    case 'stationary': iconChar = '5'; break;
-		    case 'astromech': iconChar = 'A'; break;
-		    case 'bomb': iconChar = 'B'; break;
-		    case 'cannon': iconChar = 'C'; break;
-		    case 'crew': iconChar = 'W'; break;
-		    case 'missile': iconChar = 'M'; break;
-		    case 'system': iconChar = 'S'; break;
-		    case 'team': iconChar = 'T'; break;
-		    case 'elite': iconChar = 'E'; break;
-		    case 'torpedo': iconChar = 'P'; break;
-		    case 'turret': iconChar = 'U'; break;
-		    case 'hardpoint': iconChar = 'H'; break;
-		    case 'team': iconChar = 'T'; break;
-		    case 'cargo': iconChar = 'G'; break;
-		    case 'salvaged': iconChar = 'V'; break;
-		    case 'illicit': iconChar = 'I'; break;
-		    case 'tech': iconChar = 'X'; break;
-		    case 'modification': iconChar = 'm'; break;
-		    case 'title': iconChar = 't'; break;
-		    case 'reload': iconChar = '='; break;
+			case 'focus': iconChar = 'f'; break;
+			case 'evade': iconChar = 'e'; break;
+			case 'boost': iconChar = 'b'; break;
+			case 'barrelroll': iconChar = 'r'; break;
+			case 'lock': iconChar = 'l'; break;
+			case 'cloak': iconChar = 'k'; break;
+			case 'slam': iconChar = 's'; break;
+			case 'rotate': iconChar = 'R'; break;
+			case 'calculate': iconChar = 'a'; break;
+			case 'reinforce': iconChar = 'i'; break;
+			case 'recover': iconChar = 'v'; break;
+			case 'coordinate': iconChar = 'o'; break;
+			case 'jam': iconChar = 'j'; break;
+			case 'reload': iconChar = '='; break;
+			case 'hit': iconChar = 'd'; break;
+			case 'damage': iconChar = 'd'; break;
+			case 'critical': iconChar = 'c'; break;
+			case 'crit': iconChar = 'c'; break;
+			case 'charge': iconChar = 'g'; break;
+			case 'force': iconChar = 'h'; break;
+			case 'straight': iconChar = '8'; break;
+			case 'leftturn': iconChar = '4'; break;
+			case 'rightturn': iconChar = '6'; break;
+			case 'leftbank': iconChar = '7'; break;
+			case 'rightbank': iconChar = '9'; break;
+			case 'leftsegnorsloop': iconChar = '1'; break;
+			case 'rightsegnorsloop': iconChar = '3'; break;
+			case 'leftallonroll': iconChar = ':'; break;
+			case 'rightallonroll': iconChar = ';'; break;
+			case 'koiogranturn': iconChar = '2'; break;
+			case 'stationary': iconChar = '5'; break;
+			case 'reversestraight': iconChar = 'K'; break;
+			case 'rightreversebank': iconChar = 'L'; break;
+			case 'leftreversebank': iconChar = 'J'; break;
+			case 'front': iconChar = '{'; break;
+			case 'rear': iconChar = '|'; break;
+			case 'bullseye': iconChar = '}'; break;
+			case 'singleturret': iconChar = 'p'; break;
+			case 'doubleturret': iconChar = 'q'; break;
+			case 'fronthalf': iconChar = '~'; break;
+			case 'astromech': iconChar = 'A'; break;
+			case 'device': iconChar = 'B'; break;
+			case 'cannon': iconChar = 'C'; break;
+			case 'crew': iconChar = 'W'; break;
+			case 'gunner': iconChar = 'Y'; break;
+			case 'missile': iconChar = 'M'; break;
+			case 'system': iconChar = 'S'; break;
+			case 'team': iconChar = 'T'; break;
+			case 'elite': iconChar = 'E'; break;
+			case 'torpedo': iconChar = 'P'; break;
+			case 'turret': iconChar = 'U'; break;
+			case 'hardpoint': iconChar = 'H'; break;
+			case 'team': iconChar = 'T'; break;
+			case 'cargo': iconChar = 'G'; break;
+			case 'salvaged': iconChar = 'V'; break;
+			case 'illicit': iconChar = 'I'; break;
+			case 'tech': iconChar = 'X'; break;
+			case 'modification': iconChar = 'm'; break;
+			case 'title': iconChar = 't'; break;
+			case 'configuration': iconChar = 'n'; break;
 		}		
 		return iconChar;
 	};
@@ -395,43 +434,45 @@ function Xwing2Object() {
 	this.textToShipChar = function textToShipChar(text) {
 		iconChar = 'x';
 		switch(String(text)) {
-		    case 'awing': iconChar = 'a'; break;
-		    case 'bwing': iconChar = 'b'; break;
-		    case 'vt49': iconChar = 'd'; break;
-		    case 'ewing': iconChar = 'e'; break;
-		    case 'firespray31': iconChar = 'f'; break;
-		    case 'hwk290': iconChar = 'h'; break;
-		    case 'attackshuttle': iconChar = 'g'; break;
-		    case 'aggressor': iconChar = 'i'; break;
-		    case 'kwing': iconChar = 'k'; break;
-		    case 'lambdashuttle': iconChar = 'l'; break;
-		    case 'yt1300': iconChar = 'm'; break;
-		    case 'yt2400': iconChar = 'o'; break;
-		    case 'vcx100': iconChar = 'G'; break;
-		    case 'arc170': iconChar = 'c'; break;
-		    case 'kihraxz': iconChar = 'r'; break;
-		    case 'm3a': iconChar = 's'; break;
-		    case 'g1a': iconChar = 'n'; break;
-		    case 'yv666': iconChar = 't'; break;
-		    case 'lancer': iconChar = 'L'; break;
-		    case 'protectorate': iconChar = 'M'; break;
-		    case 'jumpmaster': iconChar = 'p'; break;
-		    case 'starviper': iconChar = 'v'; break;
-		    case 'xwing': iconChar = 'x'; break;
-		    case 't70xwing': iconChar = 'w'; break;
-		    case 'ywing': iconChar = 'y'; break;
-		    case 'headhunter': iconChar = 'z'; break;
-		    case 'tieadvanced': iconChar = 'A'; break;
-		    case 'tieprototype': iconChar = 'R'; break;
-		    case 'tiebomber': iconChar = 'B'; break;
-		    case 'tiedefender': iconChar = 'D'; break;
-		    case 'tiefighter': iconChar = 'F'; break;
-		    case 'tiefofighter': iconChar = 'O'; break;
-		    case 'tiesffighter': iconChar = 'S'; break;	
-		    case 'tieinterceptor': iconChar = 'I'; break;
-		    case 'tiepunisher': iconChar = 'N'; break;
-		    case 'tiephantom': iconChar = 'P'; break;
-		    case 'upsilonshuttle': iconChar = 'U'; break;
+			case 'awing': iconChar = 'a'; break;
+			case 'bwing': iconChar = 'b'; break;
+			case 'vt49': iconChar = 'd'; break;
+			case 'ewing': iconChar = 'e'; break;
+			case 'firespray31': iconChar = 'f'; break;
+			case 'hwk290': iconChar = 'h'; break;
+			case 'attackshuttle': iconChar = 'g'; break;
+			case 'aggressor': iconChar = 'i'; break;
+			case 'kwing': iconChar = 'k'; break;
+			case 'lambdashuttle': iconChar = 'l'; break;
+			case 'yt1300': iconChar = 'm'; break;
+			case 'yt2400': iconChar = 'o'; break;
+			case 'vcx100': iconChar = 'G'; break;
+			case 'arc170': iconChar = 'c'; break;
+			case 'kihraxz': iconChar = 'r'; break;
+			case 'm3a': iconChar = 's'; break;
+			case 'g1a': iconChar = 'n'; break;
+			case 'yv666': iconChar = 't'; break;
+			case 'lancer': iconChar = 'L'; break;
+			case 'fangfighter': iconChar = 'M'; break;
+			case 'jumpmaster': iconChar = 'p'; break;
+			case 'starviper': iconChar = 'v'; break;
+			case 't65xwing': iconChar = 'x'; break;
+			case 'xwing': iconChar = 'x'; break;
+			case 't70xwing': iconChar = 'w'; break;
+			case 'ywing': iconChar = 'y'; break;
+			case 'headhunter': iconChar = 'z'; break;
+			case 'tieadvanced': iconChar = 'A'; break;
+			case 'tieprototype': iconChar = 'R'; break;
+			case 'tiebomber': iconChar = 'B'; break;
+			case 'tiedefender': iconChar = 'D'; break;
+			case 'tielnfighter': iconChar = 'F'; break;
+			case 'tiefighter': iconChar = 'F'; break;
+			case 'tiefofighter': iconChar = 'O'; break;
+			case 'tiesffighter': iconChar = 'S'; break;	
+			case 'tieinterceptor': iconChar = 'I'; break;
+			case 'tiepunisher': iconChar = 'N'; break;
+			case 'tiephantom': iconChar = 'P'; break;
+			case 'upsilonshuttle': iconChar = 'U'; break;
 			case 'quadjumper': iconChar = 'q'; break;
 			case 'tiestriker': iconChar = 'T'; break;
 			case 'uwing': iconChar = 'u'; break;
@@ -440,6 +481,7 @@ function Xwing2Object() {
 			case 'auzituck': iconChar = 'n'; break;
 			case 'sheatipede': iconChar = '%'; break;
 			case 'starwing': iconChar = '&'; break;
+			case 'gunboat': iconChar = '&'; break;
 			case 'kimogila': iconChar = 'K'; break;
 			case 'tiesilencer': iconChar = '$'; break;
 			case 'bsf17bomber': iconChar = 'Z'; break;
