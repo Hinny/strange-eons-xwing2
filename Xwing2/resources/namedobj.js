@@ -221,6 +221,9 @@ function Xwing2Object() {
 		box.setReplacementForTag('singleturret', '<icon>' + this.textToIconChar('singleturret') + '</icon>');
 		box.setReplacementForTag('doubleturret', '<icon>' + this.textToIconChar('doubleturret') + '</icon>');
 		box.setReplacementForTag('fronthalf', '<icon>' + this.textToIconChar('fronthalf') + '</icon>');
+		box.setReplacementForTag('agility', '<icon>' + this.textToIconChar('agility') + '</icon>');
+		box.setReplacementForTag('shield', '<icon>' + this.textToIconChar('shield') + '</icon>');
+		box.setReplacementForTag('hull', '<icon>' + this.textToIconChar('hull') + '</icon>');
 		box.setReplacementForTag('astromech', '<icon>' + this.textToIconChar('astromech') + '</icon>');
 		box.setReplacementForTag('device', '<icon>' + this.textToIconChar('device') + '</icon>');
 		box.setReplacementForTag('cannon', '<icon>' + this.textToIconChar('cannon') + '</icon>');
@@ -326,7 +329,7 @@ function Xwing2Object() {
 		
 		return box;
 	};
-	
+
 	this.getColor = function getColor(keyword) {
 		if(keyword == 'rebel') {
 			color = Color(239/255,12/255,45/255);
@@ -334,10 +337,20 @@ function Xwing2Object() {
 			color = Color(154/255,216/255,30/255);
 		} else if (keyword == 'scum') {
 			color = Color(218/255,164/255,22/255);
-		} else if (keyword == 'skill') {
+		} else if (keyword == 'initiative') {
 			color = Color(251/255,135/255,12/255);
-		} else if (keyword == 'attack') {
+		} else if (
+				keyword == 'front' ||
+				keyword == 'rear' ||
+				keyword == 'fronthalf' ||
+				keyword == 'singleturret' ||
+				keyword == 'doubleturret' ||
+				keyword == 'bullseye') {
 			color = Color(239/255,12/255,45/255);
+		} else if (keyword == 'charge') {
+			color = Color(251/255,200/255,12/255);
+		} else if (keyword == 'force') {
+			color = Color(181/255,137/255,191/255);
 		} else if (keyword == 'energy') {
 			color = Color(214/255,177/255,211/255);
 		} else if (keyword == 'agility') {
@@ -407,6 +420,9 @@ function Xwing2Object() {
 			case 'singleturret': iconChar = 'p'; break;
 			case 'doubleturret': iconChar = 'q'; break;
 			case 'fronthalf': iconChar = '~'; break;
+			case 'agility': iconChar = '^'; break;
+			case 'shield': iconChar = '*'; break;
+			case 'hull': iconChar = '&'; break;
 			case 'astromech': iconChar = 'A'; break;
 			case 'device': iconChar = 'B'; break;
 			case 'cannon': iconChar = 'C'; break;

@@ -101,6 +101,15 @@ i.charge:before {
 i.force:before {
   content: "h"; }
 
+i.agility:before {
+  content: "^"; }
+
+i.shield:before {
+  content: "*"; }
+
+i.hull:before {
+  content: "&"; }
+
 /* Maneuver Tags */
 i.straight:before {
   content: "8"; }

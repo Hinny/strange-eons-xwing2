@@ -91,12 +91,12 @@ function create(diy) {
 	$CustomShipModel = #xw2-pilot-custom-ship-model;
 	$CustomShipAbilityName = #xw2-pilot-custom-ship-ability-name;
 	$CustomShipAbilityText = #xw2-pilot-custom-ship-ability-text;
-	$CustomShipWeaponValue1 = #xw2-pilot-custom-ship-weapon-1-value;
-	$CustomShipWeaponArc1 = #xw2-pilot-custom-ship-weapon-1-arc;
-	$CustomShipWeaponValue2 = #xw2-pilot-custom-ship-weapon-2-value;
-	$CustomShipWeaponArc2 = #xw2-pilot-custom-ship-weapon-2-arc;
-	$CustomShipWeaponValue3 = #xw2-pilot-custom-ship-weapon-3-value;
-	$CustomShipWeaponArc3 = #xw2-pilot-custom-ship-weapon-3-arc;
+	$CustomShipAttackValue1 = #xw2-pilot-custom-ship-attack-1-value;
+	$CustomShipAttackArc1 = #xw2-pilot-custom-ship-attack-1-arc;
+	$CustomShipAttackValue2 = #xw2-pilot-custom-ship-attack-2-value;
+	$CustomShipAttackArc2 = #xw2-pilot-custom-ship-attack-2-arc;
+	$CustomShipAttackValue3 = #xw2-pilot-custom-ship-attack-3-value;
+	$CustomShipAttackArc3 = #xw2-pilot-custom-ship-attack-3-arc;
 	$CustomShipAgility = #xw2-pilot-custom-ship-agility-value;
 	$CustomShipHull = #xw2-pilot-custom-ship-hull-value;
 	$CustomShipShield = #xw2-pilot-custom-ship-shield-value;
@@ -210,28 +210,27 @@ function createInterface(diy,editor) {
 	customSizeBox = comboBox(sizeItems);
 	bindings.add('CustomShipSize',customSizeBox,[0,2]);
 
-	weaponValueItems = ['-','1','2','3','4','5'];
-	customWeaponValueBox1 = comboBox(weaponValueItems);
-	bindings.add('CustomShipWeaponValue1',customWeaponValueBox1,[0,2]);
-	customWeaponValueBox2 = comboBox(weaponValueItems);
-	bindings.add('CustomShipWeaponValue2',customWeaponValueBox2,[0,2]);
-	customWeaponValueBox3 = comboBox(weaponValueItems);
-	bindings.add('CustomShipWeaponValue3',customWeaponValueBox3,[0,2]);
+	attackValueItems = ['-','1','2','3','4','5'];
+	customAttackValueBox1 = comboBox(attackValueItems);
+	bindings.add('CustomShipAttackValue1',customAttackValueBox1,[0,2]);
+	customAttackValueBox2 = comboBox(attackValueItems);
+	bindings.add('CustomShipAttackValue2',customAttackValueBox2,[0,2]);
+	customAttackValueBox3 = comboBox(attackValueItems);
+	bindings.add('CustomShipAttackValue3',customAttackValueBox3,[0,2]);
 
-	weaponArcItems = [];
-	weaponArcItems.push(ListItem('front',@xw2-arc-front));
-	weaponArcItems.push(ListItem('rear',@xw2-arc-rear));
-	weaponArcItems.push(ListItem('upper',@xw2-arc-fronthalf));
-	weaponArcItems.push(ListItem('lower',@xw2-arc-rearhalf));
-	weaponArcItems.push(ListItem('singleturret',@xw2-arc-singleturret));
-	weaponArcItems.push(ListItem('doubleturret',@xw2-arc-doubleturret));
-	weaponArcItems.push(ListItem('bullseye',@xw2-arc-bullseye));
-	customWeaponArcBox1 = comboBox(weaponArcItems);
-	bindings.add('CustomShipWeaponArc1',customWeaponArcBox1,[0,2]);
-	customWeaponArcBox2 = comboBox(weaponArcItems);
-	bindings.add('CustomShipWeaponArc2',customWeaponArcBox2,[0,2]);
-	customWeaponArcBox3 = comboBox(weaponArcItems);
-	bindings.add('CustomShipWeaponArc3',customWeaponArcBox3,[0,2]);
+	attackArcItems = [];
+	attackArcItems.push(ListItem('front',@xw2-arc-front));
+	attackArcItems.push(ListItem('rear',@xw2-arc-rear));
+	attackArcItems.push(ListItem('fronthalf',@xw2-arc-fronthalf));
+	attackArcItems.push(ListItem('singleturret',@xw2-arc-singleturret));
+	attackArcItems.push(ListItem('doubleturret',@xw2-arc-doubleturret));
+	attackArcItems.push(ListItem('bullseye',@xw2-arc-bullseye));
+	customAttackArcBox1 = comboBox(attackArcItems);
+	bindings.add('CustomShipAttackArc1',customAttackArcBox1,[0,2]);
+	customAttackArcBox2 = comboBox(attackArcItems);
+	bindings.add('CustomShipAttackArc2',customAttackArcBox2,[0,2]);
+	customAttackArcBox3 = comboBox(attackArcItems);
+	bindings.add('CustomShipAttackArc3',customAttackArcBox3,[0,2]);
 
 	agilityItems = ['0','1','2','3','4','5'];
 	customAgilityBox = comboBox(agilityItems);
@@ -322,11 +321,14 @@ function createInterface(diy,editor) {
 	customShipPanel.setTitle(@xw2-custom-ship);
 	customShipPanel.place(customShipHelpButton,'wrap para');
 	customShipPanel.place(@xw2-ship-model,'',customShipModelField,'span,growx,wrap');
-	customShipPanel.place(@xw2-size,'',customSizeBox,'wmin 100,span 2,wrap');
+	customShipPanel.place(@xw2-size,'',customSizeBox,'wmin 100,span 2,wrap para');
 	customShipPanel.place(@xw2-agility-value,'',customAgilityBox,'wmin 52');
 	customShipPanel.place(@xw2-hull-value,'',customHullBox,'wmin 52,wrap');
 	customShipPanel.place(@xw2-shield-value,'',customShieldBox,'wmin 52');
 	customShipPanel.place(customShieldRegenCheckbox,'wmin 52,wrap para');
+	customShipPanel.place(@xw2-attack-1,'',customAttackArcBox1, 'wmin 120',customAttackValueBox1,'wmin 52,wrap');
+	customShipPanel.place(@xw2-attack-2,'',customAttackArcBox2, 'wmin 120',customAttackValueBox2,'wmin 52,wrap');
+	customShipPanel.place(@xw2-attack-3,'',customAttackArcBox3, 'wmin 120',customAttackValueBox3,'wmin 52,wrap para');
 	customShipPanel.place(separator(),'span,growx,wrap para');
 	customShipPanel.place(@xw2-action-1,'',customActionNameBox1,'wmin 120',customActionRedCheckBox1,'');
 	customShipPanel.place(customActionLinkedBox1, 'wmin 120,wrap');
@@ -359,12 +361,12 @@ function createInterface(diy,editor) {
 			if (shipBox.getSelectedItem() != 'custom') {
 				customShipModelField.setEnabled(false);
 				customSizeBox.setEnabled(false);
-				customWeaponValueBox1.setEnabled(false);
-				customWeaponValueBox2.setEnabled(false);
-				customWeaponValueBox3.setEnabled(false);
-				customWeaponArcBox1.setEnabled(false);
-				customWeaponArcBox2.setEnabled(false);
-				customWeaponArcBox3.setEnabled(false);
+				customAttackValueBox1.setEnabled(false);
+				customAttackValueBox2.setEnabled(false);
+				customAttackValueBox3.setEnabled(false);
+				customAttackArcBox1.setEnabled(false);
+				customAttackArcBox2.setEnabled(false);
+				customAttackArcBox3.setEnabled(false);
 				customAgilityBox.setEnabled(false);
 				customHullBox.setEnabled(false);
 				customShieldBox.setEnabled(false);
@@ -392,17 +394,21 @@ function createInterface(diy,editor) {
 			} else {
 				customShipModelField.setEnabled(true);
 				customSizeBox.setEnabled(true);
-				customWeaponValueBox1.setEnabled(true);
-				customWeaponValueBox2.setEnabled(true);
-				customWeaponValueBox3.setEnabled(true);
-				customWeaponArcBox1.setEnabled(true);
-				customWeaponArcBox2.setEnabled(true);
-				customWeaponArcBox3.setEnabled(true);
+				customAttackValueBox1.setEnabled(true);
+				customAttackValueBox2.setEnabled(true);
+				customAttackValueBox3.setEnabled(true);
+				customAttackArcBox1.setEnabled(true);
+				customAttackArcBox2.setEnabled(true);
+				customAttackArcBox3.setEnabled(true);
 				customAgilityBox.setEnabled(true);
 				customHullBox.setEnabled(true);
 				customShieldBox.setEnabled(true);
 				customShieldRegenCheckbox.setEnabled(true);
 				customActionNameBox1.setEnabled(true);
+				customActionNameBox2.setEnabled(true);
+				customActionNameBox3.setEnabled(true);
+				customActionNameBox4.setEnabled(true);
+				customActionNameBox5.setEnabled(true);
 				if (customActionNameBox1.getSelectedItem() == '-'){
 					customActionRedCheckBox1.setEnabled(false);
 					customActionLinkedBox1.setEnabled(false);
@@ -638,11 +644,11 @@ function paintCardFrontFace(g,diy,sheet) {
   	
 	// Draw Initiative
 	if ($Initiative == '\u25a0') {
-		g.setPaint(Xwing2.getColor('skill'));
+		g.setPaint(Xwing2.getColor('initiative'));
 		initRect = R('initiative-square', 0, 0);
 		g.fillRect(initRect.getX(),initRect.getY(),initRect.getWidth(),initRect.getHeight());
 	} else {
-		sheet.drawOutlinedTitle( g, $Initiative, R('initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('skill'), Color.BLACK, sheet.ALIGN_CENTER, true);
+		sheet.drawOutlinedTitle( g, $Initiative, R('initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
 	}
   	
   	// Draw the Pilot Ability/Flavour Text and Ship ability
@@ -663,7 +669,42 @@ function paintCardFrontFace(g,diy,sheet) {
 		reducedAbilityTextBox.markupText = text;
 		reducedAbilityTextBox.draw(g, R('reduced-text'));
 	}
-  	
+	
+	// Draw Stat Bar
+	statbar = [];
+	if($ShipModel == 'custom') {
+		if($CustomShipAttackValue1 != '-') {statbar.push([$CustomShipAttackArc1, $CustomShipAttackValue1, 0]);}
+		if($CustomShipAttackValue2 != '-') {statbar.push([$CustomShipAttackArc2, $CustomShipAttackValue2, 0]);}
+		if($CustomShipAttackValue3 != '-') {statbar.push([$CustomShipAttackArc3, $CustomShipAttackValue3, 0]);}
+		statbar.push(['agility', $CustomShipAgility, 0]);
+		statbar.push(['hull', $CustomShipHull, 0]);
+		if($CustomShipShield != '-') {statbar.push(['shield', $CustomShipShield, $CustomShipShieldRegen]);}
+	} else {
+		if(getShipStat($ShipModel, 'attack-1-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-1-arc'), getShipStat($ShipModel,'attack-1-value'), 0]);}
+		if(getShipStat($ShipModel, 'attack-2-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-2-value'), 0]);}
+		if(getShipStat($ShipModel, 'attack-3-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-3-value'), 0]);}
+		statbar.push(['agility', getShipStat($ShipModel,'agility-value'), 0]);
+		statbar.push(['hull', getShipStat($ShipModel,'hull-value'), 0]);
+		if(getShipStat($ShipModel,'shield-value') != '-') {
+			if(getShipStat($ShipModel,'shield-regen') == 'yes') {shieldRegen = 1;} else {shieldRegen = 0;}
+			statbar.push(['shield', getShipStat($ShipModel,'shield-value'), shieldRegen]);
+		}
+	}
+	if($ChargeValue != '-') {statbar.push( ['charge', $ChargeValue, $ChargeRegen]);}
+	if($ForceValue != '-') {statbar.push( ['force', $ForceValue, $ForceRegen]);}
+	
+	for( let i = 0; i < statbar.length; ++i ) {
+		// Get a nice distribution of the actions
+		// TODO: refactor equation :)
+		// TODO: Compensate for reduced area
+		// TODO: Add paint dotted ring function (input: pattern, color)
+		x = 5-(statbar.length-3)*15 + Math.round((525+(statbar.length-3)*30) / (statbar.length + 1) * (i + 1));
+		y1 = 808;
+		y2 = 865;
+		g.setPaint(Xwing2.getColor(statbar[i][0]));
+		sheet.drawTitle(g, Xwing2.textToIconChar(statbar[i][0]), Region(x.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 11, sheet.ALIGN_CENTER);
+		sheet.drawTitle(g, statbar[i][1], Region(x.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 15, sheet.ALIGN_CENTER);
+	}
 }
 
 function onClear() {
@@ -682,12 +723,12 @@ function onClear() {
 	$CustomShipModel = '';
 	$CustomShipAbilityName = '';
 	$CustomShipAbilityText = '';
-	$CustomShipWeaponValue1 = '-';
-	$CustomShipWeaponArc1 = 'front';
-	$CustomShipWeaponValue2 = '-';
-	$CustomShipWeaponArc2 = 'front';
-	$CustomShipWeaponValue3 = '-';
-	$CustomShipWeaponArc3 = 'front';
+	$CustomShipAttackValue1 = '-';
+	$CustomShipAttackArc1 = 'front';
+	$CustomShipAttackValue2 = '-';
+	$CustomShipAttackArc2 = 'front';
+	$CustomShipAttackValue3 = '-';
+	$CustomShipAttackArc3 = 'front';
 	$CustomShipAgility = '0';
 	$CustomShipHull = '1';
 	$CustomShipShield = '-';
