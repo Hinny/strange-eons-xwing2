@@ -340,6 +340,7 @@ function Xwing2Object() {
 		} else if (keyword == 'initiative') {
 			color = Color(251/255,135/255,12/255);
 		} else if (
+				keyword == 'red' ||
 				keyword == 'front' ||
 				keyword == 'rear' ||
 				keyword == 'fronthalf' ||
