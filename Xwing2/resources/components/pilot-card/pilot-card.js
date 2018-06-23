@@ -729,11 +729,18 @@ function paintCardFrontFace(g,diy,sheet) {
 		xi = xCenterPoint + xDistanceBetween * i - xDistanceBetween * (statbar.length - 1) / 2;
 		y1 = 808;
 		y2 = 865;
-		g.setPaint(Xwing2.getColor(statbar[i][0]));
+		color = Xwing2.getColor(statbar[i][0]);
+		g.setPaint(color);
 		sheet.drawTitle(g, Xwing2.textToIconChar(statbar[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 11, sheet.ALIGN_CENTER);
 		sheet.drawTitle(g, statbar[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
-		circle = createDottedCircle(statbar[i][0], Xwing2.getColor(statbar[i][0]), false);
-		g.drawImage(circle, xi-3, y1-2, null);
+		dotList = Xwing2.calculateDottedCircle(statbar[i][0], false);
+		for each (dot in dotList) {
+			x = xi + dot[0];
+			y = y1 + dot[1];
+			dotColor = new Color(color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255, dot[2]);
+			g.setPaint(dotColor);
+			sheet.drawTitle(g, 'u', Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 5, sheet.ALIGN_CENTER);
+		}
 	}
 }
 
@@ -851,43 +858,6 @@ function createTranslucentImage(source, opacity) {
 	} finally {
 		g.dispose();
 	}
-	return im;
-}
-
-/**
- * createDottedCircle(pattern, color, isSidebar)
- * Create the ring of dots surrounding each x-wing stat.
- * The pattern is an array of 24 floats denoting the alpha value
- * of each individual dot. The all currently known patterns can be
- * used by inputting a key word instead.
- */
-function createDottedCircle(pattern, color, isSidebar) {
-	circleRadius = 34;
-	dotRadius = 5;
-	a = 0.1;
-	b = 0.5;
-	switch(pattern) {
-		case 'agility':	pattern = [0, 0, 0, a, 1, b, 1, a, 1, b, 1, 1, a, b, 1, 1, a, 1, 1, b, a, a, 0, 0]; break;
-		case 'hull':	pattern = [0, 0, 0, b, a, 1, b, 1, 1, a, 1, b, 1, 1, b, b, 1, b, a, 1, b, a, 0, 0]; break;
-		case 'shield':	pattern = [0, 0, 0, a, a, b, 1, b, a, 1, b, b, 1, 1, a, a, 1, b, a, 1, b, 1, 0, 0]; break;
-		case 'charge':	pattern = [0, 0, 0, b, 1, a, b, b, a, 1, a, 1, b, a, b, a, 1, a, 1, b, 1, 1, 0, 0]; break;
-		case 'force':	pattern = [0, 0, 0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.80, 0.85, 0.9, 0.95, 1, 0, 0]; break;
-		default: pattern = [0, 0, 0, a, b, b, a, a, b, 1, 1, a, b, 1, b, a, 1, b, b, 1, a, a, 0, 0]; // attack
-	}
-	im = ImageUtils.create(100, 100, true);
-	gTemp = im.createGraphics();
-	for(let i = 0; i < pattern.length; i++ ) {
-		if(isSidebar) {
-			x = 50 + circleRadius * Math.cos(Math.PI / 12 * i + Math.PI);
-			y = 50 + circleRadius * Math.sin(Math.PI / 12 * i + Math.PI);
-		} else {
-			x = 50 + circleRadius * Math.cos(Math.PI / 12 * i + Math.PI / 2);
-			y = 50 + circleRadius * Math.sin(Math.PI / 12 * i + Math.PI / 2);
-		}
-		newColor = new Color(color.getRed() / 255, color.getGreen()  / 255, color.getBlue()  / 255, pattern[i]);
-		gTemp.setPaint(newColor);
-		gTemp.fillOval(x, y, dotRadius, dotRadius);
-	}	
 	return im;
 }
 

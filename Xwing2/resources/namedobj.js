@@ -347,6 +347,7 @@ function Xwing2Object() {
 				keyword == 'doubleturret' ||
 				keyword == 'bullseye') {
 			color = Color(239/255,12/255,45/255);
+			//color = Color(238/255,36/255,40/255); //new?
 		} else if (keyword == 'charge') {
 			color = Color(251/255,200/255,12/255);
 		} else if (keyword == 'force') {
@@ -354,11 +355,12 @@ function Xwing2Object() {
 		} else if (keyword == 'energy') {
 			color = Color(214/255,177/255,211/255);
 		} else if (keyword == 'agility') {
-			color = Color(154/255,216/255,30/255);		
+			//color = Color(154/255,216/255,30/255); //old
+			color = Color(107/255,190/255,72/255);		
 		} else if (keyword == 'hull') {
-			color = Color(247/255,244/255,5/255);		
+			color = Color(247/255,244/255,5/255);
 		} else if (keyword == 'shield') {
-			color = Color(140/255,220/255,235/255);		
+			color = Color(140/255,220/255,235/255);
 		} else {
 			color = Color(1,1,1);
 		}
@@ -503,6 +505,32 @@ function Xwing2Object() {
 			case 'bsf17bomber': iconChar = 'Z'; break;
 		}
 		return iconChar;
+	};
+	
+	this.calculateDottedCircle = function calculateDottedCircle(pattern, isSidebar) {
+		circleRadius = 34;
+		a = 0.1; //alpha value of weakest dot
+		b = 0.5; //alpha value of mid strength dot
+		switch(pattern) {
+			case 'agility':	pattern = [0, 0, 0, a, 1, b, 1, a, 1, b, 1, 1, a, b, 1, 1, a, 1, 1, b, a, a, 0, 0]; break;
+			case 'hull':	pattern = [0, 0, 0, b, a, 1, b, 1, 1, a, 1, b, 1, 1, b, b, 1, b, a, 1, b, a, 0, 0]; break;
+			case 'shield':	pattern = [0, 0, 0, a, a, b, 1, b, a, 1, b, b, 1, 1, a, a, 1, b, a, 1, b, 1, 0, 0]; break;
+			case 'charge':	pattern = [0, 0, 0, b, 1, a, b, b, a, 1, a, 1, b, a, b, a, 1, a, 1, b, 1, 1, 0, 0]; break;
+			case 'force':	pattern = [0, 0, 0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.80, 0.85, 0.9, 0.95, 1, 0, 0]; break;
+			default: pattern = [0, 0, 0, a, b, b, a, a, b, 1, 1, a, b, 1, b, a, 1, b, b, 1, a, a, 0, 0]; // attack
+		}
+		dotsList = [];
+		for(let i = 0; i < pattern.length; i++ ) {
+			if(isSidebar) {
+				x = circleRadius * Math.cos(Math.PI / 12 * i + Math.PI);
+				y = circleRadius * Math.sin(Math.PI / 12 * i + Math.PI);
+			} else {
+				x = circleRadius * Math.cos(Math.PI / 12 * i + Math.PI / 2);
+				y = circleRadius * Math.sin(Math.PI / 12 * i + Math.PI / 2);
+			}
+			dotsList.push([x, y, pattern[i]]);
+		}	
+		return dotsList;
 	};
 }
 
