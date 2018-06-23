@@ -501,7 +501,7 @@ function Xwing2Object() {
 			case 'kimogila': iconChar = 'K'; break;
 			case 'tiesilencer': iconChar = '$'; break;
 			case 'bsf17bomber': iconChar = 'Z'; break;
-		}		
+		}
 		return iconChar;
 	};
 }

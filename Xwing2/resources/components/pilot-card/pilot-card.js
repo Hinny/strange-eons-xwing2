@@ -131,6 +131,12 @@ function createInterface(diy,editor) {
 	factionItems.push(ListItem('rebel',@xw2-faction-rebel));
 	factionItems.push(ListItem('imperial',@xw2-faction-imperial));
 	factionItems.push(ListItem('scum',@xw2-faction-scum));
+	factionItems.push(ListItem('luke','Luke'));
+	factionItems.push(ListItem('redsquad','RedSquad'));
+	factionItems.push(ListItem('dutch','Dutch'));
+	factionItems.push(ListItem('howlrunner','Howlrunner'));
+	factionItems.push(ListItem('feroph','Feroph'));
+	factionItems.push(ListItem('terroch','Terroch'));
 	factionBox = comboBox(factionItems);
 	bindings.add('Faction',factionBox,[0,1,2]);	
 
@@ -563,10 +569,10 @@ function paintFront(g,diy,sheet) {
 }
 
 function paintBack(g,diy,sheet) {
-	imageTemplate =  'pilot-blank-template';
+	imageTemplate = 'pilot-blank-template';
 	sheet.paintImage(g,imageTemplate,0,0);
 
-	imageTemplate =  'pilot-' + $Faction + '-back-template';
+	imageTemplate = 'pilot-' + $Faction + '-back-template';
 	sheet.paintImage(g,imageTemplate,0,0);
 }
 
@@ -574,7 +580,7 @@ function paintToken(g,diy,sheet) {
 }
 
 function paintCardFrontFace(g,diy,sheet) {
-	imageTemplate =  'pilot-blank-template';
+	imageTemplate = 'pilot-blank-template';
 	sheet.paintImage(g,imageTemplate,0,0);
 	target = sheet.getRenderTarget();
 		
@@ -602,9 +608,14 @@ function paintCardFrontFace(g,diy,sheet) {
 	} else {
 		textBoxStyle = 'full';
 	}
-	imageTemplate =  'pilot-' + $Faction + '-front-' + textBoxStyle + '-template';
+	// TODO: Remove extra dev templates
+	if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum'){
+		imageTemplate =  'pilot-' + $Faction + '-front-' + textBoxStyle + '-template';
+	} else {
+		imageTemplate =  'dev-' + $Faction + '-template';
+	}
 	sheet.paintImage(g,imageTemplate,0,0);
-
+	
 	// Draw the name
 	if ($$UniquePilot.yesNo) {
 		nameBox.markupText = '<uni>' + diy.name;
@@ -692,18 +703,37 @@ function paintCardFrontFace(g,diy,sheet) {
 	}
 	if($ChargeValue != '-') {statbar.push( ['charge', $ChargeValue, $ChargeRegen]);}
 	if($ForceValue != '-') {statbar.push( ['force', $ForceValue, $ForceRegen]);}
-	
+	if(textBoxStyle == 'full') {
+		xCenterPoint = 268;
+		switch(statbar.length) {
+			case 2: xDistanceBetween = 132; break;
+			case 3: xDistanceBetween = 132; break;
+			case 4: xDistanceBetween = 110; break;
+			case 5: xDistanceBetween = 110; break;
+			case 6: xDistanceBetween = 85; break;
+			case 7: xDistanceBetween = 78; break;
+			default: throw new Error('Stat bar too crowded! Please reduce the number of stats');
+		}
+	} else {
+		xCenterPoint = 231;
+		switch(statbar.length) {
+			case 2: xDistanceBetween = 132; break;
+			case 3: xDistanceBetween = 130; break;
+			case 4: xDistanceBetween = 110; break;
+			case 5: xDistanceBetween = 100; break;
+			case 6: xDistanceBetween = 85; break;
+			default: throw new Error('Stat bar too crowded! Please reduce the number of stats');
+		}
+	}
 	for( let i = 0; i < statbar.length; ++i ) {
-		// Get a nice distribution of the actions
-		// TODO: refactor equation :)
-		// TODO: Compensate for reduced area
-		// TODO: Add paint dotted ring function (input: pattern, color)
-		x = 5-(statbar.length-3)*15 + Math.round((525+(statbar.length-3)*30) / (statbar.length + 1) * (i + 1));
+		xi = xCenterPoint + xDistanceBetween * i - xDistanceBetween * (statbar.length - 1) / 2;
 		y1 = 808;
 		y2 = 865;
 		g.setPaint(Xwing2.getColor(statbar[i][0]));
-		sheet.drawTitle(g, Xwing2.textToIconChar(statbar[i][0]), Region(x.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 11, sheet.ALIGN_CENTER);
-		sheet.drawTitle(g, statbar[i][1], Region(x.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 15, sheet.ALIGN_CENTER);
+		sheet.drawTitle(g, Xwing2.textToIconChar(statbar[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 11, sheet.ALIGN_CENTER);
+		sheet.drawTitle(g, statbar[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
+		circle = createDottedCircle(statbar[i][0], Xwing2.getColor(statbar[i][0]), false);
+		g.drawImage(circle, xi-3, y1-2, null);
 	}
 }
 
@@ -768,14 +798,14 @@ function onWrite(diy,oos) {
 }
 
 /**
- * createTexturedImage(source,texture)
+ * createTexturedImage(source, texture)
  * Create a new image whose shape (based on translucency) comes
  * from <tt>source</tt>,and whose surface is painted using a
  * texture. The value of <tt>texture</tt> can be an image,a
  * <tt>Color</tt> (in which case the texture is a solid colour),
  * or a <tt>Paint</tt>.
  */
-function createTexturedImage(source,texture) {
+function createTexturedImage(source, texture) {
 	g = null;
 	// if texture is a kind of Paint or colour,create a texture image
 	// using the paint
@@ -804,12 +834,12 @@ function createTexturedImage(source,texture) {
 }
 
 /**
- * createTranslucentImage(source,opacity)
+ * createTranslucentImage(source, opacity)
  * Create a copy of the source image with an opacity change.
  * This is similar to setting the layer opacity in software
  * like Photoshop.
  */
-function createTranslucentImage(source,opacity) {
+function createTranslucentImage(source, opacity) {
 	if (opacity >= 1) return source;
 	im = ImageUtils.create(source.width,source.height,true);
 	if (opacity <= 0) return im;
@@ -821,6 +851,43 @@ function createTranslucentImage(source,opacity) {
 	} finally {
 		g.dispose();
 	}
+	return im;
+}
+
+/**
+ * createDottedCircle(pattern, color, isSidebar)
+ * Create the ring of dots surrounding each x-wing stat.
+ * The pattern is an array of 24 floats denoting the alpha value
+ * of each individual dot. The all currently known patterns can be
+ * used by inputting a key word instead.
+ */
+function createDottedCircle(pattern, color, isSidebar) {
+	circleRadius = 34;
+	dotRadius = 5;
+	a = 0.1;
+	b = 0.5;
+	switch(pattern) {
+		case 'agility':	pattern = [0, 0, 0, a, 1, b, 1, a, 1, b, 1, 1, a, b, 1, 1, a, 1, 1, b, a, a, 0, 0]; break;
+		case 'hull':	pattern = [0, 0, 0, b, a, 1, b, 1, 1, a, 1, b, 1, 1, b, b, 1, b, a, 1, b, a, 0, 0]; break;
+		case 'shield':	pattern = [0, 0, 0, a, a, b, 1, b, a, 1, b, b, 1, 1, a, a, 1, b, a, 1, b, 1, 0, 0]; break;
+		case 'charge':	pattern = [0, 0, 0, b, 1, a, b, b, a, 1, a, 1, b, a, b, a, 1, a, 1, b, 1, 1, 0, 0]; break;
+		case 'force':	pattern = [0, 0, 0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.80, 0.85, 0.9, 0.95, 1, 0, 0]; break;
+		default: pattern = [0, 0, 0, a, b, b, a, a, b, 1, 1, a, b, 1, b, a, 1, b, b, 1, a, a, 0, 0]; // attack
+	}
+	im = ImageUtils.create(100, 100, true);
+	gTemp = im.createGraphics();
+	for(let i = 0; i < pattern.length; i++ ) {
+		if(isSidebar) {
+			x = 50 + circleRadius * Math.cos(Math.PI / 12 * i + Math.PI);
+			y = 50 + circleRadius * Math.sin(Math.PI / 12 * i + Math.PI);
+		} else {
+			x = 50 + circleRadius * Math.cos(Math.PI / 12 * i + Math.PI / 2);
+			y = 50 + circleRadius * Math.sin(Math.PI / 12 * i + Math.PI / 2);
+		}
+		newColor = new Color(color.getRed() / 255, color.getGreen()  / 255, color.getBlue()  / 255, pattern[i]);
+		gTemp.setPaint(newColor);
+		gTemp.fillOval(x, y, dotRadius, dotRadius);
+	}	
 	return im;
 }
 
