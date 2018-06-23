@@ -37,6 +37,8 @@ dev-feroph-template = components/pilot-card/images/captain-feroph.png
 dev-feroph-dpi = 300
 dev-terroch-template = components/pilot-card/images/old-terroch.png
 dev-terroch-dpi = 300
+dev-lando-template = components/pilot-card/images/lando-calrissian.png
+dev-lando-dpi = 300
 
 pilot-rebel-back-template = components/pilot-card/images/rebel-back.png
 pilot-rebel-back-dpi = 300

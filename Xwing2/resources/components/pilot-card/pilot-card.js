@@ -137,6 +137,7 @@ function createInterface(diy,editor) {
 	factionItems.push(ListItem('howlrunner','Howlrunner'));
 	factionItems.push(ListItem('feroph','Feroph'));
 	factionItems.push(ListItem('terroch','Terroch'));
+	factionItems.push(ListItem('lando','Lando'));
 	factionBox = comboBox(factionItems);
 	bindings.add('Faction',factionBox,[0,1,2]);	
 
@@ -733,6 +734,13 @@ function paintCardFrontFace(g,diy,sheet) {
 		g.setPaint(color);
 		sheet.drawTitle(g, Xwing2.textToIconChar(statbar[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 11, sheet.ALIGN_CENTER);
 		sheet.drawTitle(g, statbar[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
+		if(statbar[i][2] == '1') {
+			print(statbar[i][2]);
+			x = xi + 28;
+			y = y2 - 18;
+			//TODO: Change 'u' to the triangle when it is added to the x-wing icon font...
+			sheet.drawTitle(g, 'u', Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 8, sheet.ALIGN_CENTER);
+		}
 		dotList = Xwing2.calculateDottedCircle(statbar[i][0], false);
 		for each (dot in dotList) {
 			x = xi + dot[0];
