@@ -578,6 +578,32 @@ function paintBack(g,diy,sheet) {
 }
 
 function paintToken(g,diy,sheet) {
+	if ($ShipModel == 'custom') {
+		tokenSize = $CustomShipSize;
+	} else {
+		tokenSize = getShipStat($ShipModel, 'size');
+	}
+	if (tokenSize == 'small') {
+		tokenWidth = 402;
+		tokenHeight = 472;
+		cutoutSize = 140;
+	} else if (tokenSize == 'medium'){
+		tokenWidth = 614;
+		tokenHeight = 708;
+		cutoutSize = 190;
+	} else { // tokenSize == 'large'
+		tokenWidth = 850;
+		tokenHeight = 945;
+		cutoutSize = 190;
+	}
+	dashedStroke = BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, [15], 0);
+	normalStroke = BasicStroke(5);
+	thinStroke = BasicStroke(4);
+	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+	// Draw star-field background
+	imageTemplate = 'pilot-' + tokenSize + '-token-template';
+	sheet.paintImage(g, imageTemplate, 0, 0);
 }
 
 function paintCardFrontFace(g,diy,sheet) {
@@ -684,29 +710,29 @@ function paintCardFrontFace(g,diy,sheet) {
 	
 	// Draw Stat Bar
 	statbar = [];
-	if($ShipModel == 'custom') {
-		if($CustomShipAttackValue1 != '-') {statbar.push([$CustomShipAttackArc1, $CustomShipAttackValue1, 0]);}
-		if($CustomShipAttackValue2 != '-') {statbar.push([$CustomShipAttackArc2, $CustomShipAttackValue2, 0]);}
-		if($CustomShipAttackValue3 != '-') {statbar.push([$CustomShipAttackArc3, $CustomShipAttackValue3, 0]);}
+	if ($ShipModel == 'custom') {
+		if ($CustomShipAttackValue1 != '-') {statbar.push([$CustomShipAttackArc1, $CustomShipAttackValue1, 0]);}
+		if ($CustomShipAttackValue2 != '-') {statbar.push([$CustomShipAttackArc2, $CustomShipAttackValue2, 0]);}
+		if ($CustomShipAttackValue3 != '-') {statbar.push([$CustomShipAttackArc3, $CustomShipAttackValue3, 0]);}
 		statbar.push(['agility', $CustomShipAgility, 0]);
 		statbar.push(['hull', $CustomShipHull, 0]);
 		if($CustomShipShield != '-') {statbar.push(['shield', $CustomShipShield, $CustomShipShieldRegen]);}
 	} else {
-		if(getShipStat($ShipModel, 'attack-1-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-1-arc'), getShipStat($ShipModel,'attack-1-value'), 0]);}
-		if(getShipStat($ShipModel, 'attack-2-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-2-value'), 0]);}
-		if(getShipStat($ShipModel, 'attack-3-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-3-value'), 0]);}
+		if (getShipStat($ShipModel, 'attack-1-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-1-arc'), getShipStat($ShipModel,'attack-1-value'), 0]);}
+		if (getShipStat($ShipModel, 'attack-2-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-2-value'), 0]);}
+		if (getShipStat($ShipModel, 'attack-3-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-3-value'), 0]);}
 		statbar.push(['agility', getShipStat($ShipModel,'agility-value'), 0]);
 		statbar.push(['hull', getShipStat($ShipModel,'hull-value'), 0]);
-		if(getShipStat($ShipModel,'shield-value') != '-') {
-			if(getShipStat($ShipModel,'shield-regen') == 'yes') {shieldRegen = 1;} else {shieldRegen = 0;}
+		if (getShipStat($ShipModel,'shield-value') != '-') {
+			if (getShipStat($ShipModel,'shield-regen') == 'yes') {shieldRegen = 1;} else {shieldRegen = 0;}
 			statbar.push(['shield', getShipStat($ShipModel,'shield-value'), shieldRegen]);
 		}
 	}
-	if($ChargeValue != '-') {statbar.push( ['charge', $ChargeValue, $ChargeRegen]);}
-	if($ForceValue != '-') {statbar.push( ['force', $ForceValue, $ForceRegen]);}
-	if(textBoxStyle == 'full') {
+	if ($ChargeValue != '-') {statbar.push( ['charge', $ChargeValue, $ChargeRegen]);}
+	if ($ForceValue != '-') {statbar.push( ['force', $ForceValue, $ForceRegen]);}
+	if (textBoxStyle == 'full') {
 		xCenterPoint = 268;
-		switch(statbar.length) {
+		switch (statbar.length) {
 			case 2: xDistanceBetween = 132; break;
 			case 3: xDistanceBetween = 132; break;
 			case 4: xDistanceBetween = 110; break;
@@ -717,7 +743,7 @@ function paintCardFrontFace(g,diy,sheet) {
 		}
 	} else {
 		xCenterPoint = 231;
-		switch(statbar.length) {
+		switch (statbar.length) {
 			case 2: xDistanceBetween = 132; break;
 			case 3: xDistanceBetween = 130; break;
 			case 4: xDistanceBetween = 110; break;
@@ -728,13 +754,13 @@ function paintCardFrontFace(g,diy,sheet) {
 	}
 	y1 = 808;
 	y2 = 865;
-	for( let i = 0; i < statbar.length; ++i ) {
+	for (let i = 0; i < statbar.length; ++i) {
 		xi = xCenterPoint + xDistanceBetween * i - xDistanceBetween * (statbar.length - 1) / 2;
 		color = Xwing2.getColor(statbar[i][0]);
 		g.setPaint(color);
 		sheet.drawTitle(g, Xwing2.textToIconChar(statbar[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 11, sheet.ALIGN_CENTER);
 		sheet.drawTitle(g, statbar[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
-		if(statbar[i][2] == '1') {
+		if (statbar[i][2] == '1') {
 			x = xi + 28;
 			y = y2 - 18;
 			//TODO: Change 'u' to the triangle when it is added to the x-wing icon font...
@@ -752,46 +778,46 @@ function paintCardFrontFace(g,diy,sheet) {
 	
 	// Draw Action Bar
 	actions = [];
-	if( $ShipModel == 'custom' ) {
-		if($CustomShipActionName1 != '-') {actions.push([$CustomShipActionName1, $CustomShipActionRed1, $CustomShipActionLinked1]);}
-		if($CustomShipActionName2 != '-') {actions.push([$CustomShipActionName2, $CustomShipActionRed2, $CustomShipActionLinked2]);}
-		if($CustomShipActionName3 != '-') {actions.push([$CustomShipActionName3, $CustomShipActionRed3, $CustomShipActionLinked3]);}
-		if($CustomShipActionName4 != '-') {actions.push([$CustomShipActionName4, $CustomShipActionRed4, $CustomShipActionLinked4]);}
-		if($CustomShipActionName5 != '-') {actions.push([$CustomShipActionName5, $CustomShipActionRed5, $CustomShipActionLinked5]);}
+	if ($ShipModel == 'custom') {
+		if ($CustomShipActionName1 != '-') {actions.push([$CustomShipActionName1, $CustomShipActionRed1, $CustomShipActionLinked1]);}
+		if ($CustomShipActionName2 != '-') {actions.push([$CustomShipActionName2, $CustomShipActionRed2, $CustomShipActionLinked2]);}
+		if ($CustomShipActionName3 != '-') {actions.push([$CustomShipActionName3, $CustomShipActionRed3, $CustomShipActionLinked3]);}
+		if ($CustomShipActionName4 != '-') {actions.push([$CustomShipActionName4, $CustomShipActionRed4, $CustomShipActionLinked4]);}
+		if ($CustomShipActionName5 != '-') {actions.push([$CustomShipActionName5, $CustomShipActionRed5, $CustomShipActionLinked5]);}
 	} else {
-		if(getShipStat($ShipModel, 'action-1-name') != '-') {
+		if (getShipStat($ShipModel, 'action-1-name') != '-') {
 			actions.push([	getShipStat($ShipModel,'action-1-name'), 
 							getShipStat($ShipModel,'action-1-red'),
 							getShipStat($ShipModel,'action-1-linked')]);
 		}
-		if(getShipStat($ShipModel, 'action-2-name') != '-') {
+		if (getShipStat($ShipModel, 'action-2-name') != '-') {
 			actions.push([	getShipStat($ShipModel,'action-2-name'), 
 							getShipStat($ShipModel,'action-2-red'),
 							getShipStat($ShipModel,'action-2-linked')]);
 		}
-		if(getShipStat($ShipModel, 'action-3-name') != '-') {
+		if (getShipStat($ShipModel, 'action-3-name') != '-') {
 			actions.push([	getShipStat($ShipModel,'action-3-name'), 
 							getShipStat($ShipModel,'action-3-red'),
 							getShipStat($ShipModel,'action-3-linked')]);
 		}
-		if(getShipStat($ShipModel, 'action-4-name') != '-') {
+		if (getShipStat($ShipModel, 'action-4-name') != '-') {
 			actions.push([	getShipStat($ShipModel,'action-4-name'), 
 							getShipStat($ShipModel,'action-4-red'),
 							getShipStat($ShipModel,'action-4-linked')]);
 		}
-		if(getShipStat($ShipModel, 'action-5-name') != '-') {
+		if (getShipStat($ShipModel, 'action-5-name') != '-') {
 			actions.push([	getShipStat($ShipModel,'action-5-name'), 
 							getShipStat($ShipModel,'action-5-red'),
 							getShipStat($ShipModel,'action-5-linked')]);
 		}
 	}
 	yCenterPoint = 645;
-	if(textBoxStyle == 'full') {
-		x = 635;
+	if (textBoxStyle == 'full') {
+		xCenterPoint = 635;
 	} else {
-		x = 635;
-	}	
-	switch(actions.length) {
+		xCenterPoint = 590;
+	}
+	switch (actions.length) {
 		case 0: yDistanceBetween = 0; break;
 		case 1: yDistanceBetween = 0; break;
 		case 2: yDistanceBetween = 245; break;
@@ -799,16 +825,28 @@ function paintCardFrontFace(g,diy,sheet) {
 		case 4: yDistanceBetween = 123; break;
 		case 5: yDistanceBetween = 100; break;
 	}	
-	for(let i = 0; i < actions.length; ++i) {
+	for (let i = 0; i < actions.length; ++i) {
 		y = yCenterPoint + yDistanceBetween * i - yDistanceBetween * (actions.length - 1) / 2;
-		if(actions[i][1] == 'yes' || actions[i][1] == '1') {
-			g.setPaint(Xwing2.getColor('red'));
-		} else {
+		if (actions[i][2] != '-') {
+			x = xCenterPoint - 50;
 			g.setPaint(Color.WHITE);
+			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
+			x = xCenterPoint;
+			//TODO: Change 'u' to the arrow when it is added to the x-wing icon font...
+			sheet.drawTitle(g, 'u', Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
+			x = xCenterPoint + 50;
+			g.setPaint(Xwing2.getColor('red'));
+			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][2]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);		
+		} else {
+			x = xCenterPoint;
+			if (actions[i][1] == 'yes' || actions[i][1] == '1') {
+				g.setPaint(Xwing2.getColor('red'));
+			} else {
+				g.setPaint(Color.WHITE);
+			}
+			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
 		}
-		sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
-	}
-	
+	}	
 }
 
 function onClear() {
