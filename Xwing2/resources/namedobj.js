@@ -331,39 +331,26 @@ function Xwing2Object() {
 	};
 
 	this.getColor = function getColor(keyword) {
-		if(keyword == 'rebel') {
-			color = Color(239/255,12/255,45/255);
-		} else if (keyword == 'imperial') {
-			color = Color(154/255,216/255,30/255);
-		} else if (keyword == 'scum') {
-			color = Color(218/255,164/255,22/255);
-		} else if (keyword == 'initiative') {
-			color = Color(251/255,135/255,12/255);
-		} else if (
-				keyword == 'red' ||
-				keyword == 'front' ||
-				keyword == 'rear' ||
-				keyword == 'fronthalf' ||
-				keyword == 'singleturret' ||
-				keyword == 'doubleturret' ||
-				keyword == 'bullseye') {
-			color = Color(239/255,12/255,45/255);
-			//color = Color(238/255,36/255,40/255); //new?
-		} else if (keyword == 'charge') {
-			color = Color(251/255,200/255,12/255);
-		} else if (keyword == 'force') {
-			color = Color(181/255,137/255,191/255);
-		} else if (keyword == 'energy') {
-			color = Color(214/255,177/255,211/255);
-		} else if (keyword == 'agility') {
-			//color = Color(154/255,216/255,30/255); //old
-			color = Color(107/255,190/255,72/255);		
-		} else if (keyword == 'hull') {
-			color = Color(247/255,244/255,5/255);
-		} else if (keyword == 'shield') {
-			color = Color(140/255,220/255,235/255);
-		} else {
-			color = Color(1,1,1);
+		switch (keyword) {
+			case 'rebel': {color = Color(239/255,12/255,45/255);} break;
+			case 'imperial': {color = Color(154/255,216/255,30/255);} break;
+			case 'scum': {color = Color(218/255,164/255,22/255);} break;
+			case 'initiative': {color = Color(251/255,135/255,12/255);} break;
+			case 'white': {color = Color(1,1,1);} break;
+			case 'red':
+			case 'front':
+			case 'rear':
+			case 'fronthalf':
+			case 'singleturret':
+			case 'doubleturret':
+			case 'bullseye': {color = Color(239/255,12/255,45/255); /*color = Color(238/255,36/255,40/255); //new?*/} break;
+			case 'charge': {color = Color(251/255,200/255,12/255);} break;
+			case 'force': {color = Color(181/255,137/255,191/255);} break;
+			case 'energy': {color = Color(214/255,177/255,211/255);} break;
+			case 'agility': {color = Color(107/255,190/255,72/255);/*color = Color(154/255,216/255,30/255); //old*/} break;
+			case 'hull': {color = Color(247/255,244/255,5/255);} break;
+			case 'shield': {color = Color(140/255,220/255,235/255);} break;
+			default: throw new Error('Unknown color keyword: ' + keyword);
 		}
 		return color;
 	};

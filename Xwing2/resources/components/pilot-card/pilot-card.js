@@ -587,15 +587,19 @@ function paintToken(g,diy,sheet) {
 		tokenWidth = 402;
 		tokenHeight = 472;
 		cutoutSize = 140;
+		bullsEyeYAdjustment = 139;
 	} else if (tokenSize == 'medium'){
-		tokenWidth = 614;
-		tokenHeight = 708;
+		tokenWidth = 638;
+		tokenHeight = 709;
 		cutoutSize = 190;
+		bullsEyeYAdjustment = 131;
 	} else { // tokenSize == 'large'
 		tokenWidth = 850;
 		tokenHeight = 945;
 		cutoutSize = 190;
+		bullsEyeYAdjustment = 131;
 	}
+	bullsEyeXAdjustment = 118;
 	dashedStroke = BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, [15], 0);
 	normalStroke = BasicStroke(5);
 	thinStroke = BasicStroke(4);
@@ -604,6 +608,50 @@ function paintToken(g,diy,sheet) {
 	// Draw star-field background
 	imageTemplate = 'pilot-' + tokenSize + '-token-template';
 	sheet.paintImage(g, imageTemplate, 0, 0);
+
+	// Draw shaded fire arc area
+	fireArcArea = ImageUtils.create(tokenWidth, tokenHeight, true);
+	gTemp = fireArcArea.createGraphics();
+	gTemp.setPaint(Xwing2.getColor($Faction));
+	fireArcs = [];
+	if ($ShipModel == 'custom') {
+		if ($CustomShipAttackValue1 != '-') {fireArcs.push($CustomShipAttackArc1);}
+		if ($CustomShipAttackValue2 != '-') {fireArcs.push($CustomShipAttackArc2);}
+		if ($CustomShipAttackValue3 != '-') {fireArcs.push($CustomShipAttackArc3);}
+	} else {
+		if (getShipStat($ShipModel, 'attack-1-value') != '-') {fireArcs.push(getShipStat($ShipModel,'attack-1-arc'));}
+		if (getShipStat($ShipModel, 'attack-2-value') != '-') {fireArcs.push(getShipStat($ShipModel,'attack-2-arc'));}
+		if (getShipStat($ShipModel, 'attack-3-value') != '-') {fireArcs.push(getShipStat($ShipModel,'attack-2-arc'));}
+	}
+	for (let i = 0; i < fireArcs.length; ++i) {
+		switch (fireArcs[i]) {
+			case 'front': {gTemp.fillPolygon( [0, Math.round(tokenWidth/2), tokenWidth], [0, Math.round(tokenHeight/2), 0], 3);} break;
+			case 'rear': {gTemp.fillPolygon( [0, Math.round(tokenWidth/2), tokenWidth], [tokenHeight, Math.round(tokenHeight/2), tokenHeight], 3);} break;
+			case 'fronthalf': {gTemp.fillPolygon([0, 0, tokenWidth, tokenWidth], [0, Math.round(tokenHeight/2), Math.round(tokenHeight/2), 0], 4);} break;
+			case 'singleturret': {/*No visible fireArc*/} break;
+			case 'doubleturret': {/*No visible fireArc*/} break;
+			case 'bullseye': {
+				gTemp.fillPolygon([Math.round(tokenWidth/2)-bullsEyeXAdjustment, Math.round(tokenWidth/2)+bullsEyeXAdjustment,
+					Math.round(tokenWidth/2)+bullsEyeXAdjustment, Math.round(tokenWidth/2), Math.round(tokenWidth/2)-bullsEyeXAdjustment],
+					[0, 0, Math.round(tokenHeight/2)-bullsEyeYAdjustment, Math.round(tokenHeight/2), Math.round(tokenHeight/2)-bullsEyeYAdjustment], 5);
+			} break;
+			default: throw new Error('Arc not defined: ' + fireArcs[i]);
+		}
+	}
+	fireArcArea = createTranslucentImage(fireArcArea, 0.10);
+	g.drawImage(fireArcArea, 0, 0, null);
+
+	// Draw non-fire arc lines
+
+	// Draw fire arc lines
+
+	// Draw frame
+
+	// Draw Pilot Name
+
+	// Draw Initiative
+
+	// Draw Ship Icon
 }
 
 function paintCardFrontFace(g,diy,sheet) {
@@ -674,7 +722,7 @@ function paintCardFrontFace(g,diy,sheet) {
 		if ( $ShipModel == 'custom' ) {
 			shipIcon = $CustomShipIcon;
 		} else {
-			shipIcon = getShipStat( $ShipModel, 'icon' );
+			shipIcon = getShipStat($ShipModel, 'icon');
 		}
 		g.setPaint(Color.WHITE);
 		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R('icon'), Xwing2.shipFont, 18, sheet.ALIGN_CENTER);
@@ -709,30 +757,30 @@ function paintCardFrontFace(g,diy,sheet) {
 	}
 	
 	// Draw Stat Bar
-	statbar = [];
+	stats = [];
 	if ($ShipModel == 'custom') {
-		if ($CustomShipAttackValue1 != '-') {statbar.push([$CustomShipAttackArc1, $CustomShipAttackValue1, 0]);}
-		if ($CustomShipAttackValue2 != '-') {statbar.push([$CustomShipAttackArc2, $CustomShipAttackValue2, 0]);}
-		if ($CustomShipAttackValue3 != '-') {statbar.push([$CustomShipAttackArc3, $CustomShipAttackValue3, 0]);}
-		statbar.push(['agility', $CustomShipAgility, 0]);
-		statbar.push(['hull', $CustomShipHull, 0]);
-		if($CustomShipShield != '-') {statbar.push(['shield', $CustomShipShield, $CustomShipShieldRegen]);}
+		if ($CustomShipAttackValue1 != '-') {stats.push([$CustomShipAttackArc1, $CustomShipAttackValue1, 0]);}
+		if ($CustomShipAttackValue2 != '-') {stats.push([$CustomShipAttackArc2, $CustomShipAttackValue2, 0]);}
+		if ($CustomShipAttackValue3 != '-') {stats.push([$CustomShipAttackArc3, $CustomShipAttackValue3, 0]);}
+		stats.push(['agility', $CustomShipAgility, 0]);
+		stats.push(['hull', $CustomShipHull, 0]);
+		if($CustomShipShield != '-') {stats.push(['shield', $CustomShipShield, $CustomShipShieldRegen]);}
 	} else {
-		if (getShipStat($ShipModel, 'attack-1-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-1-arc'), getShipStat($ShipModel,'attack-1-value'), 0]);}
-		if (getShipStat($ShipModel, 'attack-2-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-2-value'), 0]);}
-		if (getShipStat($ShipModel, 'attack-3-value') != '-') {statbar.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-3-value'), 0]);}
-		statbar.push(['agility', getShipStat($ShipModel,'agility-value'), 0]);
-		statbar.push(['hull', getShipStat($ShipModel,'hull-value'), 0]);
+		if (getShipStat($ShipModel, 'attack-1-value') != '-') {stats.push([getShipStat($ShipModel,'attack-1-arc'), getShipStat($ShipModel,'attack-1-value'), 0]);}
+		if (getShipStat($ShipModel, 'attack-2-value') != '-') {stats.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-2-value'), 0]);}
+		if (getShipStat($ShipModel, 'attack-3-value') != '-') {stats.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-3-value'), 0]);}
+		stats.push(['agility', getShipStat($ShipModel,'agility-value'), 0]);
+		stats.push(['hull', getShipStat($ShipModel,'hull-value'), 0]);
 		if (getShipStat($ShipModel,'shield-value') != '-') {
 			if (getShipStat($ShipModel,'shield-regen') == 'yes') {shieldRegen = 1;} else {shieldRegen = 0;}
-			statbar.push(['shield', getShipStat($ShipModel,'shield-value'), shieldRegen]);
+			stats.push(['shield', getShipStat($ShipModel,'shield-value'), shieldRegen]);
 		}
 	}
-	if ($ChargeValue != '-') {statbar.push( ['charge', $ChargeValue, $ChargeRegen]);}
-	if ($ForceValue != '-') {statbar.push( ['force', $ForceValue, $ForceRegen]);}
+	if ($ChargeValue != '-') {stats.push( ['charge', $ChargeValue, $ChargeRegen]);}
+	if ($ForceValue != '-') {stats.push( ['force', $ForceValue, $ForceRegen]);}
 	if (textBoxStyle == 'full') {
 		xCenterPoint = 268;
-		switch (statbar.length) {
+		switch (stats.length) {
 			case 2: xDistanceBetween = 132; break;
 			case 3: xDistanceBetween = 132; break;
 			case 4: xDistanceBetween = 110; break;
@@ -743,7 +791,7 @@ function paintCardFrontFace(g,diy,sheet) {
 		}
 	} else {
 		xCenterPoint = 231;
-		switch (statbar.length) {
+		switch (stats.length) {
 			case 2: xDistanceBetween = 132; break;
 			case 3: xDistanceBetween = 130; break;
 			case 4: xDistanceBetween = 110; break;
@@ -754,19 +802,19 @@ function paintCardFrontFace(g,diy,sheet) {
 	}
 	y1 = 808;
 	y2 = 865;
-	for (let i = 0; i < statbar.length; ++i) {
-		xi = xCenterPoint + xDistanceBetween * i - xDistanceBetween * (statbar.length - 1) / 2;
-		color = Xwing2.getColor(statbar[i][0]);
+	for (let i = 0; i < stats.length; ++i) {
+		xi = xCenterPoint + xDistanceBetween * i - xDistanceBetween * (stats.length - 1) / 2;
+		color = Xwing2.getColor(stats[i][0]);
 		g.setPaint(color);
-		sheet.drawTitle(g, Xwing2.textToIconChar(statbar[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 11, sheet.ALIGN_CENTER);
-		sheet.drawTitle(g, statbar[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
-		if (statbar[i][2] == '1') {
+		sheet.drawTitle(g, Xwing2.textToIconChar(stats[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 11, sheet.ALIGN_CENTER);
+		sheet.drawTitle(g, stats[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
+		if (stats[i][2] == '1') {
 			x = xi + 28;
 			y = y2 - 18;
 			//TODO: Change 'u' to the triangle when it is added to the x-wing icon font...
 			sheet.drawTitle(g, 'u', Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 8, sheet.ALIGN_CENTER);
 		}
-		dotList = Xwing2.calculateDottedCircle(statbar[i][0], false);
+		dotList = Xwing2.calculateDottedCircle(stats[i][0], false);
 		for each (dot in dotList) {
 			x = xi + dot[0];
 			y = y1 + dot[1];
@@ -829,7 +877,7 @@ function paintCardFrontFace(g,diy,sheet) {
 		y = yCenterPoint + yDistanceBetween * i - yDistanceBetween * (actions.length - 1) / 2;
 		if (actions[i][2] != '-') {
 			x = xCenterPoint - 50;
-			g.setPaint(Color.WHITE);
+			g.setPaint(Xwing2.getColor('white'));
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
 			x = xCenterPoint;
 			//TODO: Change 'u' to the arrow when it is added to the x-wing icon font...
@@ -842,7 +890,7 @@ function paintCardFrontFace(g,diy,sheet) {
 			if (actions[i][1] == 'yes' || actions[i][1] == '1') {
 				g.setPaint(Xwing2.getColor('red'));
 			} else {
-				g.setPaint(Color.WHITE);
+				g.setPaint(Xwing2.getColor('white'));
 			}
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
 		}
@@ -971,7 +1019,9 @@ function getShipStat(shipId,stat) {
 	if (!Language.getGame().isKeyDefined(key)) {
 		throw new Error('shiptype or stat not defined: ' + shipId + stat);
 	}
-	return Language.game.get(key);
+	javaString = Language.game.get(key);
+	javaScriptString = String(javaString).valueOf();
+	return javaScriptString;
 }
 
 
