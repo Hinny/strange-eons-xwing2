@@ -84,9 +84,9 @@ function create(diy) {
 	$Droid = #xw2-pilot-droid;
 	$Text = #xw2-pilot-text;
 	$ChargeValue = #xw2-pilot-charge-value;
-	$ChargeRegen = #xw2-pilot-charge-regen;
+	$ChargeReoccurring = #xw2-pilot-charge-reoccurring;
 	$ForceValue = #xw2-pilot-force-value;
-	$ForceRegen = #xw2-pilot-force-regen;
+	$ForceReoccurring = #xw2-pilot-force-reoccurring;
 
 	$CustomShipModel = #xw2-pilot-custom-ship-model;
 	$CustomShipAbilityName = #xw2-pilot-custom-ship-ability-name;
@@ -100,7 +100,7 @@ function create(diy) {
 	$CustomShipAgility = #xw2-pilot-custom-ship-agility-value;
 	$CustomShipHull = #xw2-pilot-custom-ship-hull-value;
 	$CustomShipShield = #xw2-pilot-custom-ship-shield-value;
-	$CustomShipShieldRegen = #xw2-pilot-custom-ship-shield-regen;
+	$CustomShipShieldReoccurring = #xw2-pilot-custom-ship-shield-reoccurring;
 	$CustomShipSize = #xw2-pilot-custom-ship-size;
 	$CustomShipActionName1 = #xw2-pilot-custom-ship-action-1-name;
 	$CustomShipActionRed1 = #xw2-pilot-custom-ship-action-1-red;
@@ -172,15 +172,15 @@ function createInterface(diy,editor) {
 	chargeValueBox = comboBox(chargeValueItems);
 	bindings.add('ChargeValue',chargeValueBox,[0]);
 	
-	chargeRegenCheckbox = checkBox(@xw2-regen);
-	bindings.add('ChargeRegen',chargeRegenCheckbox,[0]);
+	chargeReoccurringCheckbox = checkBox(@xw2-reoccurring);
+	bindings.add('ChargeReoccurring',chargeReoccurringCheckbox,[0]);
 
 	forceValueItems = ['-','1','2','3','4','5','6','7','8','9'];
 	forceValueBox = comboBox(forceValueItems);
 	bindings.add('ForceValue',forceValueBox,[0]);
 	
-	forceRegenCheckbox = checkBox(@xw2-regen);
-	bindings.add('ForceRegen',forceRegenCheckbox,[0]);
+	forceReoccurringCheckbox = checkBox(@xw2-reoccurring);
+	bindings.add('ForceReoccurring',forceReoccurringCheckbox,[0]);
 	
 	pilotPanel = portraitPanel(diy,0);
 	pilotPanel.panelTitle = @xw2-portrait-pilot;
@@ -198,8 +198,8 @@ function createInterface(diy,editor) {
 	mainPanel.place(separator(),'span,growx,wrap para');
 	mainPanel.place(@xw2-pilottext,'span,grow,wrap para');
 	mainPanel.place(pilotTextArea,'span,grow,wrap para');
-	mainPanel.place(@xw2-charge-value,'',chargeValueBox,'wmin 52',chargeRegenCheckbox,'wrap');
-	mainPanel.place(@xw2-force-value,'',forceValueBox,'wmin 52',forceRegenCheckbox,'wrap');
+	mainPanel.place(@xw2-charge-value,'',chargeValueBox,'wmin 52',chargeReoccurringCheckbox,'wrap');
+	mainPanel.place(@xw2-force-value,'',forceValueBox,'wmin 52',forceReoccurringCheckbox,'wrap');
 	mainPanel.place(separator(),'span,growx,wrap para');
 	mainPanel.place(pilotPanel,'span,growx,wrap');
 	mainPanel.editorTabScrolling = true;
@@ -256,8 +256,8 @@ function createInterface(diy,editor) {
 	customShieldBox = comboBox(shieldItems);
 	bindings.add('CustomShipShield',customShieldBox,[0,2]);
 
-	customShieldRegenCheckbox = checkBox(@xw2-regen);
-	bindings.add('CustomShipShieldRegen',customShieldRegenCheckbox,[0,2]);
+	customShieldReoccurringCheckbox = checkBox(@xw2-reoccurring);
+	bindings.add('CustomShipShieldReoccurring',customShieldReoccurringCheckbox,[0,2]);
 
 	actionItems = [];
 	actionItems.push(ListItem('-','-'));
@@ -335,7 +335,7 @@ function createInterface(diy,editor) {
 	customShipPanel.place(@xw2-agility-value,'',customAgilityBox,'wmin 52');
 	customShipPanel.place(@xw2-hull-value,'',customHullBox,'wmin 52,wrap');
 	customShipPanel.place(@xw2-shield-value,'',customShieldBox,'wmin 52');
-	customShipPanel.place(customShieldRegenCheckbox,'wmin 52,wrap para');
+	customShipPanel.place(customShieldReoccurringCheckbox,'wmin 52,span 2,wrap para');
 	customShipPanel.place(@xw2-attack-1,'',customAttackArcBox1, 'wmin 120',customAttackValueBox1,'wmin 52,wrap');
 	customShipPanel.place(@xw2-attack-2,'',customAttackArcBox2, 'wmin 120',customAttackValueBox2,'wmin 52,wrap');
 	customShipPanel.place(@xw2-attack-3,'',customAttackArcBox3, 'wmin 120',customAttackValueBox3,'wmin 52,wrap para');
@@ -380,7 +380,7 @@ function createInterface(diy,editor) {
 				customAgilityBox.setEnabled(false);
 				customHullBox.setEnabled(false);
 				customShieldBox.setEnabled(false);
-				customShieldRegenCheckbox.setEnabled(false);
+				customShieldReoccurringCheckbox.setEnabled(false);
 				customActionNameBox1.setEnabled(false);
 				customActionRedCheckBox1.setEnabled(false);
 				customActionLinkedBox1.setEnabled(false);
@@ -413,7 +413,7 @@ function createInterface(diy,editor) {
 				customAgilityBox.setEnabled(true);
 				customHullBox.setEnabled(true);
 				customShieldBox.setEnabled(true);
-				customShieldRegenCheckbox.setEnabled(true);
+				customShieldReoccurringCheckbox.setEnabled(true);
 				customActionNameBox1.setEnabled(true);
 				customActionNameBox2.setEnabled(true);
 				customActionNameBox3.setEnabled(true);
@@ -681,7 +681,7 @@ function paintCardFrontFace(g,diy,sheet) {
 		if ($CustomShipAttackValue3 != '-') {stats.push([$CustomShipAttackArc3, $CustomShipAttackValue3, 0]);}
 		stats.push(['agility', $CustomShipAgility, 0]);
 		stats.push(['hull', $CustomShipHull, 0]);
-		if($CustomShipShield != '-') {stats.push(['shield', $CustomShipShield, $CustomShipShieldRegen]);}
+		if($CustomShipShield != '-') {stats.push(['shield', $CustomShipShield, $CustomShipShieldReoccurring]);}
 	} else {
 		if (getShipStat($ShipModel, 'attack-1-value') != '-') {stats.push([getShipStat($ShipModel,'attack-1-arc'), getShipStat($ShipModel,'attack-1-value'), 0]);}
 		if (getShipStat($ShipModel, 'attack-2-value') != '-') {stats.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-2-value'), 0]);}
@@ -689,12 +689,12 @@ function paintCardFrontFace(g,diy,sheet) {
 		stats.push(['agility', getShipStat($ShipModel,'agility-value'), 0]);
 		stats.push(['hull', getShipStat($ShipModel,'hull-value'), 0]);
 		if (getShipStat($ShipModel,'shield-value') != '-') {
-			if (getShipStat($ShipModel,'shield-regen') == 'yes') {shieldRegen = 1;} else {shieldRegen = 0;}
-			stats.push(['shield', getShipStat($ShipModel,'shield-value'), shieldRegen]);
+			if (getShipStat($ShipModel,'shield-reoccurring') == 'yes') {shieldReoccurring = 1;} else {shieldReoccurring = 0;}
+			stats.push(['shield', getShipStat($ShipModel,'shield-value'), shieldReoccurring]);
 		}
 	}
-	if ($ChargeValue != '-') {stats.push( ['charge', $ChargeValue, $ChargeRegen]);}
-	if ($ForceValue != '-') {stats.push( ['force', $ForceValue, $ForceRegen]);}
+	if ($ChargeValue != '-') {stats.push( ['charge', $ChargeValue, $ChargeReoccurring]);}
+	if ($ForceValue != '-') {stats.push( ['force', $ForceValue, $ForceReoccurring]);}
 	if (textBoxStyle == 'full') {
 		xCenterPoint = 268;
 		switch (stats.length) {
@@ -728,8 +728,7 @@ function paintCardFrontFace(g,diy,sheet) {
 		if (stats[i][2] == '1') {
 			x = xi + 28;
 			y = y2 - 18;
-			//TODO: Change 'u' to the triangle when it is added to the x-wing icon font...
-			sheet.drawTitle(g, 'u', Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 8, sheet.ALIGN_CENTER);
+			sheet.drawTitle(g, Xwing2.textToIconChar('reoccurring'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 8, sheet.ALIGN_CENTER);
 		}
 		dotList = Xwing2.calculateDottedCircle(stats[i][0], false);
 		for each (dot in dotList) {
@@ -797,8 +796,7 @@ function paintCardFrontFace(g,diy,sheet) {
 			g.setPaint(Xwing2.getColor('white'));
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
 			x = xCenterPoint;
-			//TODO: Change 'u' to the arrow when it is added to the x-wing icon font...
-			sheet.drawTitle(g, 'u', Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
+			sheet.drawTitle(g, Xwing2.textToIconChar('linked'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
 			x = xCenterPoint + 50;
 			g.setPaint(Xwing2.getColor('red'));
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][2]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);		
@@ -998,9 +996,9 @@ function onClear() {
 	$Droid = 'no';
 	$Text = '';
 	$ChargeValue = '-';
-	$ChargeRegen = 'no';
+	$ChargeReoccurring = 'no';
 	$ForceValue = '-';
-	$ForceRegen = 'no';
+	$ForceReoccurring = 'no';
 
 	$CustomShipModel = '';
 	$CustomShipAbilityName = '';
@@ -1014,7 +1012,7 @@ function onClear() {
 	$CustomShipAgility = '0';
 	$CustomShipHull = '1';
 	$CustomShipShield = '-';
-	$CustomShipShieldRegen = 'no';
+	$CustomShipShieldReoccurring = 'no';
 	$CustomShipSize = 'small';
 	$CustomShipActionName1 = '-';
 	$CustomShipActionRed1 = 'no';

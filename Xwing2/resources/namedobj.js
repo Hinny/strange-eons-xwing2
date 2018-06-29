@@ -227,6 +227,8 @@ function Xwing2Object() {
 		box.setReplacementForTag('agility', '<icon>' + this.textToIconChar('agility') + '</icon>');
 		box.setReplacementForTag('shield', '<icon>' + this.textToIconChar('shield') + '</icon>');
 		box.setReplacementForTag('hull', '<icon>' + this.textToIconChar('hull') + '</icon>');
+		box.setReplacementForTag('linked', '<icon>' + this.textToIconChar('linked') + '</icon>');
+		box.setReplacementForTag('reoccurring', '<icon>' + this.textToIconChar('reoccurring') + '</icon>');
 		box.setReplacementForTag('astromech', '<icon>' + this.textToIconChar('astromech') + '</icon>');
 		box.setReplacementForTag('device', '<icon>' + this.textToIconChar('device') + '</icon>');
 		box.setReplacementForTag('cannon', '<icon>' + this.textToIconChar('cannon') + '</icon>');
@@ -422,6 +424,8 @@ function Xwing2Object() {
 			case 'agility': iconChar = '^'; break;
 			case 'shield': iconChar = '*'; break;
 			case 'hull': iconChar = '&'; break;
+			case 'linked': iconChar = '*'; break; //TODO: change symbol when it is added to font
+			case 'reoccurring': iconChar = '&'; break; //TODO: change symbol when it is added to font
 			case 'astromech': iconChar = 'A'; break;
 			case 'device': iconChar = 'B'; break;
 			case 'cannon': iconChar = 'C'; break;
