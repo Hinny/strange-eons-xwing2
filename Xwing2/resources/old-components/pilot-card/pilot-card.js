@@ -1159,12 +1159,12 @@ function createTranslucentImage( source, opacity ) {
 	return im;
 }
 
-function getShipStat( shipId, stat ) {
+function getShipStat(shipId, stat) {
 	key = 'xw2-ship-' + shipId + '-' + stat;
-	if( !Language.getGame().isKeyDefined( key ) ) {
-		throw new Error( 'shiptype or stat not defined: ' + shipId + stat );
+	if( !Language.getGame().isKeyDefined(key) ) {
+		throw new Error('shiptype or stat not defined: ' + shipId + stat);
 	}
-	return Language.game.get( key );
+	return Language.game.get(key);
 }
 
 
@@ -1173,15 +1173,15 @@ function getShipStat( shipId, stat ) {
  * the middle part of the region name, without the
  * 'pilot-' prefix or '-region' suffix.
  */
-function R( nametag, x, y ) {
+function R(nametag, x, y) {
 	value = $('pilot-' + nametag + '-region');
 	if( value == null ) {
-		throw new Error( 'region not defined: ' + nametag );
+		throw new Error('region not defined: ' + nametag);
 	}
-	if( x == null ) {
+	if(x == null ){
 		x = 0;
 	}
-	if( y == null ) {
+	if(y == null) {
 		y = 0;
 	}
 	temp = value.split(',');
@@ -1191,7 +1191,7 @@ function R( nametag, x, y ) {
 	temp[1] = temp[1].toString();
 	value = temp[0] + ',' + temp[1]	+ ',' + temp[2]	+ ',' + temp[3];
 	//return value;
-	return new Region( value );
+	return new Region(value);
 }
 
 

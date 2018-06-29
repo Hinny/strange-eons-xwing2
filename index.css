@@ -94,6 +94,22 @@ i.cloak:before {
 i.slam:before {
   content: "s"; }
 
+/* Misc Tags */
+i.charge:before {
+  content: "g"; }
+
+i.force:before {
+  content: "h"; }
+
+i.agility:before {
+  content: "^"; }
+
+i.shield:before {
+  content: "*"; }
+
+i.hull:before {
+  content: "&"; }
+
 /* Maneuver Tags */
 i.straight:before {
   content: "8"; }
@@ -235,7 +251,7 @@ i.tieadvancedx1:before {
 i.tiebomber:before {
   content: "B"; }
 
-i.tiebomber:before {
+i.tiedefender:before {
   content: "D"; }
 
 i.tiefighter:before {
@@ -265,6 +281,9 @@ i.decimator:before {
 i.lambda:before {
   content: "l"; }
 
+i.gunboat:before {
+  content: "&"; }
+
 /* Scum Ship Tags */
 i.scurrg:before {
   content: "H"; }
@@ -284,7 +303,7 @@ i.firespray:before {
 /*i.hwk290:before {
   content: "h"; }*/
 
-i.agressor:before {
+i.aggressor:before {
   content: "i"; }
 
 i.g1a:before {

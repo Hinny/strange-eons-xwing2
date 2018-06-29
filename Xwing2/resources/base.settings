@@ -15,14 +15,30 @@ pilot-rebel-front-full-template = components/pilot-card/images/blank-imperial-fu
 pilot-rebel-front-full-dpi = 300
 pilot-imperial-front-full-template = components/pilot-card/images/blank-imperial-full-text.png
 pilot-imperial-front-full-dpi = 300
-pilot-scum-front-full-template = components/pilot-card/images/template-imperial.png
+pilot-scum-front-full-template = components/pilot-card/images/blank-imperial-full-text.png
 pilot-scum-front-full-dpi = 300
 pilot-rebel-front-reduced-template = components/pilot-card/images/blank-imperial-reduced-text.png
 pilot-rebel-front-reduced-dpi = 300
 pilot-imperial-front-reduced-template = components/pilot-card/images/blank-imperial-reduced-text.png
 pilot-imperial-front-reduced-dpi = 300
-pilot-scum-front-reduced-template = components/pilot-card/images/template-imperial.png
+pilot-scum-front-reduced-template = components/pilot-card/images/blank-imperial-reduced-text.png
 pilot-scum-front-reduced-dpi = 300
+
+# For development only
+dev-luke-template = components/pilot-card/images/luke-skywalker.png
+dev-luke-dpi = 300
+dev-redsquad-template = components/pilot-card/images/red-squadron-veteran.png
+dev-redsquad-dpi = 300
+dev-dutch-template = components/pilot-card/images/dutch-vander.png
+dev-dutch-dpi = 300
+dev-howlrunner-template = components/pilot-card/images/howlrunner.png
+dev-howlrunner-dpi = 300
+dev-feroph-template = components/pilot-card/images/captain-feroph.png
+dev-feroph-dpi = 300
+dev-terroch-template = components/pilot-card/images/old-terroch.png
+dev-terroch-dpi = 300
+dev-lando-template = components/pilot-card/images/lando-calrissian.png
+dev-lando-dpi = 300
 
 pilot-rebel-back-template = components/pilot-card/images/rebel-back.png
 pilot-rebel-back-dpi = 300
@@ -39,30 +55,35 @@ pilot-large-token-template = components/pilot-card/images/large-token.jp2
 pilot-large-token-dpi = 300
 
 pilot-portrait-template = components/pilot-card/images/example-art.jpg
-pilot-portrait-clip-region = 0,0,739,306
+pilot-portrait-clip-region = 0,0,739,317
 
 ship-card-portrait-template = components/pilot-card/images/example-icon.png
-ship-card-portrait-clip-region = 38,951,53,53
-ship-card-portrait-true-clip-region = 38,951,53,53
+ship-card-portrait-clip-region = 23,963,65,65
+ship-card-portrait-true-clip-region = 23,963,65,65
 
-ship-marker-portrait-template = components/pilot-card/images/example-icon.png
-ship-marker-portrait-clip-region = 38,387,170,170
-ship-marker-portrait-true-clip-region = 38,387,170,170
+ship-token-portrait-template = components/pilot-card/images/example-icon.png
+ship-token-portrait-clip-region = 38,387,65,65
 
-pilot-name-region = 117,330,507,60
-pilot-shiptype-region = 134,964,477,44
-pilot-initiative-region = 19,327,70,84
-pilot-text-region = 10,463,582,325
-pilot-icon-region = 22,965,65,65
-pilot-small-token-name-region = 72,404,260,35
-pilot-medium-token-name-region = 174,632,260,35
-pilot-large-token-name-region = 300,797,260,35
-pilot-small-token-initiative-region = 21,318,100,100
-pilot-medium-token-initiative-region = 33,545,100,100
-pilot-large-token-initiative-region = 60,728,100,100
-pilot-small-token-icon-region = 289,334,100,100
-pilot-medium-token-icon-region = 467,544,130,130
-pilot-large-token-icon-region = 638,681,170,170
+pilot-name-region = 128,330,484,56
+pilot-epithet-region = 184,403,371,40
+pilot-shipmodel-region = 140,963,462,44
+pilot-initiative-region = 20,326,70,84
+pilot-initiative-square-region = 43,355,25,25
+pilot-full-text-region = 21,468,561,317
+pilot-reduced-text-region = 21,468,476,317
+pilot-icon-region = 23,963,65,65
+pilot-small-token-name-region = 9,404,382,35
+pilot-medium-token-name-region = 128,641,382,35
+pilot-large-token-name-region = 234,877,382,35
+pilot-small-token-initiative-region = 21,318,70,84
+pilot-medium-token-initiative-region = 21,555,70,84
+pilot-large-token-initiative-region = 21,791,70,84
+pilot-small-token-initiative-square-region = 44,347,25,25
+pilot-medium-token-initiative-square-region = 44,584,25,25
+pilot-large-token-initiative-square-region = 44,820,25,25
+pilot-small-token-icon-region = 316,318,65,65
+pilot-medium-token-icon-region = 552,555,65,65
+pilot-large-token-icon-region = 764,791,65,65
 
 pilot-legal-region = 559,703,142,21
 
