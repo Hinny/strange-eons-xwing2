@@ -228,7 +228,10 @@ function createInterface(diy,editor) {
 	attackArcItems = [];
 	attackArcItems.push(ListItem('front',@xw2-arc-front));
 	attackArcItems.push(ListItem('rear',@xw2-arc-rear));
-	attackArcItems.push(ListItem('fronthalf',@xw2-arc-fronthalf));
+	attackArcItems.push(ListItem('leftside',@xw2-arc-leftside));
+	attackArcItems.push(ListItem('rightside',@xw2-arc-rightside));
+	attackArcItems.push(ListItem('fullfront',@xw2-arc-fullfront));
+	attackArcItems.push(ListItem('fullrear',@xw2-arc-fullrear));
 	attackArcItems.push(ListItem('singleturret',@xw2-arc-singleturret));
 	attackArcItems.push(ListItem('doubleturret',@xw2-arc-doubleturret));
 	attackArcItems.push(ListItem('bullseye',@xw2-arc-bullseye));
@@ -539,22 +542,13 @@ function createInterface(diy,editor) {
 }
 	
 function createFrontPainter(diy,sheet) {
-
-	if (sheet.sheetIndex == 0) {
-		//============== Front Face ==============
-		nameBox = Xwing2.headingBox(sheet,11);
-		epithetBox = Xwing2.epithetBox(sheet,7.5);
-		shipModelBox = Xwing2.headingBox(sheet,7.5);
-		abilityTextBox = Xwing2.abilityBox(sheet, 9);
-
-	} else {
-		//============== Ship Token ==============
-		nameBox = Xwing2.headingBox(sheet,11);
-		epithetBox = Xwing2.epithetBox(sheet,7.5);
-		shipModelBox = Xwing2.headingBox(sheet,7.5);
-		fullAbilityTextBox = Xwing2.abilityBox(sheet, 9);
-		reducedAbilityTextBox = Xwing2.abilityBox(sheet, 8);
-	}
+	nameBox = Xwing2.headingBox(sheet,11);
+	epithetBox = Xwing2.epithetBox(sheet,7.5);
+	shipModelBox = Xwing2.headingBox(sheet,7.5);
+	fullAbilityTextBox = Xwing2.abilityBox(sheet, 9);
+	reducedAbilityTextBox = Xwing2.abilityBox(sheet, 8);
+	
+	tokenNameBox = Xwing2.headingBox(sheet,10);
 }
 
 function createBackPainter(diy, sheet) {
@@ -563,100 +557,23 @@ function createBackPainter(diy, sheet) {
 
 function paintFront(g,diy,sheet) {
 	if (sheet.sheetIndex == 0) {
-		paintCardFrontFace(g,diy,sheet);
+		paintCardFrontFace(g, diy, sheet);
 	} else {
-		paintToken(g,diy,sheet);
+		paintToken(g, diy, sheet);
 	}	
 }
 
 function paintBack(g,diy,sheet) {
 	imageTemplate = 'pilot-blank-template';
-	sheet.paintImage(g,imageTemplate,0,0);
+	sheet.paintImage(g, imageTemplate,0,0);
 
 	imageTemplate = 'pilot-' + $Faction + '-back-template';
-	sheet.paintImage(g,imageTemplate,0,0);
-}
-
-function paintToken(g,diy,sheet) {
-	if ($ShipModel == 'custom') {
-		tokenSize = $CustomShipSize;
-	} else {
-		tokenSize = getShipStat($ShipModel, 'size');
-	}
-	if (tokenSize == 'small') {
-		tokenWidth = 402;
-		tokenHeight = 472;
-		cutoutSize = 140;
-		bullsEyeYAdjustment = 139;
-	} else if (tokenSize == 'medium'){
-		tokenWidth = 638;
-		tokenHeight = 709;
-		cutoutSize = 190;
-		bullsEyeYAdjustment = 131;
-	} else { // tokenSize == 'large'
-		tokenWidth = 850;
-		tokenHeight = 945;
-		cutoutSize = 190;
-		bullsEyeYAdjustment = 131;
-	}
-	bullsEyeXAdjustment = 118;
-	dashedStroke = BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, [15], 0);
-	normalStroke = BasicStroke(5);
-	thinStroke = BasicStroke(4);
-	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-	// Draw star-field background
-	imageTemplate = 'pilot-' + tokenSize + '-token-template';
-	sheet.paintImage(g, imageTemplate, 0, 0);
-
-	// Draw shaded fire arc area
-	fireArcArea = ImageUtils.create(tokenWidth, tokenHeight, true);
-	gTemp = fireArcArea.createGraphics();
-	gTemp.setPaint(Xwing2.getColor($Faction));
-	fireArcs = [];
-	if ($ShipModel == 'custom') {
-		if ($CustomShipAttackValue1 != '-') {fireArcs.push($CustomShipAttackArc1);}
-		if ($CustomShipAttackValue2 != '-') {fireArcs.push($CustomShipAttackArc2);}
-		if ($CustomShipAttackValue3 != '-') {fireArcs.push($CustomShipAttackArc3);}
-	} else {
-		if (getShipStat($ShipModel, 'attack-1-value') != '-') {fireArcs.push(getShipStat($ShipModel,'attack-1-arc'));}
-		if (getShipStat($ShipModel, 'attack-2-value') != '-') {fireArcs.push(getShipStat($ShipModel,'attack-2-arc'));}
-		if (getShipStat($ShipModel, 'attack-3-value') != '-') {fireArcs.push(getShipStat($ShipModel,'attack-2-arc'));}
-	}
-	for (let i = 0; i < fireArcs.length; ++i) {
-		switch (fireArcs[i]) {
-			case 'front': {gTemp.fillPolygon( [0, Math.round(tokenWidth/2), tokenWidth], [0, Math.round(tokenHeight/2), 0], 3);} break;
-			case 'rear': {gTemp.fillPolygon( [0, Math.round(tokenWidth/2), tokenWidth], [tokenHeight, Math.round(tokenHeight/2), tokenHeight], 3);} break;
-			case 'fronthalf': {gTemp.fillPolygon([0, 0, tokenWidth, tokenWidth], [0, Math.round(tokenHeight/2), Math.round(tokenHeight/2), 0], 4);} break;
-			case 'singleturret': {/*No visible fireArc*/} break;
-			case 'doubleturret': {/*No visible fireArc*/} break;
-			case 'bullseye': {
-				gTemp.fillPolygon([Math.round(tokenWidth/2)-bullsEyeXAdjustment, Math.round(tokenWidth/2)+bullsEyeXAdjustment,
-					Math.round(tokenWidth/2)+bullsEyeXAdjustment, Math.round(tokenWidth/2), Math.round(tokenWidth/2)-bullsEyeXAdjustment],
-					[0, 0, Math.round(tokenHeight/2)-bullsEyeYAdjustment, Math.round(tokenHeight/2), Math.round(tokenHeight/2)-bullsEyeYAdjustment], 5);
-			} break;
-			default: throw new Error('Arc not defined: ' + fireArcs[i]);
-		}
-	}
-	fireArcArea = createTranslucentImage(fireArcArea, 0.10);
-	g.drawImage(fireArcArea, 0, 0, null);
-
-	// Draw non-fire arc lines
-
-	// Draw fire arc lines
-
-	// Draw frame
-
-	// Draw Pilot Name
-
-	// Draw Initiative
-
-	// Draw Ship Icon
+	sheet.paintImage(g, imageTemplate,0,0);
 }
 
 function paintCardFrontFace(g,diy,sheet) {
 	imageTemplate = 'pilot-blank-template';
-	sheet.paintImage(g,imageTemplate,0,0);
+	sheet.paintImage(g, imageTemplate,0,0);
 	target = sheet.getRenderTarget();
 		
 	//Draw portrait
@@ -689,7 +606,7 @@ function paintCardFrontFace(g,diy,sheet) {
 	} else {
 		imageTemplate =  'dev-' + $Faction + '-template';
 	}
-	sheet.paintImage(g,imageTemplate,0,0);
+	sheet.paintImage(g, imageTemplate, 0, 0);
 	
 	// Draw the name
 	if ($$UniquePilot.yesNo) {
@@ -697,7 +614,7 @@ function paintCardFrontFace(g,diy,sheet) {
 	} else {
 		nameBox.markupText = diy.name;
 	}
-	nameBox.drawAsSingleLine(g,R('name'));
+	nameBox.drawAsSingleLine(g, R('name'));
 	
 	// Draw the epithet
 	if ($$UniquePilot.yesNo) {
@@ -705,7 +622,7 @@ function paintCardFrontFace(g,diy,sheet) {
 	} else {
 		epithetBox.markupText = "";
 	}
-	epithetBox.drawAsSingleLine(g,R('epithet'));
+	epithetBox.drawAsSingleLine(g, R('epithet'));
 
 	// Draw the ship model
 	if ($ShipModel == 'custom') {
@@ -713,7 +630,7 @@ function paintCardFrontFace(g,diy,sheet) {
 	} else {
 		shipModelBox.markupText = getShipStat($ShipModel,'model');
 	}
-	shipModelBox.drawAsSingleLine(g,R('shipmodel'));
+	shipModelBox.drawAsSingleLine(g, R('shipmodel'));
 	
 	// Draw the ship icon
 	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {	
@@ -732,7 +649,7 @@ function paintCardFrontFace(g,diy,sheet) {
 	if ($Initiative == '\u25a0') {
 		g.setPaint(Xwing2.getColor('initiative'));
 		initRect = R('initiative-square', 0, 0);
-		g.fillRect(initRect.getX(),initRect.getY(),initRect.getWidth(),initRect.getHeight());
+		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
 	} else {
 		sheet.drawOutlinedTitle( g, $Initiative, R('initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
 	}
@@ -895,6 +812,181 @@ function paintCardFrontFace(g,diy,sheet) {
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
 		}
 	}	
+}
+
+function paintToken(g,diy,sheet) {
+	if ($ShipModel == 'custom') {
+		tokenSize = $CustomShipSize;
+	} else {
+		tokenSize = getShipStat($ShipModel, 'size');
+	}
+	if (tokenSize == 'small') {
+		tokenWidth = 402;
+		tokenHeight = 472;
+		cutoutSize = 140;
+		bullsEyeYAdjustment = 112;
+		//bullsEyeYAdjustment = 139;
+	} else if (tokenSize == 'medium'){
+		tokenWidth = 638;
+		tokenHeight = 709;
+		cutoutSize = 190;
+		bullsEyeYAdjustment = 106;
+		//bullsEyeYAdjustment = 131;
+	} else { // tokenSize == 'large'
+		tokenWidth = 850;
+		tokenHeight = 945;
+		cutoutSize = 190;
+		bullsEyeYAdjustment = 106;
+		//bullsEyeYAdjustment = 131;
+	}
+	bullsEyeXAdjustment = 95;
+	//bullsEyeXAdjustment = 118;
+	dashedStroke = BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, [15], 0);
+	normalStroke = BasicStroke(3);
+	thinStroke = BasicStroke(2);
+	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+	// Draw star-field background
+	imageTemplate = 'pilot-' + tokenSize + '-token-template';
+	sheet.paintImage(g, imageTemplate, 0, 0);
+
+	// Draw shaded fire arc area
+	fireArcArea = ImageUtils.create(tokenWidth, tokenHeight, true);
+	gTemp = fireArcArea.createGraphics();
+	gTemp.setPaint(Xwing2.getColor($Faction));
+	fireArcs = [];
+	if ($ShipModel == 'custom') {
+		if ($CustomShipAttackValue1 != '-') {fireArcs.push($CustomShipAttackArc1);}
+		if ($CustomShipAttackValue2 != '-') {fireArcs.push($CustomShipAttackArc2);}
+		if ($CustomShipAttackValue3 != '-') {fireArcs.push($CustomShipAttackArc3);}
+	} else {
+		if (getShipStat($ShipModel, 'attack-1-value') != '-') {fireArcs.push(getShipStat($ShipModel,'attack-1-arc'));}
+		if (getShipStat($ShipModel, 'attack-2-value') != '-') {fireArcs.push(getShipStat($ShipModel,'attack-2-arc'));}
+		if (getShipStat($ShipModel, 'attack-3-value') != '-') {fireArcs.push(getShipStat($ShipModel,'attack-2-arc'));}
+	}
+	for (let i = 0; i < fireArcs.length; ++i) {
+		switch (fireArcs[i]) {
+			case 'front': {gTemp.fillPolygon([0, Math.round(tokenWidth/2), tokenWidth], [0, Math.round(tokenHeight/2), 0], 3);} break;
+			case 'rear': {gTemp.fillPolygon([0, Math.round(tokenWidth/2), tokenWidth], [tokenHeight, Math.round(tokenHeight/2), tokenHeight], 3);} break;
+			case 'leftside': {gTemp.fillPolygon([0, Math.round(tokenWidth/2), 0], [0, Math.round(tokenHeight/2), tokenHeight], 3);} break;
+			case 'rightside': {gTemp.fillPolygon([tokenWidth, Math.round(tokenWidth/2), tokenWidth], [0, Math.round(tokenHeight/2), tokenHeight], 3);} break;
+			case 'fullfront': {gTemp.fillPolygon([0, 0, tokenWidth, tokenWidth], [0, Math.round(tokenHeight/2), Math.round(tokenHeight/2), 0], 4);} break;
+			case 'fullrear': {gTemp.fillPolygon([0, 0, tokenWidth, tokenWidth], [tokenHeight, Math.round(tokenHeight/2), Math.round(tokenHeight/2), tokenHeight], 4);} break;
+			case 'singleturret': {/*No visible fireArc*/} break;
+			case 'doubleturret': {/*No visible fireArc*/} break;
+			case 'bullseye': {
+				gTemp.fillPolygon([Math.round(tokenWidth/2)-bullsEyeXAdjustment, Math.round(tokenWidth/2)+bullsEyeXAdjustment,
+					Math.round(tokenWidth/2)+bullsEyeXAdjustment, Math.round(tokenWidth/2), Math.round(tokenWidth/2)-bullsEyeXAdjustment],
+					[0, 0, Math.round(tokenHeight/2)-bullsEyeYAdjustment, Math.round(tokenHeight/2), Math.round(tokenHeight/2)-bullsEyeYAdjustment], 5);
+			} break;
+			default: throw new Error('Arc not defined: ' + fireArcs[i]);
+		}
+	}
+	fireArcArea = createTranslucentImage(fireArcArea, 0.30);
+	g.drawImage(fireArcArea, 0, 0, null);
+
+	// Draw non-fire arc lines
+	lengthOfHalfDivider = 20;
+	g.setPaint(Color.WHITE);
+	g.setStroke(normalStroke);
+	g.drawLine(0, 0, tokenWidth, tokenHeight);
+	g.drawLine(0, tokenHeight, tokenWidth, 0);
+	g.drawLine(Math.round(tokenWidth/2), 0, Math.round(tokenWidth/2), lengthOfHalfDivider);
+	g.drawLine(Math.round(tokenWidth/2), tokenHeight, Math.round(tokenWidth/2), tokenHeight-lengthOfHalfDivider);
+	g.drawLine(0, Math.round(tokenHeight/2), lengthOfHalfDivider, Math.round(tokenHeight/2));
+	g.drawLine(tokenWidth, Math.round(tokenHeight/2), tokenWidth-lengthOfHalfDivider, Math.round(tokenHeight/2));
+	g.drawLine(Math.round(tokenWidth/2), Math.round((tokenHeight - cutoutSize)/2), Math.round(tokenWidth/2), Math.round((tokenHeight - cutoutSize)/2)-lengthOfHalfDivider);
+	g.drawLine(Math.round(tokenWidth/2), Math.round((tokenHeight + cutoutSize)/2), Math.round(tokenWidth/2), Math.round((tokenHeight + cutoutSize)/2)+lengthOfHalfDivider);
+	g.drawLine(Math.round((tokenWidth - cutoutSize)/2), Math.round(tokenHeight/2), Math.round((tokenWidth - cutoutSize)/2)-lengthOfHalfDivider, Math.round(tokenHeight/2));
+	g.drawLine(Math.round((tokenWidth + cutoutSize)/2), Math.round(tokenHeight/2), Math.round((tokenWidth + cutoutSize)/2)+lengthOfHalfDivider, Math.round(tokenHeight/2));
+	g.drawLine(Math.round(tokenWidth/2)-bullsEyeXAdjustment, 0, Math.round(tokenWidth/2)-bullsEyeXAdjustment, Math.round(tokenHeight/2)-bullsEyeYAdjustment);
+	g.drawLine(Math.round(tokenWidth/2)+bullsEyeXAdjustment, 0, Math.round(tokenWidth/2)+bullsEyeXAdjustment, Math.round(tokenHeight/2)-bullsEyeYAdjustment);
+	g.drawLine(Math.round(tokenWidth/2), Math.round(tokenHeight/2), Math.round(tokenWidth/2)-bullsEyeXAdjustment, Math.round(tokenHeight/2)-bullsEyeYAdjustment);
+	g.drawLine(Math.round(tokenWidth/2), Math.round(tokenHeight/2), Math.round(tokenWidth/2)+bullsEyeXAdjustment, Math.round(tokenHeight/2)-bullsEyeYAdjustment);
+		
+	// Draw fire arc lines
+	g.setPaint(Xwing2.getColor($Faction));
+	g.setStroke(normalStroke);
+	for (let i = 0; i < fireArcs.length; ++i) {
+		switch (fireArcs[i]) {
+			case 'fullfront': {
+				g.drawLine(0, Math.round(tokenHeight/2), tokenWidth, Math.round(tokenHeight/2));
+			} //fall through
+			case 'front': {
+				g.drawLine(0, 0, Math.round(tokenWidth/2), Math.round(tokenHeight/2));
+				g.drawLine(tokenWidth, 0, Math.round(tokenWidth/2), Math.round(tokenHeight/2));
+			} //fall through
+			case 'bullseye': {
+				g.drawLine(Math.round(tokenWidth/2)-bullsEyeXAdjustment, 0, Math.round(tokenWidth/2)-bullsEyeXAdjustment, Math.round(tokenHeight/2)-bullsEyeYAdjustment);
+				g.drawLine(Math.round(tokenWidth/2)+bullsEyeXAdjustment, 0, Math.round(tokenWidth/2)+bullsEyeXAdjustment, Math.round(tokenHeight/2)-bullsEyeYAdjustment);
+				g.drawLine(Math.round(tokenWidth/2), Math.round(tokenHeight/2), Math.round(tokenWidth/2)-bullsEyeXAdjustment, Math.round(tokenHeight/2)-bullsEyeYAdjustment);
+				g.drawLine(Math.round(tokenWidth/2), Math.round(tokenHeight/2), Math.round(tokenWidth/2)+bullsEyeXAdjustment, Math.round(tokenHeight/2)-bullsEyeYAdjustment);
+			} break;
+			case 'fullrear': {
+				g.drawLine(0, Math.round(tokenHeight/2), Math.round(tokenWidth/2), Math.round(tokenHeight/2));
+			} //fall through
+			case 'rear': {
+				g.drawLine(0, tokenHeight, Math.round(tokenWidth/2), Math.round(tokenHeight/2));
+				g.drawLine(tokenWidth, tokenHeight, Math.round(tokenWidth/2), Math.round(tokenHeight/2));
+			} break;
+			case 'leftside': {
+				g.drawLine(0, 0, Math.round(tokenWidth/2), Math.round(tokenHeight/2));
+				g.drawLine(0, tokenHeight, Math.round(tokenWidth/2), Math.round(tokenHeight/2));
+			} break;
+			case 'rightside': {
+				g.drawLine(tokenWidth, tokenHeight, Math.round(tokenWidth/2), Math.round(tokenHeight/2));
+				g.drawLine(tokenWidth, 0, Math.round(tokenWidth/2), Math.round(tokenHeight/2));
+			} break;
+			case 'singleturret': {/*No visible fireArc*/} break;
+			case 'doubleturret': {/*No visible fireArc*/} break;
+			default: throw new Error('Arc not defined: ' + fireArcs[i]);
+		}
+	}
+
+	// Draw frame
+	// TODO
+
+	// Draw Pilot Name
+	if ($$UniquePilot.yesNo) {
+		tokenNameBox.markupText = '<uni>' + diy.name;
+	} else {
+		tokenNameBox.markupText = diy.name;
+	}
+	tokenNameBox.drawAsSingleLine(g, R(tokenSize + '-token-name'));
+
+	// Draw Initiative
+	if ($Initiative == '\u25a0') {
+		g.setPaint(Xwing2.getColor('initiative'));
+		initRect = R('initiative-square', 0, 0);
+		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
+	} else {
+		sheet.drawOutlinedTitle(g, $Initiative, R(tokenSize + '-token-initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
+	}
+
+	// Draw Ship Icon
+	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
+		iconRect = R(tokenSize + '-token-icon');
+		iconImage = portraits[2].getImage();
+		iconScale = portraits[2].getScale() * 0.45;
+		AT = java.awt.geom.AffineTransform;
+		tokenTransform = AT.getTranslateInstance(
+			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
+			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
+		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
+		g.drawImage( iconImage, tokenTransform, null );
+	} else {
+		if ( $ShipModel == 'custom' ) {
+			shipIcon = $CustomShipIcon;
+		} else {
+			shipIcon = getShipStat($ShipModel, 'icon');
+		}
+		g.setPaint(Color.WHITE);
+		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R(tokenSize + '-token-icon'), Xwing2.shipFont, 24, sheet.ALIGN_CENTER);
+  	}
+	
+	//Draw central cutout circle
+	g.setPaint(Color.WHITE);
+	g.fillOval(Math.round((tokenWidth - cutoutSize)/2), Math.round((tokenHeight - cutoutSize)/2), cutoutSize, cutoutSize );
 }
 
 function onClear() {

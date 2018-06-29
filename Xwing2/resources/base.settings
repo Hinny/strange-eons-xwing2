@@ -61,9 +61,8 @@ ship-card-portrait-template = components/pilot-card/images/example-icon.png
 ship-card-portrait-clip-region = 23,963,65,65
 ship-card-portrait-true-clip-region = 23,963,65,65
 
-ship-marker-portrait-template = components/pilot-card/images/example-icon.png
-ship-marker-portrait-clip-region = 38,387,170,170
-ship-marker-portrait-true-clip-region = 38,387,170,170
+ship-token-portrait-template = components/pilot-card/images/example-icon.png
+ship-token-portrait-clip-region = 38,387,65,65
 
 pilot-name-region = 128,330,484,56
 pilot-epithet-region = 184,403,371,40
@@ -73,15 +72,18 @@ pilot-initiative-square-region = 43,355,25,25
 pilot-full-text-region = 21,468,561,317
 pilot-reduced-text-region = 21,468,476,317
 pilot-icon-region = 23,963,65,65
-pilot-small-token-name-region = 72,404,260,35
-pilot-medium-token-name-region = 174,632,260,35
-pilot-large-token-name-region = 300,797,260,35
-pilot-small-token-initiative-region = 21,318,100,100
-pilot-medium-token-initiative-region = 33,545,100,100
-pilot-large-token-initiative-region = 60,728,100,100
-pilot-small-token-icon-region = 289,334,100,100
-pilot-medium-token-icon-region = 467,544,130,130
-pilot-large-token-icon-region = 638,681,170,170
+pilot-small-token-name-region = 9,404,382,35
+pilot-medium-token-name-region = 128,641,382,35
+pilot-large-token-name-region = 234,877,382,35
+pilot-small-token-initiative-region = 21,318,70,84
+pilot-medium-token-initiative-region = 21,555,70,84
+pilot-large-token-initiative-region = 21,791,70,84
+pilot-small-token-initiative-square-region = 44,347,25,25
+pilot-medium-token-initiative-square-region = 44,584,25,25
+pilot-large-token-initiative-square-region = 44,820,25,25
+pilot-small-token-icon-region = 316,318,65,65
+pilot-medium-token-icon-region = 552,555,65,65
+pilot-large-token-icon-region = 764,791,65,65
 
 pilot-legal-region = 559,703,142,21
 

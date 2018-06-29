@@ -217,10 +217,13 @@ function Xwing2Object() {
 		box.setReplacementForTag('leftreversebank', '<icon>' + this.textToIconChar('leftreversebank') + '</icon>');
 		box.setReplacementForTag('front', '<icon>' + this.textToIconChar('front') + '</icon>');
 		box.setReplacementForTag('rear', '<icon>' + this.textToIconChar('rear') + '</icon>');
+		box.setReplacementForTag('leftside', '<icon>' + this.textToIconChar('leftside') + '</icon>');
+		box.setReplacementForTag('rightside', '<icon>' + this.textToIconChar('rightside') + '</icon>');
 		box.setReplacementForTag('bullseye', '<icon>' + this.textToIconChar('bullseye') + '</icon>');
 		box.setReplacementForTag('singleturret', '<icon>' + this.textToIconChar('singleturret') + '</icon>');
 		box.setReplacementForTag('doubleturret', '<icon>' + this.textToIconChar('doubleturret') + '</icon>');
-		box.setReplacementForTag('fronthalf', '<icon>' + this.textToIconChar('fronthalf') + '</icon>');
+		box.setReplacementForTag('fullfront', '<icon>' + this.textToIconChar('fullfront') + '</icon>');
+		box.setReplacementForTag('fullrear', '<icon>' + this.textToIconChar('fullrear') + '</icon>');
 		box.setReplacementForTag('agility', '<icon>' + this.textToIconChar('agility') + '</icon>');
 		box.setReplacementForTag('shield', '<icon>' + this.textToIconChar('shield') + '</icon>');
 		box.setReplacementForTag('hull', '<icon>' + this.textToIconChar('hull') + '</icon>');
@@ -333,21 +336,24 @@ function Xwing2Object() {
 	this.getColor = function getColor(keyword) {
 		switch (keyword) {
 			case 'rebel': {color = Color(239/255,12/255,45/255);} break;
-			case 'imperial': {color = Color(154/255,216/255,30/255);} break;
 			case 'scum': {color = Color(218/255,164/255,22/255);} break;
 			case 'initiative': {color = Color(251/255,135/255,12/255);} break;
 			case 'white': {color = Color(1,1,1);} break;
+			case 'imperial':
+			case 'agility': {color = Color(107/255,190/255,72/255);/*color = Color(154/255,216/255,30/255); //old*/} break;
 			case 'red':
 			case 'front':
 			case 'rear':
-			case 'fronthalf':
+			case 'leftside':
+			case 'rightside':
+			case 'fullfront':
+			case 'fullrear':
 			case 'singleturret':
 			case 'doubleturret':
 			case 'bullseye': {color = Color(239/255,12/255,45/255); /*color = Color(238/255,36/255,40/255); //new?*/} break;
 			case 'charge': {color = Color(251/255,200/255,12/255);} break;
 			case 'force': {color = Color(181/255,137/255,191/255);} break;
 			case 'energy': {color = Color(214/255,177/255,211/255);} break;
-			case 'agility': {color = Color(107/255,190/255,72/255);/*color = Color(154/255,216/255,30/255); //old*/} break;
 			case 'hull': {color = Color(247/255,244/255,5/255);} break;
 			case 'shield': {color = Color(140/255,220/255,235/255);} break;
 			default: throw new Error('Unknown color keyword: ' + keyword);
@@ -406,10 +412,13 @@ function Xwing2Object() {
 			case 'leftreversebank': iconChar = 'J'; break;
 			case 'front': iconChar = '{'; break;
 			case 'rear': iconChar = '|'; break;
+			case 'leftside': iconChar = 'f'; break; //TODO: change symbol when it is added to font
+			case 'rightside': iconChar = 'f'; break; //TODO: change symbol when it is added to font
 			case 'bullseye': iconChar = '}'; break;
 			case 'singleturret': iconChar = 'p'; break;
 			case 'doubleturret': iconChar = 'q'; break;
-			case 'fronthalf': iconChar = '~'; break;
+			case 'fullfront': iconChar = '~'; break;
+			case 'fullrear': iconChar = 'f'; break; //TODO: change symbol when it is added to font
 			case 'agility': iconChar = '^'; break;
 			case 'shield': iconChar = '*'; break;
 			case 'hull': iconChar = '&'; break;
