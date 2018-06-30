@@ -66,7 +66,7 @@ function create(diy) {
 	portraits[1].installDefault();
 	
 	// Ship Icon,Token
-	portraits[2] = new DefaultPortrait(portraits[1],'ship-marker');
+	portraits[2] = new DefaultPortrait(portraits[1],'ship-token');
 	portraits[2].setScaleUsesMinimum(true);
 	portraits[2].facesToUpdate = 4;
 	portraits[2].backgroundFilled = false;
