@@ -66,13 +66,28 @@ function create(diy) {
 	portraits[1].installDefault();
 	
 	// Ship Icon,Token
-	portraits[2] = new DefaultPortrait(portraits[1],'ship-marker');
+	portraits[2] = new DefaultPortrait(portraits[1],'ship-token');
 	portraits[2].setScaleUsesMinimum(true);
 	portraits[2].facesToUpdate = 4;
 	portraits[2].backgroundFilled = false;
 	portraits[2].clipping = true;
 	portraits[2].installDefault();
-
+	
+	// Faction Symbol
+	portraits[3] = new DefaultPortrait(diy,'faction-symbol');
+	portraits[3].setScaleUsesMinimum(true);
+	portraits[3].facesToUpdate = 7;
+	portraits[3].backgroundFilled = false;
+	portraits[3].clipping = true;
+	portraits[3].installDefault();
+	
+	// Faction Texture
+	portraits[4] = new DefaultPortrait(diy,'faction-texture');
+	portraits[4].setScaleUsesMinimum(true);
+	portraits[4].facesToUpdate = 7;
+	portraits[4].backgroundFilled = false;
+	portraits[4].clipping = true;
+	portraits[4].installDefault();
 	
 	// install the example pilot
 	diy.name = #xw2-pilot-name;
@@ -118,6 +133,18 @@ function create(diy) {
 	$CustomShipActionRed5 = #xw2-pilot-custom-ship-action-5-red;
 	$CustomShipActionLinked5 = #xw2-pilot-custom-ship-action-5-linked;
 	$CustomShipIcon = #xw2-pilot-custom-ship-icon;
+	$CustomFactionColorRed1 = #xw2-pilot-custom-faction-color-1-red;
+	$CustomFactionColorGreen1 = #xw2-pilot-custom-faction-color-1-green;
+	$CustomFactionColorBlue1 = #xw2-pilot-custom-faction-color-1-blue;
+	$CustomFactionColorRed2 = #xw2-pilot-custom-faction-color-2-red;
+	$CustomFactionColorGreen2 = #xw2-pilot-custom-faction-color-2-green;
+	$CustomFactionColorBlue2 = #xw2-pilot-custom-faction-color-2-blue;
+	$CustomFactionColorRed3 = #xw2-pilot-custom-faction-color-3-red;
+	$CustomFactionColorGreen3 = #xw2-pilot-custom-faction-color-3-green;
+	$CustomFactionColorBlue3 = #xw2-pilot-custom-faction-color-3-blue;
+	$CustomFactionColorRed4 = #xw2-pilot-custom-faction-color-4-red;
+	$CustomFactionColorGreen4 = #xw2-pilot-custom-faction-color-4-green;
+	$CustomFactionColorBlue4 = #xw2-pilot-custom-faction-color-4-blue;
 }
 
 function createInterface(diy,editor) {
@@ -125,9 +152,10 @@ function createInterface(diy,editor) {
 
 	// Main Panel
 	mainHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards");
+	//slider( [min], [max], [initialValue], [valueLabelPairs], [listener] )
 	
 	factionItems = [];
-	//factionItems.push(ListItem('custom',@xw2-faction-custom));
+	factionItems.push(ListItem('custom',@xw2-faction-custom));
 	factionItems.push(ListItem('rebel',@xw2-faction-rebel));
 	factionItems.push(ListItem('imperial',@xw2-faction-imperial));
 	factionItems.push(ListItem('scum',@xw2-faction-scum));
@@ -320,12 +348,12 @@ function createInterface(diy,editor) {
 	customShipIconBox = comboBox(shipItems);
 	bindings.add('CustomShipIcon',customShipIconBox,[0,2]);
 
-	customIconCardPanel = portraitPanel(diy,1);
-	customIconCardPanel.panelTitle = @xw2-icon-card;	
+	customShipIconCardPanel = portraitPanel(diy,1);
+	customShipIconCardPanel.panelTitle = @xw2-icon-card;
 
-	customIconMarkerPanel = portraitPanel(diy,2);
-	customIconMarkerPanel.setParentPanel(customIconCardPanel);		
-	customIconMarkerPanel.panelTitle = @xw2-icon-token;
+	customShipIconMarkerPanel = portraitPanel(diy,2);
+	customShipIconMarkerPanel.setParentPanel(customShipIconCardPanel);		
+	customShipIconMarkerPanel.panelTitle = @xw2-icon-token;
 	
 	customShipPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref,grow]','');
 	customShipPanel.setTitle(@xw2-custom-ship);
@@ -355,9 +383,73 @@ function createInterface(diy,editor) {
 	customShipPanel.place(customShipAbilityTextArea,'span,grow,wrap para');
 	customShipPanel.place(separator(),'span,growx,wrap para');
 	customShipPanel.place(@xw2-icon,'',customShipIconBox,'wmin 180,span 3,wrap para');
-	customShipPanel.place(customIconCardPanel,'span,growx,wrap');
-	customShipPanel.place(customIconMarkerPanel,'span,growx,wrap');
+	customShipPanel.place(customShipIconCardPanel,'span,growx,wrap');
+	customShipPanel.place(customShipIconMarkerPanel,'span,growx,wrap');
 	customShipPanel.editorTabScrolling = true;
+
+	customFactionHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-faction");
+
+	customFactionColor1RedBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorRed1', customFactionColor1RedBox, [0, 1, 2] );
+	customFactionColor1GreenBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorGreen1', customFactionColor1GreenBox, [0, 1, 2] );
+	customFactionColor1BlueBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorBlue1', customFactionColor1BlueBox, [0, 1, 2] );
+
+	customFactionColor2RedBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorRed2', customFactionColor2RedBox, [0, 1, 2] );
+	customFactionColor2GreenBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorGreen2', customFactionColor2GreenBox, [0, 1, 2] );
+	customFactionColor2BlueBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorBlue2', customFactionColor2BlueBox, [0, 1, 2] );
+
+	customFactionColor3RedBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorRed3', customFactionColor3RedBox, [0, 1, 2] );
+	customFactionColor3GreenBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorGreen3', customFactionColor3GreenBox, [0, 1, 2] );
+	customFactionColor3BlueBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorBlue3', customFactionColor3BlueBox, [0, 1, 2] );
+
+	customFactionColor4RedBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorRed4', customFactionColor4RedBox, [0, 1, 2] );
+	customFactionColor4GreenBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorGreen4', customFactionColor4GreenBox, [0, 1, 2] );
+	customFactionColor4BlueBox = spinner(0, 255, 1, 255);
+	bindings.add( 'CustomFactionColorBlue4', customFactionColor4BlueBox, [0, 1, 2] );
+
+	customFactionSymbolPanel = portraitPanel(diy,3);
+	customFactionSymbolPanel.panelTitle = @xw2-faction-symbol;
+	
+	customFactionTexturePanel = portraitPanel(diy,4);
+	customFactionTexturePanel.panelTitle = @xw2-faction-texture;
+
+	customFactionPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref][min:pref][min:pref,grow]','');
+	customFactionPanel.setTitle(@xw2-custom-faction);
+	customFactionPanel.place(customFactionHelpButton,'wrap para');
+	customFactionPanel.place(separator(),'span,growx,wrap para');
+	customFactionPanel.place(@xw2-color-1, 'span, wrap');
+	customFactionPanel.place(@xw2-red, '', customFactionColor1RedBox, 'wmin 50');
+	customFactionPanel.place(@xw2-green, '', customFactionColor1GreenBox, 'wmin 50');
+	customFactionPanel.place(@xw2-blue, '', customFactionColor1BlueBox, 'wmin 50, wrap para');
+	customFactionPanel.place(separator(),'span,growx,wrap para');
+	customFactionPanel.place(@xw2-color-2, 'span, wrap');
+	customFactionPanel.place(@xw2-red, '', customFactionColor2RedBox, 'wmin 50');
+	customFactionPanel.place(@xw2-green, '', customFactionColor2GreenBox, 'wmin 50');
+	customFactionPanel.place(@xw2-blue, '', customFactionColor2BlueBox, 'wmin 50, wrap para');
+	customFactionPanel.place(separator(),'span,growx,wrap para');
+	customFactionPanel.place(@xw2-color-3, 'span, wrap');
+	customFactionPanel.place(@xw2-red, '', customFactionColor3RedBox, 'wmin 50');
+	customFactionPanel.place(@xw2-green, '', customFactionColor3GreenBox, 'wmin 50');
+	customFactionPanel.place(@xw2-blue, '', customFactionColor3BlueBox, 'wmin 50, wrap para');
+	customFactionPanel.place(separator(),'span,growx,wrap para');
+	customFactionPanel.place(@xw2-color-4, 'span, wrap');
+	customFactionPanel.place(@xw2-red, '', customFactionColor4RedBox, 'wmin 50');
+	customFactionPanel.place(@xw2-green, '', customFactionColor4GreenBox, 'wmin 50');
+	customFactionPanel.place(@xw2-blue, '', customFactionColor4BlueBox, 'wmin 50, wrap para');
+	customFactionPanel.place(separator(),'span,growx,wrap para');
+	customFactionPanel.place(customFactionSymbolPanel,'span,growx,wrap');
+	customFactionPanel.place(customFactionTexturePanel,'span,growx,wrap');
+	customFactionPanel.editorTabScrolling = true;
 
  	diy.setNameField(nameField);
 
@@ -399,8 +491,8 @@ function createInterface(diy,editor) {
 				customShipAbilityNameField.setEnabled(false);
 				customShipAbilityTextArea.setVisible(false);
 				customShipIconBox.setEnabled(false);
-				customIconCardPanel.setVisible(false);
-				customIconMarkerPanel.setVisible(false);
+				customShipIconCardPanel.setVisible(false);
+				customShipIconMarkerPanel.setVisible(false);
 			} else {
 				customShipModelField.setEnabled(true);
 				customSizeBox.setEnabled(true);
@@ -503,11 +595,11 @@ function createInterface(diy,editor) {
 				customShipAbilityTextArea.setVisible(true);
 				customShipIconBox.setEnabled(true);				
 				if (customShipIconBox.getSelectedItem() != 'custom'){
-					customIconCardPanel.setVisible(false);
-					customIconMarkerPanel.setVisible(false);
+					customShipIconCardPanel.setVisible(false);
+					customShipIconMarkerPanel.setVisible(false);
 				} else {
-					customIconCardPanel.setVisible(true);
-					customIconMarkerPanel.setVisible(true);
+					customShipIconCardPanel.setVisible(true);
+					customShipIconMarkerPanel.setVisible(true);
 				}
 			}
 		} catch(ex) {
@@ -515,8 +607,9 @@ function createInterface(diy,editor) {
 		}
 	}
 
-	mainPanel.addToEditor(editor,@xw2-info,null,null,0);
-	customShipPanel.addToEditor(editor,@xw2-custom-ship,null,null,1);
+	mainPanel.addToEditor(editor, @xw2-info, null, null, 0);
+	customShipPanel.addToEditor(editor, @xw2-custom-ship, null, null, 1);
+	customFactionPanel.addToEditor(editor, @xw2-custom-faction, null, null, 2);
 	editor.addFieldPopulationListener(actionFunction);
 	bindings.bind();
 	
@@ -961,26 +1054,26 @@ function paintToken(g,diy,sheet) {
 		sheet.drawOutlinedTitle(g, $Initiative, R(tokenSize + '-token-initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
 	}
 
-	// Draw Ship Icon
-	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
-		iconRect = R(tokenSize + '-token-icon');
-		iconImage = portraits[2].getImage();
-		iconScale = portraits[2].getScale() * 0.45;
-		AT = java.awt.geom.AffineTransform;
-		tokenTransform = AT.getTranslateInstance(
-			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
-			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
-		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
-		g.drawImage( iconImage, tokenTransform, null );
-	} else {
-		if ( $ShipModel == 'custom' ) {
-			shipIcon = $CustomShipIcon;
-		} else {
-			shipIcon = getShipStat($ShipModel, 'icon');
-		}
-		g.setPaint(Color.WHITE);
-		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R(tokenSize + '-token-icon'), Xwing2.shipFont, 24, sheet.ALIGN_CENTER);
-  	}
+//	// Draw Ship Icon
+//	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
+//		iconRect = R(tokenSize + '-token-icon');
+//		iconImage = portraits[2].getImage();
+//		iconScale = portraits[2].getScale() * 0.45;
+//		AT = java.awt.geom.AffineTransform;
+//		tokenTransform = AT.getTranslateInstance(
+//			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
+//			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
+//		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
+//		g.drawImage( iconImage, tokenTransform, null );
+//	} else {
+//		if ( $ShipModel == 'custom' ) {
+//			shipIcon = $CustomShipIcon;
+//		} else {
+//			shipIcon = getShipStat($ShipModel, 'icon');
+//		}
+//		g.setPaint(Color.WHITE);
+//		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R(tokenSize + '-token-icon'), Xwing2.shipFont, 24, sheet.ALIGN_CENTER);
+//  	}
 	
 	//Draw central cutout circle
 	g.setPaint(Color.WHITE);
@@ -1039,12 +1132,16 @@ function onRead(diy,ois) {
 	portraits[0] = ois.readObject();
 	portraits[1] = ois.readObject();
 	portraits[2] = ois.readObject();
+	portraits[3] = ois.readObject();
+	portraits[4] = ois.readObject();
 }
 
 function onWrite(diy,oos) {
 	oos.writeObject(portraits[0]);
 	oos.writeObject(portraits[1]);
 	oos.writeObject(portraits[2]);
+	oos.writeObject(portraits[3]);
+	oos.writeObject(portraits[4]);
 }
 
 /**

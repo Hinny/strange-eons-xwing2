@@ -63,6 +63,16 @@ ship-card-portrait-true-clip-region = 23,963,65,65
 
 ship-token-portrait-template = components/pilot-card/images/example-icon.png
 ship-token-portrait-clip-region = 38,387,65,65
+ship-token-portrait-true-clip-region = 23,963,65,65
+
+faction-symbol-portrait-template = components/pilot-card/images/example-symbol.png
+faction-symbol-portrait-clip-region = 38,387,65,65
+faction-symbol-portrait-true-clip-region = 23,963,65,65
+
+faction-texture-portrait-template = components/pilot-card/images/example-texture.png
+faction-texture-portrait-clip-region = 38,387,65,65
+faction-texture-portrait-true-clip-region = 23,963,65,65
+
 
 pilot-name-region = 128,330,484,56
 pilot-epithet-region = 184,403,371,40
