@@ -27,12 +27,14 @@ function Xwing2Object() {
     var kimberly = new Array('fonts/kimberley-bl.ttf');
     var eurostile = new Array('fonts/eurostile.ttf, eurostile-bold.ttf');
     var xwing = new Array('fonts/xwing-miniatures.ttf');
+    var xwingactions = new Array('fonts/xwing-miniatures-actionbar.ttf');
     var xwingships = new Array('fonts/xwing-miniatures-ships.ttf');
     		
 	this.headingFamily = FontUtils.registerFontFamilyFromResources.apply(this, bank_gothic);
 	this.numberFamily = FontUtils.registerFontFamilyFromResources.apply(this, kimberly);
 	this.abilityFamily = FontUtils.registerFontFamilyFromResources.apply(this, eurostile);
 	this.iconFamily = FontUtils.registerFontFamilyFromResources.apply(this, xwing);
+	this.actionFamily = FontUtils.registerFontFamilyFromResources.apply(this, xwingactions);
 	this.shipFamily = FontUtils.registerFontFamilyFromResources.apply(this, xwingships);	
 	
 	// The font we use for stats like initiative and Upgrade bar; when you draw text
@@ -41,6 +43,7 @@ function Xwing2Object() {
 	// set the font's family name (e.g., 'Arial'), style, and size using
 	// TextStyles (see the definition of titleBox, for example).
 	this.iconFont = new Font(this.iconFamily, Font.PLAIN, 7);
+	this.actionFont = new Font(this.actionFamily, Font.PLAIN, 7);
 	this.shipFont = new Font(this.shipFamily, Font.PLAIN, 7);
 	this.numberFont = new Font(this.numberFamily, Font.PLAIN, 7);
 	
@@ -133,7 +136,7 @@ function Xwing2Object() {
 			WIDTH,		WIDTH_REGULAR,
 			POSTURE,	POSTURE_REGULAR
 		);
-		
+	
 		shipStyle = new TextStyle(
 			FAMILY,		this.shipFamily,
 			SIZE,		size,
@@ -228,7 +231,7 @@ function Xwing2Object() {
 		box.setReplacementForTag('shield', '<icon>' + this.textToIconChar('shield') + '</icon>');
 		box.setReplacementForTag('hull', '<icon>' + this.textToIconChar('hull') + '</icon>');
 		box.setReplacementForTag('linked', '<icon>' + this.textToIconChar('linked') + '</icon>');
-		box.setReplacementForTag('reoccurring', '<icon>' + this.textToIconChar('reoccurring') + '</icon>');
+		box.setReplacementForTag('recurring', '<icon>' + this.textToIconChar('recurring') + '</icon>');
 		box.setReplacementForTag('astromech', '<icon>' + this.textToIconChar('astromech') + '</icon>');
 		box.setReplacementForTag('device', '<icon>' + this.textToIconChar('device') + '</icon>');
 		box.setReplacementForTag('cannon', '<icon>' + this.textToIconChar('cannon') + '</icon>');
@@ -414,18 +417,18 @@ function Xwing2Object() {
 			case 'leftreversebank': iconChar = 'J'; break;
 			case 'front': iconChar = '{'; break;
 			case 'rear': iconChar = '|'; break;
-			case 'leftside': iconChar = 'f'; break; //TODO: change symbol when it is added to font
-			case 'rightside': iconChar = 'f'; break; //TODO: change symbol when it is added to font
+			case 'leftside': iconChar = '\u00a3'; break;
+			case 'rightside': iconChar = '\u00a2'; break;
 			case 'bullseye': iconChar = '}'; break;
 			case 'singleturret': iconChar = 'p'; break;
 			case 'doubleturret': iconChar = 'q'; break;
 			case 'fullfront': iconChar = '~'; break;
-			case 'fullrear': iconChar = 'f'; break; //TODO: change symbol when it is added to font
+			case 'fullrear': iconChar = '\u00a1'; break;
 			case 'agility': iconChar = '^'; break;
 			case 'shield': iconChar = '*'; break;
 			case 'hull': iconChar = '&'; break;
-			case 'linked': iconChar = '*'; break; //TODO: change symbol when it is added to font
-			case 'reoccurring': iconChar = '&'; break; //TODO: change symbol when it is added to font
+			case 'linked': iconChar = '>'; break;
+			case 'recurring': iconChar = '`'; break;
 			case 'astromech': iconChar = 'A'; break;
 			case 'device': iconChar = 'B'; break;
 			case 'cannon': iconChar = 'C'; break;
@@ -440,7 +443,6 @@ function Xwing2Object() {
 			case 'hardpoint': iconChar = 'H'; break;
 			case 'team': iconChar = 'T'; break;
 			case 'cargo': iconChar = 'G'; break;
-			case 'salvaged': iconChar = 'V'; break;
 			case 'illicit': iconChar = 'I'; break;
 			case 'tech': iconChar = 'X'; break;
 			case 'modification': iconChar = 'm'; break;

@@ -99,9 +99,9 @@ function create(diy) {
 	$Droid = #xw2-pilot-droid;
 	$Text = #xw2-pilot-text;
 	$ChargeValue = #xw2-pilot-charge-value;
-	$ChargeReoccurring = #xw2-pilot-charge-reoccurring;
+	$ChargeRecurring = #xw2-pilot-charge-recurring;
 	$ForceValue = #xw2-pilot-force-value;
-	$ForceReoccurring = #xw2-pilot-force-reoccurring;
+	$ForceRecurring = #xw2-pilot-force-recurring;
 
 	$CustomShipModel = #xw2-pilot-custom-ship-model;
 	$CustomShipAbilityName = #xw2-pilot-custom-ship-ability-name;
@@ -115,7 +115,7 @@ function create(diy) {
 	$CustomShipAgility = #xw2-pilot-custom-ship-agility-value;
 	$CustomShipHull = #xw2-pilot-custom-ship-hull-value;
 	$CustomShipShield = #xw2-pilot-custom-ship-shield-value;
-	$CustomShipShieldReoccurring = #xw2-pilot-custom-ship-shield-reoccurring;
+	$CustomShipShieldRecurring = #xw2-pilot-custom-ship-shield-recurring;
 	$CustomShipSize = #xw2-pilot-custom-ship-size;
 	$CustomShipActionName1 = #xw2-pilot-custom-ship-action-1-name;
 	$CustomShipActionRed1 = #xw2-pilot-custom-ship-action-1-red;
@@ -133,6 +133,7 @@ function create(diy) {
 	$CustomShipActionRed5 = #xw2-pilot-custom-ship-action-5-red;
 	$CustomShipActionLinked5 = #xw2-pilot-custom-ship-action-5-linked;
 	$CustomShipIcon = #xw2-pilot-custom-ship-icon;
+	
 	$CustomFactionColorRed1 = #xw2-pilot-custom-faction-color-1-red;
 	$CustomFactionColorGreen1 = #xw2-pilot-custom-faction-color-1-green;
 	$CustomFactionColorBlue1 = #xw2-pilot-custom-faction-color-1-blue;
@@ -142,9 +143,6 @@ function create(diy) {
 	$CustomFactionColorRed3 = #xw2-pilot-custom-faction-color-3-red;
 	$CustomFactionColorGreen3 = #xw2-pilot-custom-faction-color-3-green;
 	$CustomFactionColorBlue3 = #xw2-pilot-custom-faction-color-3-blue;
-	$CustomFactionColorRed4 = #xw2-pilot-custom-faction-color-4-red;
-	$CustomFactionColorGreen4 = #xw2-pilot-custom-faction-color-4-green;
-	$CustomFactionColorBlue4 = #xw2-pilot-custom-faction-color-4-blue;
 }
 
 function createInterface(diy,editor) {
@@ -161,6 +159,7 @@ function createInterface(diy,editor) {
 	factionItems.push(ListItem('scum',@xw2-faction-scum));
 	factionItems.push(ListItem('luke','Luke'));
 	factionItems.push(ListItem('redsquad','RedSquad'));
+	factionItems.push(ListItem('redhighres','RedHighRes'));
 	factionItems.push(ListItem('dutch','Dutch'));
 	factionItems.push(ListItem('howlrunner','Howlrunner'));
 	factionItems.push(ListItem('feroph','Feroph'));
@@ -200,15 +199,15 @@ function createInterface(diy,editor) {
 	chargeValueBox = comboBox(chargeValueItems);
 	bindings.add('ChargeValue',chargeValueBox,[0]);
 	
-	chargeReoccurringCheckbox = checkBox(@xw2-reoccurring);
-	bindings.add('ChargeReoccurring',chargeReoccurringCheckbox,[0]);
+	chargeRecurringCheckbox = checkBox(@xw2-recurring);
+	bindings.add('ChargeRecurring',chargeRecurringCheckbox,[0]);
 
 	forceValueItems = ['-','1','2','3','4','5','6','7','8','9'];
 	forceValueBox = comboBox(forceValueItems);
 	bindings.add('ForceValue',forceValueBox,[0]);
 	
-	forceReoccurringCheckbox = checkBox(@xw2-reoccurring);
-	bindings.add('ForceReoccurring',forceReoccurringCheckbox,[0]);
+	forceRecurringCheckbox = checkBox(@xw2-recurring);
+	bindings.add('ForceRecurring',forceRecurringCheckbox,[0]);
 	
 	pilotPanel = portraitPanel(diy,0);
 	pilotPanel.panelTitle = @xw2-portrait-pilot;
@@ -226,8 +225,8 @@ function createInterface(diy,editor) {
 	mainPanel.place(separator(),'span,growx,wrap para');
 	mainPanel.place(@xw2-pilottext,'span,grow,wrap para');
 	mainPanel.place(pilotTextArea,'span,grow,wrap para');
-	mainPanel.place(@xw2-charge-value,'',chargeValueBox,'wmin 52',chargeReoccurringCheckbox,'wrap');
-	mainPanel.place(@xw2-force-value,'',forceValueBox,'wmin 52',forceReoccurringCheckbox,'wrap');
+	mainPanel.place(@xw2-charge-value,'',chargeValueBox,'wmin 52',chargeRecurringCheckbox,'wrap');
+	mainPanel.place(@xw2-force-value,'',forceValueBox,'wmin 52',forceRecurringCheckbox,'wrap');
 	mainPanel.place(separator(),'span,growx,wrap para');
 	mainPanel.place(pilotPanel,'span,growx,wrap');
 	mainPanel.editorTabScrolling = true;
@@ -284,8 +283,8 @@ function createInterface(diy,editor) {
 	customShieldBox = comboBox(shieldItems);
 	bindings.add('CustomShipShield',customShieldBox,[0,2]);
 
-	customShieldReoccurringCheckbox = checkBox(@xw2-reoccurring);
-	bindings.add('CustomShipShieldReoccurring',customShieldReoccurringCheckbox,[0,2]);
+	customShieldRecurringCheckbox = checkBox(@xw2-recurring);
+	bindings.add('CustomShipShieldRecurring',customShieldRecurringCheckbox,[0,2]);
 
 	actionItems = [];
 	actionItems.push(ListItem('-','-'));
@@ -363,7 +362,7 @@ function createInterface(diy,editor) {
 	customShipPanel.place(@xw2-agility-value,'',customAgilityBox,'wmin 52');
 	customShipPanel.place(@xw2-hull-value,'',customHullBox,'wmin 52,wrap');
 	customShipPanel.place(@xw2-shield-value,'',customShieldBox,'wmin 52');
-	customShipPanel.place(customShieldReoccurringCheckbox,'wmin 52,span 2,wrap para');
+	customShipPanel.place(customShieldRecurringCheckbox,'wmin 52,span 2,wrap para');
 	customShipPanel.place(@xw2-attack-1,'',customAttackArcBox1, 'wmin 120',customAttackValueBox1,'wmin 52,wrap');
 	customShipPanel.place(@xw2-attack-2,'',customAttackArcBox2, 'wmin 120',customAttackValueBox2,'wmin 52,wrap');
 	customShipPanel.place(@xw2-attack-3,'',customAttackArcBox3, 'wmin 120',customAttackValueBox3,'wmin 52,wrap para');
@@ -410,13 +409,6 @@ function createInterface(diy,editor) {
 	customFactionColor3BlueBox = spinner(0, 255, 1, 255);
 	bindings.add( 'CustomFactionColorBlue3', customFactionColor3BlueBox, [0, 1, 2] );
 
-	customFactionColor4RedBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorRed4', customFactionColor4RedBox, [0, 1, 2] );
-	customFactionColor4GreenBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorGreen4', customFactionColor4GreenBox, [0, 1, 2] );
-	customFactionColor4BlueBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorBlue4', customFactionColor4BlueBox, [0, 1, 2] );
-
 	customFactionSymbolPanel = portraitPanel(diy,3);
 	customFactionSymbolPanel.panelTitle = @xw2-faction-symbol;
 	
@@ -441,11 +433,6 @@ function createInterface(diy,editor) {
 	customFactionPanel.place(@xw2-red, '', customFactionColor3RedBox, 'wmin 50');
 	customFactionPanel.place(@xw2-green, '', customFactionColor3GreenBox, 'wmin 50');
 	customFactionPanel.place(@xw2-blue, '', customFactionColor3BlueBox, 'wmin 50, wrap para');
-	customFactionPanel.place(separator(),'span,growx,wrap para');
-	customFactionPanel.place(@xw2-color-4, 'span, wrap');
-	customFactionPanel.place(@xw2-red, '', customFactionColor4RedBox, 'wmin 50');
-	customFactionPanel.place(@xw2-green, '', customFactionColor4GreenBox, 'wmin 50');
-	customFactionPanel.place(@xw2-blue, '', customFactionColor4BlueBox, 'wmin 50, wrap para');
 	customFactionPanel.place(separator(),'span,growx,wrap para');
 	customFactionPanel.place(customFactionSymbolPanel,'span,growx,wrap');
 	customFactionPanel.place(customFactionTexturePanel,'span,growx,wrap');
@@ -472,7 +459,7 @@ function createInterface(diy,editor) {
 				customAgilityBox.setEnabled(false);
 				customHullBox.setEnabled(false);
 				customShieldBox.setEnabled(false);
-				customShieldReoccurringCheckbox.setEnabled(false);
+				customShieldRecurringCheckbox.setEnabled(false);
 				customActionNameBox1.setEnabled(false);
 				customActionRedCheckBox1.setEnabled(false);
 				customActionLinkedBox1.setEnabled(false);
@@ -505,7 +492,7 @@ function createInterface(diy,editor) {
 				customAgilityBox.setEnabled(true);
 				customHullBox.setEnabled(true);
 				customShieldBox.setEnabled(true);
-				customShieldReoccurringCheckbox.setEnabled(true);
+				customShieldRecurringCheckbox.setEnabled(true);
 				customActionNameBox1.setEnabled(true);
 				customActionNameBox2.setEnabled(true);
 				customActionNameBox3.setEnabled(true);
@@ -602,6 +589,31 @@ function createInterface(diy,editor) {
 					customShipIconMarkerPanel.setVisible(true);
 				}
 			}
+			if (factionBox.getSelectedItem() != 'custom') {
+				customFactionColor1RedBox.setEnabled(false);
+				customFactionColor1GreenBox.setEnabled(false);
+				customFactionColor1BlueBox.setEnabled(false);
+				customFactionColor2RedBox.setEnabled(false);
+				customFactionColor2GreenBox.setEnabled(false);
+				customFactionColor2BlueBox.setEnabled(false);
+				customFactionColor3RedBox.setEnabled(false);
+				customFactionColor3GreenBox.setEnabled(false);
+				customFactionColor3BlueBox.setEnabled(false);
+				customFactionSymbolPanel.setVisible(false);
+				customFactionTexturePanel.setVisible(false);
+			} else {
+				customFactionColor1RedBox.setEnabled(true);
+				customFactionColor1GreenBox.setEnabled(true);
+				customFactionColor1BlueBox.setEnabled(true);
+				customFactionColor2RedBox.setEnabled(true);
+				customFactionColor2GreenBox.setEnabled(true);
+				customFactionColor2BlueBox.setEnabled(true);
+				customFactionColor3RedBox.setEnabled(true);
+				customFactionColor3GreenBox.setEnabled(true);
+				customFactionColor3BlueBox.setEnabled(true);
+				customFactionSymbolPanel.setVisible(true);
+				customFactionTexturePanel.setVisible(true);
+			}
 		} catch(ex) {
 			Error.handleUncaught(ex);
 		}
@@ -615,6 +627,7 @@ function createInterface(diy,editor) {
 	
 	// Add action listeners
 	shipBox.addActionListener(actionFunction);
+	factionBox.addActionListener(actionFunction);
 	uniqueCheckbox.addActionListener(actionFunction);
 	customActionNameBox1.addActionListener(actionFunction);
 	customActionRedCheckBox1.addActionListener(actionFunction);
@@ -639,6 +652,7 @@ function createFrontPainter(diy,sheet) {
 	epithetBox = Xwing2.epithetBox(sheet,7.5);
 	shipModelBox = Xwing2.headingBox(sheet,7.5);
 	fullAbilityTextBox = Xwing2.abilityBox(sheet, 9);
+	fullAbilityTextBox = Xwing2.abilityBox(sheet, 8.8);
 	reducedAbilityTextBox = Xwing2.abilityBox(sheet, 8);
 	
 	tokenNameBox = Xwing2.headingBox(sheet,10);
@@ -696,10 +710,15 @@ function paintCardFrontFace(g,diy,sheet) {
 	// TODO: Remove extra dev templates
 	if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum'){
 		imageTemplate =  'pilot-' + $Faction + '-front-' + textBoxStyle + '-template';
+		sheet.paintImage(g, imageTemplate, 0, 0);
+		// Draw template
+		paintFrontFaceTemplate(g, diy, sheet, textBoxStyle);
+	} else if ($Faction == 'custom') {
+		paintFrontFaceTemplate(g, diy, sheet, textBoxStyle);
 	} else {
 		imageTemplate =  'dev-' + $Faction + '-template';
+		sheet.paintImage(g, imageTemplate, 0, 0);
 	}
-	sheet.paintImage(g, imageTemplate, 0, 0);
 	
 	// Draw the name
 	if ($$UniquePilot.yesNo) {
@@ -774,7 +793,7 @@ function paintCardFrontFace(g,diy,sheet) {
 		if ($CustomShipAttackValue3 != '-') {stats.push([$CustomShipAttackArc3, $CustomShipAttackValue3, 0]);}
 		stats.push(['agility', $CustomShipAgility, 0]);
 		stats.push(['hull', $CustomShipHull, 0]);
-		if($CustomShipShield != '-') {stats.push(['shield', $CustomShipShield, $CustomShipShieldReoccurring]);}
+		if($CustomShipShield != '-') {stats.push(['shield', $CustomShipShield, $CustomShipShieldRecurring]);}
 	} else {
 		if (getShipStat($ShipModel, 'attack-1-value') != '-') {stats.push([getShipStat($ShipModel,'attack-1-arc'), getShipStat($ShipModel,'attack-1-value'), 0]);}
 		if (getShipStat($ShipModel, 'attack-2-value') != '-') {stats.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-2-value'), 0]);}
@@ -782,12 +801,12 @@ function paintCardFrontFace(g,diy,sheet) {
 		stats.push(['agility', getShipStat($ShipModel,'agility-value'), 0]);
 		stats.push(['hull', getShipStat($ShipModel,'hull-value'), 0]);
 		if (getShipStat($ShipModel,'shield-value') != '-') {
-			if (getShipStat($ShipModel,'shield-reoccurring') == 'yes') {shieldReoccurring = 1;} else {shieldReoccurring = 0;}
-			stats.push(['shield', getShipStat($ShipModel,'shield-value'), shieldReoccurring]);
+			if (getShipStat($ShipModel,'shield-recurring') == 'yes') {shieldRecurring = 1;} else {shieldRecurring = 0;}
+			stats.push(['shield', getShipStat($ShipModel,'shield-value'), shieldRecurring]);
 		}
 	}
-	if ($ChargeValue != '-') {stats.push( ['charge', $ChargeValue, $ChargeReoccurring]);}
-	if ($ForceValue != '-') {stats.push( ['force', $ForceValue, $ForceReoccurring]);}
+	if ($ChargeValue != '-') {stats.push( ['charge', $ChargeValue, $ChargeRecurring]);}
+	if ($ForceValue != '-') {stats.push( ['force', $ForceValue, $ForceRecurring]);}
 	if (textBoxStyle == 'full') {
 		xCenterPoint = 268;
 		switch (stats.length) {
@@ -810,25 +829,26 @@ function paintCardFrontFace(g,diy,sheet) {
 			default: throw new Error('Stat bar too crowded! Please reduce the number of stats');
 		}
 	}
-	y1 = 808;
+	y1 = 814;
 	y2 = 865;
 	for (let i = 0; i < stats.length; ++i) {
 		xi = xCenterPoint + xDistanceBetween * i - xDistanceBetween * (stats.length - 1) / 2;
 		color = Xwing2.getColor(stats[i][0]);
 		g.setPaint(color);
-		sheet.drawTitle(g, Xwing2.textToIconChar(stats[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 11, sheet.ALIGN_CENTER);
+		sheet.drawTitle(g, Xwing2.textToIconChar(stats[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 10, sheet.ALIGN_CENTER);
 		sheet.drawTitle(g, stats[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
 		if (stats[i][2] == '1') {
 			x = xi + 28;
 			y = y2 - 18;
-			sheet.drawTitle(g, Xwing2.textToIconChar('reoccurring'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 8, sheet.ALIGN_CENTER);
+			sheet.drawTitle(g, Xwing2.textToIconChar('recurring'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 8, sheet.ALIGN_CENTER);
 		}
 		dotList = Xwing2.calculateDottedCircle(stats[i][0], false);
 		for each (dot in dotList) {
 			x = xi + dot[0];
-			y = y1 + dot[1];
+			y = y1 - 3 + dot[1];
 			dotColor = new Color(color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255, dot[2]);
 			g.setPaint(dotColor);
+			// draw small vector circle (using x-wing font)
 			sheet.drawTitle(g, 'u', Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 5, sheet.ALIGN_CENTER);
 		}
 	}
@@ -868,7 +888,7 @@ function paintCardFrontFace(g,diy,sheet) {
 							getShipStat($ShipModel,'action-5-linked')]);
 		}
 	}
-	yCenterPoint = 645;
+	yCenterPoint = 650;
 	if (textBoxStyle == 'full') {
 		xCenterPoint = 635;
 	} else {
@@ -887,12 +907,15 @@ function paintCardFrontFace(g,diy,sheet) {
 		if (actions[i][2] != '-') {
 			x = xCenterPoint - 50;
 			g.setPaint(Xwing2.getColor('white'));
-			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
+			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);
+			//sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 12, sheet.ALIGN_CENTER);
 			x = xCenterPoint;
-			sheet.drawTitle(g, Xwing2.textToIconChar('linked'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
+			sheet.drawTitle(g, Xwing2.textToIconChar('linked'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);
+			//sheet.drawTitle(g, Xwing2.textToIconChar('linked'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 12, sheet.ALIGN_CENTER);
 			x = xCenterPoint + 50;
 			g.setPaint(Xwing2.getColor('red'));
-			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][2]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);		
+			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][2]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);		
+			//sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][2]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 12, sheet.ALIGN_CENTER);		
 		} else {
 			x = xCenterPoint;
 			if (actions[i][1] == 'yes' || actions[i][1] == '1') {
@@ -900,7 +923,8 @@ function paintCardFrontFace(g,diy,sheet) {
 			} else {
 				g.setPaint(Xwing2.getColor('white'));
 			}
-			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13, sheet.ALIGN_CENTER);
+			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);
+			//sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 12, sheet.ALIGN_CENTER);
 		}
 	}	
 }
@@ -932,9 +956,7 @@ function paintToken(g,diy,sheet) {
 	}
 	bullsEyeXAdjustment = 95;
 	//bullsEyeXAdjustment = 118;
-	dashedStroke = BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, [15], 0);
-	normalStroke = BasicStroke(3);
-	thinStroke = BasicStroke(2);
+
 	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 	// Draw star-field background
@@ -979,7 +1001,7 @@ function paintToken(g,diy,sheet) {
 	// Draw non-fire arc lines
 	lengthOfHalfDivider = 20;
 	g.setPaint(Color.WHITE);
-	g.setStroke(normalStroke);
+	g.setStroke(BasicStroke(3));
 	g.drawLine(0, 0, tokenWidth, tokenHeight);
 	g.drawLine(0, tokenHeight, tokenWidth, 0);
 	g.drawLine(Math.round(tokenWidth/2), 0, Math.round(tokenWidth/2), lengthOfHalfDivider);
@@ -997,7 +1019,7 @@ function paintToken(g,diy,sheet) {
 		
 	// Draw fire arc lines
 	g.setPaint(Xwing2.getColor($Faction));
-	g.setStroke(normalStroke);
+	g.setStroke(BasicStroke(3));
 	for (let i = 0; i < fireArcs.length; ++i) {
 		switch (fireArcs[i]) {
 			case 'fullfront': {
@@ -1054,30 +1076,92 @@ function paintToken(g,diy,sheet) {
 		sheet.drawOutlinedTitle(g, $Initiative, R(tokenSize + '-token-initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
 	}
 
-//	// Draw Ship Icon
-//	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
-//		iconRect = R(tokenSize + '-token-icon');
-//		iconImage = portraits[2].getImage();
-//		iconScale = portraits[2].getScale() * 0.45;
-//		AT = java.awt.geom.AffineTransform;
-//		tokenTransform = AT.getTranslateInstance(
-//			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
-//			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
-//		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
-//		g.drawImage( iconImage, tokenTransform, null );
-//	} else {
-//		if ( $ShipModel == 'custom' ) {
-//			shipIcon = $CustomShipIcon;
-//		} else {
-//			shipIcon = getShipStat($ShipModel, 'icon');
-//		}
-//		g.setPaint(Color.WHITE);
-//		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R(tokenSize + '-token-icon'), Xwing2.shipFont, 24, sheet.ALIGN_CENTER);
-//  	}
+	// Draw Ship Icon
+	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
+		iconRect = R(tokenSize + '-token-icon');
+		iconImage = portraits[2].getImage();
+		iconScale = portraits[2].getScale();
+		AT = java.awt.geom.AffineTransform;
+		tokenTransform = AT.getTranslateInstance(
+			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
+			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
+		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
+		g.drawImage( iconImage, tokenTransform, null );
+	} else {
+		if ( $ShipModel == 'custom' ) {
+			shipIcon = $CustomShipIcon;
+		} else {
+			shipIcon = getShipStat($ShipModel, 'icon');
+		}
+		g.setPaint(Color.WHITE);
+		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R(tokenSize + '-token-icon'), Xwing2.shipFont, 24, sheet.ALIGN_CENTER);
+  	}
 	
 	//Draw central cutout circle
 	g.setPaint(Color.WHITE);
 	g.fillOval(Math.round((tokenWidth - cutoutSize)/2), Math.round((tokenHeight - cutoutSize)/2), cutoutSize, cutoutSize );
+}
+
+function paintFrontFaceTemplate(g, diy, sheet, textBoxStyle) {
+	if (textBoxStyle == 'full') {
+		xMod = 0;
+	} else {
+		xMod = 83; // Adjustment for reduced text area
+	}
+	
+	if ( $Faction == 'custom' ) {
+		color1 = new Color($CustomFactionColorRed1 / 255, $CustomFactionColorGreen1 / 255, $CustomFactionColorBlue1 / 255);
+		color2 = new Color($CustomFactionColorRed2 / 255, $CustomFactionColorGreen2 / 255, $CustomFactionColorBlue2 / 255);
+		color3 = new Color($CustomFactionColorRed3 / 255, $CustomFactionColorGreen3 / 255, $CustomFactionColorBlue3 / 255);
+	} else {
+		color1 = new Color(
+			Number(getFactionStat($Faction, 'color-1-red')) / 255,
+			Number(getFactionStat($Faction, 'color-1-green')) / 255,
+			Number(getFactionStat($Faction, 'color-1-blue')) / 255);
+		color2 = new Color(
+			Number(getFactionStat($Faction, 'color-2-red')) / 255,
+			Number(getFactionStat($Faction, 'color-2-green')) / 255,
+			Number(getFactionStat($Faction, 'color-2-blue')) / 255);
+		color3 = new Color(
+			Number(getFactionStat($Faction, 'color-3-red')) / 255,
+			Number(getFactionStat($Faction, 'color-3-green')) / 255,
+			Number(getFactionStat($Faction, 'color-3-blue')) / 255);
+	}
+		
+	// Draw Text Area
+	g.setPaint(Xwing2.getColor('white'));
+	g.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
+	
+	// Tint the Text Area
+	textArea = ImageUtils.create(739, 1040, true);
+	gTemp = textArea.createGraphics();
+	//TODO: Gradient tint...
+	gTemp.setPaint(color1);
+	gTemp.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
+	textArea = createTranslucentImage(textArea, 0.10);
+	g.drawImage(textArea, 0, 0, null);
+	
+	// Draw Line Art
+	g.setPaint(color1);
+	g.setStroke(BasicStroke(2));
+
+	g.drawLine(0, 447, 585-xMod, 447);
+	g.drawLine(586-xMod, 447, 607-xMod, 468);
+	g.drawLine(608-xMod, 469, 608-xMod, 783);
+	g.drawLine(607-xMod, 784, 586-xMod, 805);
+	g.drawLine(585-xMod, 805, 0, 805);
+	
+	g.drawLine(608-xMod, 469, 628-xMod, 469);
+	g.drawLine(608-xMod, 783, 628-xMod, 783);
+	
+	g.drawLine(651-xMod, 447, 1040, 447);
+	g.drawLine(629-xMod, 468, 650-xMod, 447);
+	g.drawLine(628-xMod, 469, 628-xMod, 918);
+	g.drawLine(629-xMod, 919, 650-xMod, 940);
+	g.drawLine(651-xMod, 940, 1040, 940);
+	
+		
+	
 }
 
 function onClear() {
@@ -1089,9 +1173,9 @@ function onClear() {
 	$Droid = 'no';
 	$Text = '';
 	$ChargeValue = '-';
-	$ChargeReoccurring = 'no';
+	$ChargeRecurring = 'no';
 	$ForceValue = '-';
-	$ForceReoccurring = 'no';
+	$ForceRecurring = 'no';
 
 	$CustomShipModel = '';
 	$CustomShipAbilityName = '';
@@ -1105,7 +1189,7 @@ function onClear() {
 	$CustomShipAgility = '0';
 	$CustomShipHull = '1';
 	$CustomShipShield = '-';
-	$CustomShipShieldReoccurring = 'no';
+	$CustomShipShieldRecurring = 'no';
 	$CustomShipSize = 'small';
 	$CustomShipActionName1 = '-';
 	$CustomShipActionRed1 = 'no';
@@ -1123,6 +1207,16 @@ function onClear() {
 	$CustomShipActionRed5 = 'no';
 	$CustomShipActionLinked5 = '-';
 	$CustomShipIcon = 'custom';
+	
+	$CustomFactionColorRed1 = '255';
+	$CustomFactionColorGreen1 = '255';
+	$CustomFactionColorBlue1 = '255';
+	$CustomFactionColorRed2 = '255';
+	$CustomFactionColorGreen2 = '255';
+	$CustomFactionColorBlue2 = '255';
+	$CustomFactionColorRed3 = '255';
+	$CustomFactionColorGreen3 = '255';
+	$CustomFactionColorBlue3 = '255';
 }
 
 // These can be used to perform special processing during open/save.
@@ -1201,7 +1295,7 @@ function createTranslucentImage(source, opacity) {
 	return im;
 }
 
-function getShipStat(shipId,stat) {
+function getShipStat(shipId, stat) {
 	key = 'xw2-ship-' + shipId + '-' + stat;
 	if (!Language.getGame().isKeyDefined(key)) {
 		throw new Error('shiptype or stat not defined: ' + shipId + stat);
@@ -1211,6 +1305,15 @@ function getShipStat(shipId,stat) {
 	return javaScriptString;
 }
 
+function getFactionStat(factionId, stat) {
+	key = 'xw2-faction-' + factionId + '-' + stat;
+	if (!Language.getGame().isKeyDefined(key)) {
+		throw new Error('faction or stat not defined: ' + factionId + stat);
+	}
+	javaString = Language.game.get(key);
+	javaScriptString = String(javaString).valueOf();
+	return javaScriptString;
+}
 
 /**
  * Returns a region for this component. The nametag is
