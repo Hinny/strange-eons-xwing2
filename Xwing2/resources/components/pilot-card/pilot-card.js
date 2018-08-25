@@ -101,7 +101,6 @@ function create(diy) {
 	$ChargeValue = #xw2-pilot-charge-value;
 	$ChargeRecurring = #xw2-pilot-charge-recurring;
 	$ForceValue = #xw2-pilot-force-value;
-	$ForceRecurring = #xw2-pilot-force-recurring;
 
 	$CustomShipModel = #xw2-pilot-custom-ship-model;
 	$CustomShipAbilityName = #xw2-pilot-custom-ship-ability-name;
@@ -115,7 +114,6 @@ function create(diy) {
 	$CustomShipAgility = #xw2-pilot-custom-ship-agility-value;
 	$CustomShipHull = #xw2-pilot-custom-ship-hull-value;
 	$CustomShipShield = #xw2-pilot-custom-ship-shield-value;
-	$CustomShipShieldRecurring = #xw2-pilot-custom-ship-shield-recurring;
 	$CustomShipSize = #xw2-pilot-custom-ship-size;
 	$CustomShipActionName1 = #xw2-pilot-custom-ship-action-1-name;
 	$CustomShipActionRed1 = #xw2-pilot-custom-ship-action-1-red;
@@ -202,12 +200,9 @@ function createInterface(diy,editor) {
 	chargeRecurringCheckbox = checkBox(@xw2-recurring);
 	bindings.add('ChargeRecurring',chargeRecurringCheckbox,[0]);
 
-	forceValueItems = ['-','1','2','3','4','5','6','7','8','9'];
+	forceValueItems = ['-','1','2','3','4','5'];
 	forceValueBox = comboBox(forceValueItems);
 	bindings.add('ForceValue',forceValueBox,[0]);
-	
-	forceRecurringCheckbox = checkBox(@xw2-recurring);
-	bindings.add('ForceRecurring',forceRecurringCheckbox,[0]);
 	
 	pilotPanel = portraitPanel(diy,0);
 	pilotPanel.panelTitle = @xw2-portrait-pilot;
@@ -226,7 +221,7 @@ function createInterface(diy,editor) {
 	mainPanel.place(@xw2-pilottext,'span,grow,wrap para');
 	mainPanel.place(pilotTextArea,'span,grow,wrap para');
 	mainPanel.place(@xw2-charge-value,'',chargeValueBox,'wmin 52',chargeRecurringCheckbox,'wrap');
-	mainPanel.place(@xw2-force-value,'',forceValueBox,'wmin 52',forceRecurringCheckbox,'wrap');
+	mainPanel.place(@xw2-force-value,'',forceValueBox,'wmin 52, wrap');
 	mainPanel.place(separator(),'span,growx,wrap para');
 	mainPanel.place(pilotPanel,'span,growx,wrap');
 	mainPanel.editorTabScrolling = true;
@@ -282,9 +277,6 @@ function createInterface(diy,editor) {
 		'11','12','13','14','15','16','17','18','19','20'];
 	customShieldBox = comboBox(shieldItems);
 	bindings.add('CustomShipShield',customShieldBox,[0,2]);
-
-	customShieldRecurringCheckbox = checkBox(@xw2-recurring);
-	bindings.add('CustomShipShieldRecurring',customShieldRecurringCheckbox,[0,2]);
 
 	actionItems = [];
 	actionItems.push(ListItem('-','-'));
@@ -361,8 +353,7 @@ function createInterface(diy,editor) {
 	customShipPanel.place(@xw2-size,'',customSizeBox,'wmin 100,span 2,wrap para');
 	customShipPanel.place(@xw2-agility-value,'',customAgilityBox,'wmin 52');
 	customShipPanel.place(@xw2-hull-value,'',customHullBox,'wmin 52,wrap');
-	customShipPanel.place(@xw2-shield-value,'',customShieldBox,'wmin 52');
-	customShipPanel.place(customShieldRecurringCheckbox,'wmin 52,span 2,wrap para');
+	customShipPanel.place(@xw2-shield-value,'',customShieldBox,'wmin 52,span 2,wrap para');
 	customShipPanel.place(@xw2-attack-1,'',customAttackArcBox1, 'wmin 120',customAttackValueBox1,'wmin 52,wrap');
 	customShipPanel.place(@xw2-attack-2,'',customAttackArcBox2, 'wmin 120',customAttackValueBox2,'wmin 52,wrap');
 	customShipPanel.place(@xw2-attack-3,'',customAttackArcBox3, 'wmin 120',customAttackValueBox3,'wmin 52,wrap para');
@@ -459,7 +450,6 @@ function createInterface(diy,editor) {
 				customAgilityBox.setEnabled(false);
 				customHullBox.setEnabled(false);
 				customShieldBox.setEnabled(false);
-				customShieldRecurringCheckbox.setEnabled(false);
 				customActionNameBox1.setEnabled(false);
 				customActionRedCheckBox1.setEnabled(false);
 				customActionLinkedBox1.setEnabled(false);
@@ -492,7 +482,6 @@ function createInterface(diy,editor) {
 				customAgilityBox.setEnabled(true);
 				customHullBox.setEnabled(true);
 				customShieldBox.setEnabled(true);
-				customShieldRecurringCheckbox.setEnabled(true);
 				customActionNameBox1.setEnabled(true);
 				customActionNameBox2.setEnabled(true);
 				customActionNameBox3.setEnabled(true);
@@ -712,9 +701,9 @@ function paintCardFrontFace(g,diy,sheet) {
 		imageTemplate =  'pilot-' + $Faction + '-front-' + textBoxStyle + '-template';
 		sheet.paintImage(g, imageTemplate, 0, 0);
 		// Draw template
-		paintFrontFaceTemplate(g, diy, sheet, textBoxStyle);
+		paintFrontFaceFrame(g, diy, sheet, textBoxStyle);
 	} else if ($Faction == 'custom') {
-		paintFrontFaceTemplate(g, diy, sheet, textBoxStyle);
+		paintFrontFaceFrame(g, diy, sheet, textBoxStyle);
 	} else {
 		imageTemplate =  'dev-' + $Faction + '-template';
 		sheet.paintImage(g, imageTemplate, 0, 0);
@@ -793,20 +782,17 @@ function paintCardFrontFace(g,diy,sheet) {
 		if ($CustomShipAttackValue3 != '-') {stats.push([$CustomShipAttackArc3, $CustomShipAttackValue3, 0]);}
 		stats.push(['agility', $CustomShipAgility, 0]);
 		stats.push(['hull', $CustomShipHull, 0]);
-		if($CustomShipShield != '-') {stats.push(['shield', $CustomShipShield, $CustomShipShieldRecurring]);}
+		if ($CustomShipShield != '-') {stats.push(['shield', $CustomShipShield, 0]);}
 	} else {
 		if (getShipStat($ShipModel, 'attack-1-value') != '-') {stats.push([getShipStat($ShipModel,'attack-1-arc'), getShipStat($ShipModel,'attack-1-value'), 0]);}
 		if (getShipStat($ShipModel, 'attack-2-value') != '-') {stats.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-2-value'), 0]);}
 		if (getShipStat($ShipModel, 'attack-3-value') != '-') {stats.push([getShipStat($ShipModel,'attack-2-arc'), getShipStat($ShipModel,'attack-3-value'), 0]);}
 		stats.push(['agility', getShipStat($ShipModel,'agility-value'), 0]);
 		stats.push(['hull', getShipStat($ShipModel,'hull-value'), 0]);
-		if (getShipStat($ShipModel,'shield-value') != '-') {
-			if (getShipStat($ShipModel,'shield-recurring') == 'yes') {shieldRecurring = 1;} else {shieldRecurring = 0;}
-			stats.push(['shield', getShipStat($ShipModel,'shield-value'), shieldRecurring]);
-		}
+		if (getShipStat($ShipModel, 'shield-value') != '-') {stats.push(['shield', getShipStat($ShipModel,'shield-value'), 0]);}
 	}
 	if ($ChargeValue != '-') {stats.push( ['charge', $ChargeValue, $ChargeRecurring]);}
-	if ($ForceValue != '-') {stats.push( ['force', $ForceValue, $ForceRecurring]);}
+	if ($ForceValue != '-') {stats.push( ['force', $ForceValue, 1]);}
 	if (textBoxStyle == 'full') {
 		xCenterPoint = 268;
 		switch (stats.length) {
@@ -839,8 +825,9 @@ function paintCardFrontFace(g,diy,sheet) {
 		sheet.drawTitle(g, stats[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
 		if (stats[i][2] == '1') {
 			x = xi + 28;
-			y = y2 - 18;
-			sheet.drawTitle(g, Xwing2.textToIconChar('recurring'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 8, sheet.ALIGN_CENTER);
+			//y = y2 - 18;
+			y = y2;
+			sheet.drawTitle(g, Xwing2.textToIconChar('recurring'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 10, sheet.ALIGN_CENTER);
 		}
 		dotList = Xwing2.calculateDottedCircle(stats[i][0], false);
 		for each (dot in dotList) {
@@ -1102,7 +1089,7 @@ function paintToken(g,diy,sheet) {
 	g.fillOval(Math.round((tokenWidth - cutoutSize)/2), Math.round((tokenHeight - cutoutSize)/2), cutoutSize, cutoutSize );
 }
 
-function paintFrontFaceTemplate(g, diy, sheet, textBoxStyle) {
+function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	if (textBoxStyle == 'full') {
 		xMod = 0;
 	} else {
@@ -1141,9 +1128,12 @@ function paintFrontFaceTemplate(g, diy, sheet, textBoxStyle) {
 	textArea = createTranslucentImage(textArea, 0.10);
 	g.drawImage(textArea, 0, 0, null);
 	
+	//TODO: Gradient art in between the line art
+	
 	// Draw Line Art
 	g.setPaint(color1);
 	g.setStroke(BasicStroke(2));
+	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 	g.drawLine(0, 447, 585-xMod, 447);
 	g.drawLine(586-xMod, 447, 607-xMod, 468);
@@ -1151,16 +1141,34 @@ function paintFrontFaceTemplate(g, diy, sheet, textBoxStyle) {
 	g.drawLine(607-xMod, 784, 586-xMod, 805);
 	g.drawLine(585-xMod, 805, 0, 805);
 	
-	g.drawLine(608-xMod, 469, 628-xMod, 469);
-	g.drawLine(608-xMod, 783, 628-xMod, 783);
-	
 	g.drawLine(651-xMod, 447, 1040, 447);
 	g.drawLine(629-xMod, 468, 650-xMod, 447);
 	g.drawLine(628-xMod, 469, 628-xMod, 918);
 	g.drawLine(629-xMod, 919, 650-xMod, 940);
 	g.drawLine(651-xMod, 940, 1040, 940);
 	
-		
+	g.drawLine(608-xMod, 469, 628-xMod, 469);
+	g.drawLine(608-xMod, 506, 628-xMod, 506);
+	g.drawLine(608-xMod, 615, 628-xMod, 615);
+	g.drawLine(608-xMod, 680, 628-xMod, 680);
+	g.drawLine(608-xMod, 709, 628-xMod, 709);
+	g.drawLine(608-xMod, 751, 628-xMod, 751);
+	g.drawLine(608-xMod, 783, 628-xMod, 783);
+	
+	g.drawOval(612-xMod, 521, 12, 1);
+	g.drawOval(612-xMod, 638, 12, 1);
+	g.drawOval(612-xMod, 740, 12, 1);
+	
+	g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
+	g.setStroke(BasicStroke(1.6));
+	for (i = 0; i < 66; i++) {
+		yRel = i*4.7;
+		if (i == 3 || i == 23 || i == 36 || i == 47 || i == 55 || i == 61 || i == 63) {
+			g.drawLine(615-xMod, 474 + yRel, 621-xMod, 474 + yRel);
+		} else {
+			g.drawLine(618-xMod, 474 + yRel, 618-xMod, 474 + yRel);
+		}
+	}	
 	
 }
 
@@ -1175,7 +1183,6 @@ function onClear() {
 	$ChargeValue = '-';
 	$ChargeRecurring = 'no';
 	$ForceValue = '-';
-	$ForceRecurring = 'no';
 
 	$CustomShipModel = '';
 	$CustomShipAbilityName = '';
@@ -1189,7 +1196,6 @@ function onClear() {
 	$CustomShipAgility = '0';
 	$CustomShipHull = '1';
 	$CustomShipShield = '-';
-	$CustomShipShieldRecurring = 'no';
 	$CustomShipSize = 'small';
 	$CustomShipActionName1 = '-';
 	$CustomShipActionRed1 = 'no';
