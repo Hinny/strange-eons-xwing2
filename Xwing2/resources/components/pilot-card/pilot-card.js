@@ -653,7 +653,7 @@ function createBackPainter(diy, sheet) {
 
 function paintFront(g,diy,sheet) {
 	if (sheet.sheetIndex == 0) {
-		paintCardFrontFace(g, diy, sheet);
+		paintFrontFace(g, diy, sheet);
 	} else {
 		paintToken(g, diy, sheet);
 	}	
@@ -667,7 +667,7 @@ function paintBack(g,diy,sheet) {
 	sheet.paintImage(g, imageTemplate,0,0);
 }
 
-function paintCardFrontFace(g,diy,sheet) {
+function paintFrontFace(g,diy,sheet) {
 	imageTemplate = 'pilot-blank-template';
 	sheet.paintImage(g, imageTemplate,0,0);
 	target = sheet.getRenderTarget();
@@ -895,14 +895,11 @@ function paintCardFrontFace(g,diy,sheet) {
 			x = xCenterPoint - 50;
 			g.setPaint(Xwing2.getColor('white'));
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);
-			//sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 12, sheet.ALIGN_CENTER);
 			x = xCenterPoint;
 			sheet.drawTitle(g, Xwing2.textToIconChar('linked'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);
-			//sheet.drawTitle(g, Xwing2.textToIconChar('linked'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 12, sheet.ALIGN_CENTER);
 			x = xCenterPoint + 50;
 			g.setPaint(Xwing2.getColor('red'));
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][2]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);		
-			//sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][2]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 12, sheet.ALIGN_CENTER);		
 		} else {
 			x = xCenterPoint;
 			if (actions[i][1] == 'yes' || actions[i][1] == '1') {
@@ -911,9 +908,8 @@ function paintCardFrontFace(g,diy,sheet) {
 				g.setPaint(Xwing2.getColor('white'));
 			}
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);
-			//sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 12, sheet.ALIGN_CENTER);
 		}
-	}	
+	}
 }
 
 function paintToken(g,diy,sheet) {
@@ -1135,17 +1131,29 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	g.setStroke(BasicStroke(2));
 	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+	g.drawLine(0, 419, 170, 419);
+	g.drawLine(171, 419, 192, 398);
+	g.drawLine(193, 397, 546, 397);
+	g.drawLine(547, 398, 568, 419);
+	g.drawLine(569, 419, 739, 419);
+	
+	g.drawLine(0, 977, 126, 977);
+	g.drawLine(127, 977, 139, 965);
+	g.drawLine(600, 965, 139, 965);
+	g.drawLine(612, 977, 600, 965);
+	g.drawLine(613, 977, 739, 977);
+
 	g.drawLine(0, 447, 585-xMod, 447);
 	g.drawLine(586-xMod, 447, 607-xMod, 468);
 	g.drawLine(608-xMod, 469, 608-xMod, 783);
 	g.drawLine(607-xMod, 784, 586-xMod, 805);
 	g.drawLine(585-xMod, 805, 0, 805);
 	
-	g.drawLine(651-xMod, 447, 1040, 447);
+	g.drawLine(651-xMod, 447, 739, 447);
 	g.drawLine(629-xMod, 468, 650-xMod, 447);
 	g.drawLine(628-xMod, 469, 628-xMod, 918);
 	g.drawLine(629-xMod, 919, 650-xMod, 940);
-	g.drawLine(651-xMod, 940, 1040, 940);
+	g.drawLine(651-xMod, 940, 739, 940);
 	
 	g.drawLine(608-xMod, 469, 628-xMod, 469);
 	g.drawLine(608-xMod, 506, 628-xMod, 506);
@@ -1159,6 +1167,34 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	g.drawOval(612-xMod, 638, 12, 1);
 	g.drawOval(612-xMod, 740, 12, 1);
 	
+	actionsInActionBar = 0;
+	if ($ShipModel == 'custom') {
+		if ($CustomShipActionName1 != '-') {actionsInActionBar++;}
+		if ($CustomShipActionName2 != '-') {actionsInActionBar++;}
+		if ($CustomShipActionName3 != '-') {actionsInActionBar++;}
+		if ($CustomShipActionName4 != '-') {actionsInActionBar++;}
+		if ($CustomShipActionName5 != '-') {actionsInActionBar++;}
+	} else {
+		if (getShipStat($ShipModel, 'action-1-name') != '-') {actionsInActionBar++;}
+		if (getShipStat($ShipModel, 'action-2-name') != '-') {actionsInActionBar++;}
+		if (getShipStat($ShipModel, 'action-3-name') != '-') {actionsInActionBar++;}
+		if (getShipStat($ShipModel, 'action-4-name') != '-') {actionsInActionBar++;}
+		if (getShipStat($ShipModel, 'action-5-name') != '-') {actionsInActionBar++;}
+	}
+	switch (actionsInActionBar) {
+		case 0: yDistanceBetween = 0; break;
+		case 1: yDistanceBetween = 0; break;
+		case 2: yDistanceBetween = 245; break;
+		case 3: yDistanceBetween = 164; break;
+		case 4: yDistanceBetween = 123; break;
+		case 5: yDistanceBetween = 100; break;
+	}
+	yCenterPoint = 694;
+	for (let i = 1; i < actionsInActionBar; ++i) {
+		y = yCenterPoint + yDistanceBetween * (i - 1/2) - yDistanceBetween * (actionsInActionBar - 1) / 2;
+		g.drawLine(628-xMod, y, 1040, y);
+	}
+	
 	g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
 	g.setStroke(BasicStroke(1.6));
 	for (i = 0; i < 66; i++) {
@@ -1168,8 +1204,18 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 		} else {
 			g.drawLine(618-xMod, 474 + yRel, 618-xMod, 474 + yRel);
 		}
-	}	
+	}
 	
+	g.setPaint(Color(80 / 255, 80 / 255, 80 / 255));
+	g.fillPolygon([0, 95, 111, 111, 138, 601, 628, 628, 644, 739, 739, 627, 619, 120, 112, 0],
+		[436, 436, 420, 352, 325, 325, 352, 420, 436, 436, 317, 317, 309, 309, 317, 317], 16);
+		
+	g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
+		[958, 958, 970, 990, 1011, 1011, 990, 970, 958, 958, 1040, 1040], 12);
+		
+	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
+	g.setStroke(BasicStroke(1.0));
+	g.drawLine(0, 1030, 739, 1030); //TODO: finish
 }
 
 function onClear() {
