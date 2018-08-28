@@ -1209,13 +1209,24 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	g.setPaint(Color(80 / 255, 80 / 255, 80 / 255));
 	g.fillPolygon([0, 95, 111, 111, 138, 601, 628, 628, 644, 739, 739, 627, 619, 120, 112, 0],
 		[436, 436, 420, 352, 325, 325, 352, 420, 436, 436, 317, 317, 309, 309, 317, 317], 16);
-		
 	g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
 		[958, 958, 970, 990, 1011, 1011, 990, 970, 958, 958, 1040, 1040], 12);
 		
 	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
 	g.setStroke(BasicStroke(1.0));
-	g.drawLine(0, 1030, 739, 1030); //TODO: finish
+	g.drawLine(0, 331, 122, 331);
+	g.drawLine(0, 416, 104, 416);
+	g.drawLine(739, 331, 617, 331);
+	g.drawLine(739, 416, 635, 416);
+	g.drawLine(168, 315, 571, 315);
+	g.drawLine(168, 315, 162, 309);
+	g.drawLine(571, 315, 577, 309);
+	
+	g.drawLine(0, 1030, 208, 1030);
+	g.drawLine(208, 1030, 218, 1040);
+	g.drawLine(739, 1030, 531, 1030);
+	g.drawLine(531, 1030, 521, 1040);
+	
 }
 
 function onClear() {
