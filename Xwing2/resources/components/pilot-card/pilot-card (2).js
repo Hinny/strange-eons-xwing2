@@ -80,9 +80,8 @@ function create(diy) {
 	portraits[3].backgroundFilled = false;
 	portraits[3].clipping = true;
 	portraits[3].installDefault();
-	//portraits[3].setClipStencil(ImageUtils.get($faction-upper-panel-portrait-stencil));
-	portraits[3].setClipStencil(createUpperPanelImage(true));
-
+	portraits[3].setClipStencil(ImageUtils.get($faction-upper-panel-portrait-stencil));
+	
 	// Lower Panel
 	portraits[4] = new DefaultPortrait(diy,'faction-lower-panel');
 	portraits[4].setScaleUsesMinimum(false);
@@ -90,7 +89,7 @@ function create(diy) {
 	portraits[4].backgroundFilled = false;
 	portraits[4].clipping = true;
 	portraits[4].installDefault();
-	portraits[4].setClipStencil(createLowerPanelImage(true));
+	portraits[4].setClipStencil(ImageUtils.get($faction-lower-panel-portrait-stencil));
 	
 	// install the example pilot
 	diy.name = #xw2-pilot-name;
@@ -135,7 +134,6 @@ function create(diy) {
 	$CustomShipActionLinked5 = #xw2-pilot-custom-ship-action-5-linked;
 	$CustomShipIcon = #xw2-pilot-custom-ship-icon;
 	
-	$CustomFactionTint = '0,1,1';
 	$CustomFactionColorRed1 = #xw2-pilot-custom-faction-color-1-red;
 	$CustomFactionColorGreen1 = #xw2-pilot-custom-faction-color-1-green;
 	$CustomFactionColorBlue1 = #xw2-pilot-custom-faction-color-1-blue;
@@ -152,6 +150,7 @@ function createInterface(diy,editor) {
 
 	// Main Panel
 	mainHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards");
+	//slider( [min], [max], [initialValue], [valueLabelPairs], [listener] )
 	
 	factionItems = [];
 	factionItems.push(ListItem('custom',@xw2-faction-custom));
@@ -382,9 +381,6 @@ function createInterface(diy,editor) {
 
 	customFactionHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-faction");
 
-	customFactionTintPanel = tintPanel();
-	bindings.add( 'CustomFactionTint', customFactionTintPanel, [0, 1, 2] );
-
 	customFactionColor1RedBox = spinner(0, 255, 1, 255);
 	bindings.add( 'CustomFactionColorRed1', customFactionColor1RedBox, [0, 1, 2] );
 	customFactionColor1GreenBox = spinner(0, 255, 1, 255);
@@ -411,12 +407,16 @@ function createInterface(diy,editor) {
 		
 	customFactionLowerPanel = portraitPanel(diy,4);
 	customFactionLowerPanel.panelTitle = @xw2-faction-lower-panel;
+	
+//		var stencil = ImageUtils.get( $char_front_overlay );
+//	var region = R('portrait-true-clip');
+//	stencil = AbstractPortrait.createStencil( stencil, region );
+//	diy.setPortraitClipStencil( stencil );
+//	diy.setPortraitClipStencilRegion( region );
 
 	customFactionPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref][min:pref][min:pref,grow]','');
 	customFactionPanel.setTitle(@xw2-custom-faction);
 	customFactionPanel.place(customFactionHelpButton,'wrap para');
-	customFactionPanel.place(separator(),'span,growx,wrap para');
-	customFactionPanel.place(customFactionTintPanel,'wrap para');
 	customFactionPanel.place(separator(),'span,growx,wrap para');
 	customFactionPanel.place(@xw2-color-1, 'span, wrap');
 	customFactionPanel.place(@xw2-red, '', customFactionColor1RedBox, 'wmin 50');
@@ -661,7 +661,10 @@ function createBackPainter(diy, sheet) {
 
 function paintFront(g,diy,sheet) {
 	if (sheet.sheetIndex == 0) {
-		paintFrontFace(g, diy, sheet);
+		//paintFrontFace(g, diy, sheet);
+		imageTemplate = 'pilot-blank-template';
+		sheet.paintImage(g, imageTemplate, 0, 0);
+		paintFrontFaceFrame(g, diy, sheet, 'full');				
 	} else {
 		paintToken(g, diy, sheet);
 	}	
@@ -1095,168 +1098,165 @@ function paintToken(g,diy,sheet) {
 }
 
 function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
-	if (textBoxStyle == 'full') {
-		xMod = 0;
-	} else {
-		xMod = 83; // Adjustment for reduced text area
-	}
-	
-	actionsInActionBar = 0;
-	if ($ShipModel == 'custom') {
-		if ($CustomShipActionName1 != '-') {actionsInActionBar++;}
-		if ($CustomShipActionName2 != '-') {actionsInActionBar++;}
-		if ($CustomShipActionName3 != '-') {actionsInActionBar++;}
-		if ($CustomShipActionName4 != '-') {actionsInActionBar++;}
-		if ($CustomShipActionName5 != '-') {actionsInActionBar++;}
-	} else {
-		if (getShipStat($ShipModel, 'action-1-name') != '-') {actionsInActionBar++;}
-		if (getShipStat($ShipModel, 'action-2-name') != '-') {actionsInActionBar++;}
-		if (getShipStat($ShipModel, 'action-3-name') != '-') {actionsInActionBar++;}
-		if (getShipStat($ShipModel, 'action-4-name') != '-') {actionsInActionBar++;}
-		if (getShipStat($ShipModel, 'action-5-name') != '-') {actionsInActionBar++;}
-	}
-	
-	if ( $Faction == 'custom' ) {
-		color1 = new Color($CustomFactionColorRed1 / 255, $CustomFactionColorGreen1 / 255, $CustomFactionColorBlue1 / 255);
-		color2 = new Color($CustomFactionColorRed2 / 255, $CustomFactionColorGreen2 / 255, $CustomFactionColorBlue2 / 255);
-		color3 = new Color($CustomFactionColorRed3 / 255, $CustomFactionColorGreen3 / 255, $CustomFactionColorBlue3 / 255);
-	} else {
-		color1 = new Color(
-			Number(getFactionStat($Faction, 'color-1-red')) / 255,
-			Number(getFactionStat($Faction, 'color-1-green')) / 255,
-			Number(getFactionStat($Faction, 'color-1-blue')) / 255);
-		color2 = new Color(
-			Number(getFactionStat($Faction, 'color-2-red')) / 255,
-			Number(getFactionStat($Faction, 'color-2-green')) / 255,
-			Number(getFactionStat($Faction, 'color-2-blue')) / 255);
-		color3 = new Color(
-			Number(getFactionStat($Faction, 'color-3-red')) / 255,
-			Number(getFactionStat($Faction, 'color-3-green')) / 255,
-			Number(getFactionStat($Faction, 'color-3-blue')) / 255);
-	}
-	
-	//color1 = new Color(Color.HSBtoRGB();
-		
-	// Draw Text Area
-	g.setPaint(Xwing2.getColor('white'));
-	g.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
-	
-	// Tint the Text Area
-	textArea = ImageUtils.create(739, 1040, true);
-	gTemp = textArea.createGraphics();
-	//TODO: Gradient tint...
-	gTemp.setPaint(color1);
-	gTemp.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
-	textArea = createTranslucentImage(textArea, 0.10);
-	g.drawImage(textArea, 0, 0, null);
-	
-	//TODO: Gradient art in between the line art
-	
-	// Draw Line Art
-	g.setPaint(color1);
-	g.setStroke(BasicStroke(2));
-	//TODO: turn this on!
-	//g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-	g.drawLine(0, 419, 170, 419);
-	g.drawLine(171, 419, 192, 398);
-	g.drawLine(193, 397, 546, 397);
-	g.drawLine(547, 398, 568, 419);
-	g.drawLine(569, 419, 739, 419);
-	
-	g.drawLine(0, 977, 126, 977);
-	g.drawLine(127, 977, 139, 965);
-	g.drawLine(600, 965, 139, 965);
-	g.drawLine(612, 977, 600, 965);
-	g.drawLine(613, 977, 739, 977);
-
-	g.drawLine(0, 447, 585-xMod, 447);
-	g.drawLine(586-xMod, 447, 607-xMod, 468);
-	g.drawLine(608-xMod, 469, 608-xMod, 783);
-	g.drawLine(607-xMod, 784, 586-xMod, 805);
-	g.drawLine(585-xMod, 805, 0, 805);
-	
-	g.drawLine(651-xMod, 447, 739, 447);
-	g.drawLine(629-xMod, 468, 650-xMod, 447);
-	g.drawLine(628-xMod, 469, 628-xMod, 918);
-	g.drawLine(629-xMod, 919, 650-xMod, 940);
-	g.drawLine(651-xMod, 940, 739, 940);
-	
-	g.drawLine(608-xMod, 469, 628-xMod, 469);
-	g.drawLine(608-xMod, 506, 628-xMod, 506);
-	g.drawLine(608-xMod, 615, 628-xMod, 615);
-	g.drawLine(608-xMod, 680, 628-xMod, 680);
-	g.drawLine(608-xMod, 709, 628-xMod, 709);
-	g.drawLine(608-xMod, 751, 628-xMod, 751);
-	g.drawLine(608-xMod, 783, 628-xMod, 783);
-	
-	g.drawOval(612-xMod, 521, 12, 1);
-	g.drawOval(612-xMod, 638, 12, 1);
-	g.drawOval(612-xMod, 740, 12, 1);
-	
-	switch (actionsInActionBar) {
-		case 0: yDistanceBetween = 0; break;
-		case 1: yDistanceBetween = 0; break;
-		case 2: yDistanceBetween = 245; break;
-		case 3: yDistanceBetween = 164; break;
-		case 4: yDistanceBetween = 123; break;
-		case 5: yDistanceBetween = 100; break;
-	}
-	yCenterPoint = 694;
-	for (let i = 1; i < actionsInActionBar; ++i) {
-		y = yCenterPoint + yDistanceBetween * (i - 1/2) - yDistanceBetween * (actionsInActionBar - 1) / 2;
-		g.drawLine(628-xMod, y, 1040, y);
-	}
-	
-	g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
-	g.setStroke(BasicStroke(1.6));
-	for (i = 0; i < 66; i++) {
-		yRel = i*4.7;
-		if (i == 3 || i == 23 || i == 36 || i == 47 || i == 55 || i == 61 || i == 63) {
-			g.drawLine(615-xMod, 474 + yRel, 621-xMod, 474 + yRel);
-		} else {
-			g.drawLine(618-xMod, 474 + yRel, 618-xMod, 474 + yRel);
-		}
-	}
+//	if (textBoxStyle == 'full') {
+//		xMod = 0;
+//	} else {
+//		xMod = 83; // Adjustment for reduced text area
+//	}
+//	
+//	if ( $Faction == 'custom' ) {
+//		color1 = new Color($CustomFactionColorRed1 / 255, $CustomFactionColorGreen1 / 255, $CustomFactionColorBlue1 / 255);
+//		color2 = new Color($CustomFactionColorRed2 / 255, $CustomFactionColorGreen2 / 255, $CustomFactionColorBlue2 / 255);
+//		color3 = new Color($CustomFactionColorRed3 / 255, $CustomFactionColorGreen3 / 255, $CustomFactionColorBlue3 / 255);
+//	} else {
+//		color1 = new Color(
+//			Number(getFactionStat($Faction, 'color-1-red')) / 255,
+//			Number(getFactionStat($Faction, 'color-1-green')) / 255,
+//			Number(getFactionStat($Faction, 'color-1-blue')) / 255);
+//		color2 = new Color(
+//			Number(getFactionStat($Faction, 'color-2-red')) / 255,
+//			Number(getFactionStat($Faction, 'color-2-green')) / 255,
+//			Number(getFactionStat($Faction, 'color-2-blue')) / 255);
+//		color3 = new Color(
+//			Number(getFactionStat($Faction, 'color-3-red')) / 255,
+//			Number(getFactionStat($Faction, 'color-3-green')) / 255,
+//			Number(getFactionStat($Faction, 'color-3-blue')) / 255);
+//	}
+//		
+//	// Draw Text Area
+//	g.setPaint(Xwing2.getColor('white'));
+//	g.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
+//	
+//	// Tint the Text Area
+//	textArea = ImageUtils.create(739, 1040, true);
+//	gTemp = textArea.createGraphics();
+//	//TODO: Gradient tint...
+//	gTemp.setPaint(color1);
+//	gTemp.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
+//	textArea = createTranslucentImage(textArea, 0.10);
+//	g.drawImage(textArea, 0, 0, null);
+//	
+//	//TODO: Gradient art in between the line art
+//	
+//	// Draw Line Art
+//	g.setPaint(color1);
+//	g.setStroke(BasicStroke(2));
+//	//g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//
+//	g.drawLine(0, 419, 170, 419);
+//	g.drawLine(171, 419, 192, 398);
+//	g.drawLine(193, 397, 546, 397);
+//	g.drawLine(547, 398, 568, 419);
+//	g.drawLine(569, 419, 739, 419);
+//	
+//	g.drawLine(0, 977, 126, 977);
+//	g.drawLine(127, 977, 139, 965);
+//	g.drawLine(600, 965, 139, 965);
+//	g.drawLine(612, 977, 600, 965);
+//	g.drawLine(613, 977, 739, 977);
+//
+//	g.drawLine(0, 447, 585-xMod, 447);
+//	g.drawLine(586-xMod, 447, 607-xMod, 468);
+//	g.drawLine(608-xMod, 469, 608-xMod, 783);
+//	g.drawLine(607-xMod, 784, 586-xMod, 805);
+//	g.drawLine(585-xMod, 805, 0, 805);
+//	
+//	g.drawLine(651-xMod, 447, 739, 447);
+//	g.drawLine(629-xMod, 468, 650-xMod, 447);
+//	g.drawLine(628-xMod, 469, 628-xMod, 918);
+//	g.drawLine(629-xMod, 919, 650-xMod, 940);
+//	g.drawLine(651-xMod, 940, 739, 940);
+//	
+//	g.drawLine(608-xMod, 469, 628-xMod, 469);
+//	g.drawLine(608-xMod, 506, 628-xMod, 506);
+//	g.drawLine(608-xMod, 615, 628-xMod, 615);
+//	g.drawLine(608-xMod, 680, 628-xMod, 680);
+//	g.drawLine(608-xMod, 709, 628-xMod, 709);
+//	g.drawLine(608-xMod, 751, 628-xMod, 751);
+//	g.drawLine(608-xMod, 783, 628-xMod, 783);
+//	
+//	g.drawOval(612-xMod, 521, 12, 1);
+//	g.drawOval(612-xMod, 638, 12, 1);
+//	g.drawOval(612-xMod, 740, 12, 1);
+//	
+//	actionsInActionBar = 0;
+//	if ($ShipModel == 'custom') {
+//		if ($CustomShipActionName1 != '-') {actionsInActionBar++;}
+//		if ($CustomShipActionName2 != '-') {actionsInActionBar++;}
+//		if ($CustomShipActionName3 != '-') {actionsInActionBar++;}
+//		if ($CustomShipActionName4 != '-') {actionsInActionBar++;}
+//		if ($CustomShipActionName5 != '-') {actionsInActionBar++;}
+//	} else {
+//		if (getShipStat($ShipModel, 'action-1-name') != '-') {actionsInActionBar++;}
+//		if (getShipStat($ShipModel, 'action-2-name') != '-') {actionsInActionBar++;}
+//		if (getShipStat($ShipModel, 'action-3-name') != '-') {actionsInActionBar++;}
+//		if (getShipStat($ShipModel, 'action-4-name') != '-') {actionsInActionBar++;}
+//		if (getShipStat($ShipModel, 'action-5-name') != '-') {actionsInActionBar++;}
+//	}
+//	switch (actionsInActionBar) {
+//		case 0: yDistanceBetween = 0; break;
+//		case 1: yDistanceBetween = 0; break;
+//		case 2: yDistanceBetween = 245; break;
+//		case 3: yDistanceBetween = 164; break;
+//		case 4: yDistanceBetween = 123; break;
+//		case 5: yDistanceBetween = 100; break;
+//	}
+//	yCenterPoint = 694;
+//	for (let i = 1; i < actionsInActionBar; ++i) {
+//		y = yCenterPoint + yDistanceBetween * (i - 1/2) - yDistanceBetween * (actionsInActionBar - 1) / 2;
+//		g.drawLine(628-xMod, y, 1040, y);
+//	}
+//	
+//	g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
+//	g.setStroke(BasicStroke(1.6));
+//	for (i = 0; i < 66; i++) {
+//		yRel = i*4.7;
+//		if (i == 3 || i == 23 || i == 36 || i == 47 || i == 55 || i == 61 || i == 63) {
+//			g.drawLine(615-xMod, 474 + yRel, 621-xMod, 474 + yRel);
+//		} else {
+//			g.drawLine(618-xMod, 474 + yRel, 618-xMod, 474 + yRel);
+//		}
+//	}
 	
 	// Draw upper and lower panel backgrounds
-	g.setPaint(Color(80 / 255, 80 / 255, 80 / 255));
+	g.setPaint(Color(255 / 255, 255 / 255, 255 / 255));
 	g.fillPolygon([0, 95, 111, 111, 138, 601, 628, 628, 644, 739, 739, 627, 619, 120, 112, 0],
 		[436, 436, 420, 352, 325, 325, 352, 420, 436, 436, 317, 317, 309, 309, 317, 317], 16);
 	g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
 		[958, 958, 970, 990, 1011, 1011, 990, 970, 958, 958, 1040, 1040], 12);
-		
-	// Draw upper panel
-	panel = ImageUtils.create(739, 127, true);
-	gTemp = panel.createGraphics();
-	portraits[3].paint(gTemp, target);
-	mask = createUpperPanelImage(false);
-	panel = applyGrayscaleMaskToAlpha(panel, mask);
-	g.drawImage(panel, 0, 309, null);
 
-	// Draw lower panel
-	panel = ImageUtils.create(739, 82, true);
-	gTemp = panel.createGraphics();
-	portraits[4].paint(gTemp, target);
-	mask = createLowerPanelImage(false);
-	panel = applyGrayscaleMaskToAlpha(panel, mask);
-	g.drawImage(panel, 0, 958, null);
+//	// Draw upper panel
+//	panel = ImageUtils.create(739, 121, true);
+//	gTemp = panel.createGraphics();
+//	portraits[3].paint(gTemp, target);
+//	mask = ImageUtils.get($faction-upper-panel-portrait-mask);
+//	panel = applyGrayscaleMaskToAlpha(panel, mask);
+//	g.drawImage(panel, 0, 309, null);
+//
+//	// Draw lower panel
+//	panel = ImageUtils.create(739, 75, true);
+//	gTemp = panel.createGraphics();
+//	portraits[4].paint(gTemp, target);
+//	mask = ImageUtils.get($faction-lower-panel-portrait-mask);
+//	panel = applyGrayscaleMaskToAlpha(panel, mask);
+//	g.drawImage(panel, 0, 965, null);
 
-	// Draw panel line art
-	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	g.setStroke(BasicStroke(1.0));
-	g.drawLine(0, 331, 122, 331);
-	g.drawLine(0, 416, 104, 416);
-	g.drawLine(739, 331, 617, 331);
-	g.drawLine(739, 416, 635, 416);
-	g.drawLine(168, 315, 571, 315);
-	g.drawLine(168, 315, 162, 309);
-	g.drawLine(571, 315, 577, 309);
-	
-	g.drawLine(0, 1030, 208, 1030);
-	g.drawLine(208, 1030, 218, 1040);
-	g.drawLine(739, 1030, 531, 1030);
-	g.drawLine(531, 1030, 521, 1040);
+
+//	// Draw panel line art
+//	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
+//	g.setStroke(BasicStroke(1.0));
+//	g.drawLine(0, 331, 122, 331);
+//	g.drawLine(0, 416, 104, 416);
+//	g.drawLine(739, 331, 617, 331);
+//	g.drawLine(739, 416, 635, 416);
+//	g.drawLine(168, 315, 571, 315);
+//	g.drawLine(168, 315, 162, 309);
+//	g.drawLine(571, 315, 577, 309);
+//	
+//	g.drawLine(0, 1030, 208, 1030);
+//	g.drawLine(208, 1030, 218, 1040);
+//	g.drawLine(739, 1030, 531, 1030);
+//	g.drawLine(531, 1030, 521, 1040);
 	
 }
 
@@ -1451,53 +1451,6 @@ function R(nametag,x,y) {
 	return new Region(value);
 }
 
-function createUpperPanelImage(isStencil) {
-	image = ImageUtils.create(739, 127, true);
-	g = image.createGraphics();
-	if (isStencil) {
-		g.setPaint(Color(255 / 255, 255 / 255, 255 / 255));
-	} else {
-		g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	}
-	g.fillRect(0, 0, 739, 127);
-	if (isStencil) {
-		g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	} else {
-		g.setPaint(Color(255 / 255, 255 / 255, 255 / 255));
-	}
-	//g.fillPolygon([0, 95, 111, 111, 138, 601, 628, 628, 644, 739, 739, 627, 619, 120, 112, 0],
-	//	[127, 127, 111, 43, 16, 16, 43, 111, 127, 127, 8, 8, 0, 0, 8, 8], 16);
-	g.fillPolygon([0, 92, 104, 104, 135, 604, 635, 635, 647, 739, 739, 627, 619, 120, 112, 0],
-		[120, 120, 108, 40, 9, 9, 40, 108, 120, 120, 8, 8, 0, 0, 8, 8], 16);	
-	if (isStencil) {
-		image = applyGrayscaleMaskToAlpha(image, image);
-	}
-    return image;
-}
-
-function createLowerPanelImage(isStencil) {
-	image = ImageUtils.create(739, 82, true);
-	g = image.createGraphics();
-	if (isStencil) {
-		g.setPaint(Color(255 / 255, 255 / 255, 255 / 255));
-	} else {
-		g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	}
-	g.fillRect(0, 0, 739, 127);
-	if (isStencil) {
-		g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	} else {
-		g.setPaint(Color(255 / 255, 255 / 255, 255 / 255));
-	}
-	//g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
-	//	[0, 0, 12, 32, 53, 53, 32, 12, 0, 0, 82, 82], 12);		
-	g.fillPolygon([0, 96, 104, 104, 136, 603, 635, 635, 643, 739, 739, 0],
-		[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
-	if (isStencil) {
-		image = applyGrayscaleMaskToAlpha(image, image);
-	}
-    return image;
-}
 
 // This will cause a test component to be created when you run the script
 // from a script editor. It doesn't do anything when the script is run
