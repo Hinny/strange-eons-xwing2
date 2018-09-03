@@ -3,6 +3,8 @@ useLibrary('ui');
 useLibrary('imageutils');
 useLibrary('markup');
 
+importPackage(ca.cgjennings.graphics.filters);
+
 importClass(java.awt.BasicStroke);
 importClass(java.awt.Stroke);
 importClass(java.awt.RenderingHints);
@@ -135,16 +137,9 @@ function create(diy) {
 	$CustomShipActionLinked5 = #xw2-pilot-custom-ship-action-5-linked;
 	$CustomShipIcon = #xw2-pilot-custom-ship-icon;
 	
-	$CustomFactionTint = '0,1,1';
-	$CustomFactionColorRed1 = #xw2-pilot-custom-faction-color-1-red;
-	$CustomFactionColorGreen1 = #xw2-pilot-custom-faction-color-1-green;
-	$CustomFactionColorBlue1 = #xw2-pilot-custom-faction-color-1-blue;
-	$CustomFactionColorRed2 = #xw2-pilot-custom-faction-color-2-red;
-	$CustomFactionColorGreen2 = #xw2-pilot-custom-faction-color-2-green;
-	$CustomFactionColorBlue2 = #xw2-pilot-custom-faction-color-2-blue;
-	$CustomFactionColorRed3 = #xw2-pilot-custom-faction-color-3-red;
-	$CustomFactionColorGreen3 = #xw2-pilot-custom-faction-color-3-green;
-	$CustomFactionColorBlue3 = #xw2-pilot-custom-faction-color-3-blue;
+	$CustomFactionTint1 = #xw2-pilot-custom-faction-tint-1;
+	$CustomFactionTint2 = #xw2-pilot-custom-faction-tint-2;
+	$CustomFactionTint3 = #xw2-pilot-custom-faction-tint-3;
 }
 
 function createInterface(diy,editor) {
@@ -382,29 +377,14 @@ function createInterface(diy,editor) {
 
 	customFactionHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-faction");
 
-	customFactionTintPanel = tintPanel();
-	bindings.add( 'CustomFactionTint', customFactionTintPanel, [0, 1, 2] );
+	customFactionTintPanel1 = tintPanel();
+	bindings.add( 'CustomFactionTint1', customFactionTintPanel1, [0, 1, 2] );
 
-	customFactionColor1RedBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorRed1', customFactionColor1RedBox, [0, 1, 2] );
-	customFactionColor1GreenBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorGreen1', customFactionColor1GreenBox, [0, 1, 2] );
-	customFactionColor1BlueBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorBlue1', customFactionColor1BlueBox, [0, 1, 2] );
+	customFactionTintPanel2 = tintPanel();
+	bindings.add( 'CustomFactionTint2', customFactionTintPanel2, [0, 1, 2] );
 
-	customFactionColor2RedBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorRed2', customFactionColor2RedBox, [0, 1, 2] );
-	customFactionColor2GreenBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorGreen2', customFactionColor2GreenBox, [0, 1, 2] );
-	customFactionColor2BlueBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorBlue2', customFactionColor2BlueBox, [0, 1, 2] );
-
-	customFactionColor3RedBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorRed3', customFactionColor3RedBox, [0, 1, 2] );
-	customFactionColor3GreenBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorGreen3', customFactionColor3GreenBox, [0, 1, 2] );
-	customFactionColor3BlueBox = spinner(0, 255, 1, 255);
-	bindings.add( 'CustomFactionColorBlue3', customFactionColor3BlueBox, [0, 1, 2] );
+	customFactionTintPanel3 = tintPanel();
+	bindings.add( 'CustomFactionTint3', customFactionTintPanel3, [0, 1, 2] );
 
 	customFactionUpperPanel = portraitPanel(diy,3);
 	customFactionUpperPanel.panelTitle = @xw2-faction-upper-panel;
@@ -416,22 +396,14 @@ function createInterface(diy,editor) {
 	customFactionPanel.setTitle(@xw2-custom-faction);
 	customFactionPanel.place(customFactionHelpButton,'wrap para');
 	customFactionPanel.place(separator(),'span,growx,wrap para');
-	customFactionPanel.place(customFactionTintPanel,'wrap para');
-	customFactionPanel.place(separator(),'span,growx,wrap para');
 	customFactionPanel.place(@xw2-color-1, 'span, wrap');
-	customFactionPanel.place(@xw2-red, '', customFactionColor1RedBox, 'wmin 50');
-	customFactionPanel.place(@xw2-green, '', customFactionColor1GreenBox, 'wmin 50');
-	customFactionPanel.place(@xw2-blue, '', customFactionColor1BlueBox, 'wmin 50, wrap para');
+	customFactionPanel.place(customFactionTintPanel1,'wrap para');
 	customFactionPanel.place(separator(),'span,growx,wrap para');
 	customFactionPanel.place(@xw2-color-2, 'span, wrap');
-	customFactionPanel.place(@xw2-red, '', customFactionColor2RedBox, 'wmin 50');
-	customFactionPanel.place(@xw2-green, '', customFactionColor2GreenBox, 'wmin 50');
-	customFactionPanel.place(@xw2-blue, '', customFactionColor2BlueBox, 'wmin 50, wrap para');
+	customFactionPanel.place(customFactionTintPanel2,'wrap para');
 	customFactionPanel.place(separator(),'span,growx,wrap para');
 	customFactionPanel.place(@xw2-color-3, 'span, wrap');
-	customFactionPanel.place(@xw2-red, '', customFactionColor3RedBox, 'wmin 50');
-	customFactionPanel.place(@xw2-green, '', customFactionColor3GreenBox, 'wmin 50');
-	customFactionPanel.place(@xw2-blue, '', customFactionColor3BlueBox, 'wmin 50, wrap para');
+	customFactionPanel.place(customFactionTintPanel3,'wrap para');
 	customFactionPanel.place(separator(),'span,growx,wrap para');
 	customFactionPanel.place(customFactionUpperPanel,'span,growx,wrap');
 	customFactionPanel.place(customFactionLowerPanel,'span,growx,wrap');
@@ -587,27 +559,15 @@ function createInterface(diy,editor) {
 				}
 			}
 			if (factionBox.getSelectedItem() != 'custom') {
-				customFactionColor1RedBox.setEnabled(false);
-				customFactionColor1GreenBox.setEnabled(false);
-				customFactionColor1BlueBox.setEnabled(false);
-				customFactionColor2RedBox.setEnabled(false);
-				customFactionColor2GreenBox.setEnabled(false);
-				customFactionColor2BlueBox.setEnabled(false);
-				customFactionColor3RedBox.setEnabled(false);
-				customFactionColor3GreenBox.setEnabled(false);
-				customFactionColor3BlueBox.setEnabled(false);
+				customFactionTintPanel1.setVisible(false);
+				customFactionTintPanel2.setVisible(false);
+				customFactionTintPanel3.setVisible(false);
 				customFactionUpperPanel.setVisible(false);
 				customFactionLowerPanel.setVisible(false);
 			} else {
-				customFactionColor1RedBox.setEnabled(true);
-				customFactionColor1GreenBox.setEnabled(true);
-				customFactionColor1BlueBox.setEnabled(true);
-				customFactionColor2RedBox.setEnabled(true);
-				customFactionColor2GreenBox.setEnabled(true);
-				customFactionColor2BlueBox.setEnabled(true);
-				customFactionColor3RedBox.setEnabled(true);
-				customFactionColor3GreenBox.setEnabled(true);
-				customFactionColor3BlueBox.setEnabled(true);
+				customFactionTintPanel1.setVisible(true);
+				customFactionTintPanel2.setVisible(true);
+				customFactionTintPanel3.setVisible(true);
 				customFactionUpperPanel.setVisible(true);
 				customFactionLowerPanel.setVisible(true);
 			}
@@ -1101,6 +1061,7 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 		xMod = 83; // Adjustment for reduced text area
 	}
 	
+	// Count actions in action bar
 	actionsInActionBar = 0;
 	if ($ShipModel == 'custom') {
 		if ($CustomShipActionName1 != '-') {actionsInActionBar++;}
@@ -1116,26 +1077,25 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 		if (getShipStat($ShipModel, 'action-5-name') != '-') {actionsInActionBar++;}
 	}
 	
-	if ( $Faction == 'custom' ) {
-		color1 = new Color($CustomFactionColorRed1 / 255, $CustomFactionColorGreen1 / 255, $CustomFactionColorBlue1 / 255);
-		color2 = new Color($CustomFactionColorRed2 / 255, $CustomFactionColorGreen2 / 255, $CustomFactionColorBlue2 / 255);
-		color3 = new Color($CustomFactionColorRed3 / 255, $CustomFactionColorGreen3 / 255, $CustomFactionColorBlue3 / 255);
+	// Set faction colors
+	if ($Faction == 'custom') {
+		HSB1 = $CustomFactionTint1.split(',');
+		HSB2 = $CustomFactionTint2.split(',');
+		HSB3 = $CustomFactionTint3.split(',');
+		HSB1[0] = HSB1[0] / 360;
+		HSB2[0] = HSB2[0] / 360;
+		HSB3[0] = HSB3[0] / 360; 
 	} else {
-		color1 = new Color(
-			Number(getFactionStat($Faction, 'color-1-red')) / 255,
-			Number(getFactionStat($Faction, 'color-1-green')) / 255,
-			Number(getFactionStat($Faction, 'color-1-blue')) / 255);
-		color2 = new Color(
-			Number(getFactionStat($Faction, 'color-2-red')) / 255,
-			Number(getFactionStat($Faction, 'color-2-green')) / 255,
-			Number(getFactionStat($Faction, 'color-2-blue')) / 255);
-		color3 = new Color(
-			Number(getFactionStat($Faction, 'color-3-red')) / 255,
-			Number(getFactionStat($Faction, 'color-3-green')) / 255,
-			Number(getFactionStat($Faction, 'color-3-blue')) / 255);
+		HSB1 = getFactionStat($Faction, 'tint-1').split(',');
+		HSB2 = getFactionStat($Faction, 'tint-2').split(',');
+		HSB3 = getFactionStat($Faction, 'tint-3').split(',');
 	}
-	
-	//color1 = new Color(Color.HSBtoRGB();
+	RGB1 = Color.HSBtoRGB(HSB1[0], HSB1[1], HSB1[2]);
+	RGB2 = Color.HSBtoRGB(HSB2[0], HSB2[1], HSB2[2]);
+	RGB3 = Color.HSBtoRGB(HSB3[0], HSB3[1], HSB3[2]);
+	color1 = new Color(RGB1);
+	color2 = new Color(RGB2);
+	color3 = new Color(RGB3);
 		
 	// Draw Text Area
 	g.setPaint(Xwing2.getColor('white'));
@@ -1233,6 +1193,7 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	mask = createUpperPanelImage(false);
 	panel = applyGrayscaleMaskToAlpha(panel, mask);
 	g.drawImage(panel, 0, 309, null);
+	g.drawImage(panel, 0, 309, null);
 
 	// Draw lower panel
 	panel = ImageUtils.create(739, 82, true);
@@ -1302,15 +1263,9 @@ function onClear() {
 	$CustomShipActionLinked5 = '-';
 	$CustomShipIcon = 'custom';
 	
-	$CustomFactionColorRed1 = '255';
-	$CustomFactionColorGreen1 = '255';
-	$CustomFactionColorBlue1 = '255';
-	$CustomFactionColorRed2 = '255';
-	$CustomFactionColorGreen2 = '255';
-	$CustomFactionColorBlue2 = '255';
-	$CustomFactionColorRed3 = '255';
-	$CustomFactionColorGreen3 = '255';
-	$CustomFactionColorBlue3 = '255';
+	$CustomFactionTint1 = '0.0, 0.0, 0.0';
+	$CustomFactionTint2 = '0.0, 0.0, 0.0';
+	$CustomFactionTint3 = '0.0, 0.0, 0.0';
 }
 
 // These can be used to perform special processing during open/save.
@@ -1405,6 +1360,24 @@ function applyGrayscaleMaskToAlpha(image, mask) {
     return image;
 }
 
+//function applyAlphaMaskToImage(image, mask) {
+//	//image = new B
+// 
+//    return image;
+//}
+//
+function createDropShadow(image) {
+	blur = new BlurFilter(2,1);
+	blur.filter(image,image);
+    return image;
+}
+
+function invertAlpha(soureImage) {
+	invert = new AlphaInversionFilter();
+	invert.filter(soureImage,destinationImage);
+    return destinationImage;
+}
+
 function getShipStat(shipId, stat) {
 	key = 'xw2-ship-' + shipId + '-' + stat;
 	if (!Language.getGame().isKeyDefined(key)) {
@@ -1495,7 +1468,7 @@ function createLowerPanelImage(isStencil) {
 		[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
 	if (isStencil) {
 		image = applyGrayscaleMaskToAlpha(image, image);
-	}
+	}	
     return image;
 }
 
