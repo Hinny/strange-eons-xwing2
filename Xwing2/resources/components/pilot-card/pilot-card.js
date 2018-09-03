@@ -82,8 +82,9 @@ function create(diy) {
 	portraits[3].backgroundFilled = false;
 	portraits[3].clipping = true;
 	portraits[3].installDefault();
-	//portraits[3].setClipStencil(ImageUtils.get($faction-upper-panel-portrait-stencil));
-	portraits[3].setClipStencil(createUpperPanelImage(true));
+	image = createUpperPanelImage();
+	image = invertAlpha(image);
+	portraits[3].setClipStencil(image);
 
 	// Lower Panel
 	portraits[4] = new DefaultPortrait(diy,'faction-lower-panel');
@@ -92,7 +93,9 @@ function create(diy) {
 	portraits[4].backgroundFilled = false;
 	portraits[4].clipping = true;
 	portraits[4].installDefault();
-	portraits[4].setClipStencil(createLowerPanelImage(true));
+	image = createLowerPanelImage();
+	image = invertAlpha(image);
+	portraits[4].setClipStencil(image);
 	
 	// install the example pilot
 	diy.name = #xw2-pilot-name;
@@ -137,9 +140,8 @@ function create(diy) {
 	$CustomShipActionLinked5 = #xw2-pilot-custom-ship-action-5-linked;
 	$CustomShipIcon = #xw2-pilot-custom-ship-icon;
 	
-	$CustomFactionTint1 = #xw2-pilot-custom-faction-tint-1;
-	$CustomFactionTint2 = #xw2-pilot-custom-faction-tint-2;
-	$CustomFactionTint3 = #xw2-pilot-custom-faction-tint-3;
+	$CustomFactionMainTint = #xw2-pilot-custom-faction-main-tint;
+	$CustomFactionFireArcTint = #xw2-pilot-custom-faction-fire-arc-tint;
 }
 
 function createInterface(diy,editor) {
@@ -377,14 +379,11 @@ function createInterface(diy,editor) {
 
 	customFactionHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-faction");
 
-	customFactionTintPanel1 = tintPanel();
-	bindings.add( 'CustomFactionTint1', customFactionTintPanel1, [0, 1, 2] );
+	customFactionMainTintPanel = tintPanel();
+	bindings.add( 'CustomFactionMainTint', customFactionMainTintPanel, [0, 1, 2] );
 
-	customFactionTintPanel2 = tintPanel();
-	bindings.add( 'CustomFactionTint2', customFactionTintPanel2, [0, 1, 2] );
-
-	customFactionTintPanel3 = tintPanel();
-	bindings.add( 'CustomFactionTint3', customFactionTintPanel3, [0, 1, 2] );
+	customFactionFireArcTintPanel = tintPanel();
+	bindings.add( 'CustomFactionFireArcTint', customFactionFireArcTintPanel, [0, 1, 2] );
 
 	customFactionUpperPanel = portraitPanel(diy,3);
 	customFactionUpperPanel.panelTitle = @xw2-faction-upper-panel;
@@ -396,14 +395,11 @@ function createInterface(diy,editor) {
 	customFactionPanel.setTitle(@xw2-custom-faction);
 	customFactionPanel.place(customFactionHelpButton,'wrap para');
 	customFactionPanel.place(separator(),'span,growx,wrap para');
-	customFactionPanel.place(@xw2-color-1, 'span, wrap');
-	customFactionPanel.place(customFactionTintPanel1,'wrap para');
+	customFactionPanel.place(@xw2-color-main, 'span, wrap');
+	customFactionPanel.place(customFactionMainTintPanel,'wrap para');
 	customFactionPanel.place(separator(),'span,growx,wrap para');
-	customFactionPanel.place(@xw2-color-2, 'span, wrap');
-	customFactionPanel.place(customFactionTintPanel2,'wrap para');
-	customFactionPanel.place(separator(),'span,growx,wrap para');
-	customFactionPanel.place(@xw2-color-3, 'span, wrap');
-	customFactionPanel.place(customFactionTintPanel3,'wrap para');
+	customFactionPanel.place(@xw2-color-fire-arcs, 'span, wrap');
+	customFactionPanel.place(customFactionFireArcTintPanel,'wrap para');
 	customFactionPanel.place(separator(),'span,growx,wrap para');
 	customFactionPanel.place(customFactionUpperPanel,'span,growx,wrap');
 	customFactionPanel.place(customFactionLowerPanel,'span,growx,wrap');
@@ -559,15 +555,13 @@ function createInterface(diy,editor) {
 				}
 			}
 			if (factionBox.getSelectedItem() != 'custom') {
-				customFactionTintPanel1.setVisible(false);
-				customFactionTintPanel2.setVisible(false);
-				customFactionTintPanel3.setVisible(false);
+				customFactionMainTintPanel.setVisible(false);
+				customFactionFireArcTintPanel.setVisible(false);
 				customFactionUpperPanel.setVisible(false);
 				customFactionLowerPanel.setVisible(false);
 			} else {
-				customFactionTintPanel1.setVisible(true);
-				customFactionTintPanel2.setVisible(true);
-				customFactionTintPanel3.setVisible(true);
+				customFactionMainTintPanel.setVisible(true);
+				customFactionFireArcTintPanel.setVisible(true);
 				customFactionUpperPanel.setVisible(true);
 				customFactionLowerPanel.setVisible(true);
 			}
@@ -665,12 +659,8 @@ function paintFrontFace(g,diy,sheet) {
 		textBoxStyle = 'full';
 	}
 	// TODO: Remove extra dev templates
-	if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum'){
-		imageTemplate =  'pilot-' + $Faction + '-front-' + textBoxStyle + '-template';
-		sheet.paintImage(g, imageTemplate, 0, 0);
+	if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum' || $Faction == 'custom'){
 		// Draw template
-		paintFrontFaceFrame(g, diy, sheet, textBoxStyle);
-	} else if ($Faction == 'custom') {
 		paintFrontFaceFrame(g, diy, sheet, textBoxStyle);
 	} else {
 		imageTemplate =  'dev-' + $Faction + '-template';
@@ -1079,23 +1069,19 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	
 	// Set faction colors
 	if ($Faction == 'custom') {
-		HSB1 = $CustomFactionTint1.split(',');
-		HSB2 = $CustomFactionTint2.split(',');
-		HSB3 = $CustomFactionTint3.split(',');
+		HSB1 = $CustomFactionMainTint.split(',');
+		HSB2 = $CustomFactionFireArcTint.split(',');
 		HSB1[0] = HSB1[0] / 360;
 		HSB2[0] = HSB2[0] / 360;
-		HSB3[0] = HSB3[0] / 360; 
+
 	} else {
-		HSB1 = getFactionStat($Faction, 'tint-1').split(',');
-		HSB2 = getFactionStat($Faction, 'tint-2').split(',');
-		HSB3 = getFactionStat($Faction, 'tint-3').split(',');
+		HSB1 = getFactionStat($Faction, 'main-tint').split(',');
+		HSB2 = getFactionStat($Faction, 'fire-arc-tint').split(',');
 	}
 	RGB1 = Color.HSBtoRGB(HSB1[0], HSB1[1], HSB1[2]);
 	RGB2 = Color.HSBtoRGB(HSB2[0], HSB2[1], HSB2[2]);
-	RGB3 = Color.HSBtoRGB(HSB3[0], HSB3[1], HSB3[2]);
 	color1 = new Color(RGB1);
 	color2 = new Color(RGB2);
-	color3 = new Color(RGB3);
 		
 	// Draw Text Area
 	g.setPaint(Xwing2.getColor('white'));
@@ -1118,6 +1104,7 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	//TODO: turn this on!
 	//g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+	//TODO: Polyline?
 	g.drawLine(0, 419, 170, 419);
 	g.drawLine(171, 419, 192, 398);
 	g.drawLine(193, 397, 546, 397);
@@ -1185,22 +1172,41 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 		[436, 436, 420, 352, 325, 325, 352, 420, 436, 436, 317, 317, 309, 309, 317, 317], 16);
 	g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
 		[958, 958, 970, 990, 1011, 1011, 990, 970, 958, 958, 1040, 1040], 12);
-		
+
+	// Draw upper panel drop shadow
+	dropShadow = ImageUtils.create(742, 127, true);
+	gTemp = dropShadow.createGraphics();
+	gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
+	gTemp.fillPolygon([0, 95, 107, 107, 138, 607, 638, 638, 650, 742, 742, 622, 618, 123, 115, 0],
+		[120, 120, 108, 40, 9, 9, 40, 108, 120, 120, 8, 8, 0, 0, 8, 8], 16);
+	blur = new BlurFilter(1,3);
+	blur.filter(dropShadow,dropShadow);
+	g.drawImage(dropShadow, 0, 312, null);
+	
 	// Draw upper panel
 	panel = ImageUtils.create(739, 127, true);
 	gTemp = panel.createGraphics();
 	portraits[3].paint(gTemp, target);
-	mask = createUpperPanelImage(false);
-	panel = applyGrayscaleMaskToAlpha(panel, mask);
-	g.drawImage(panel, 0, 309, null);
+	mask = createUpperPanelImage();
+	panel = applyAlphaMaskToImage(panel, mask);
 	g.drawImage(panel, 0, 309, null);
 
+	// Draw lower panel drop shadow
+	dropShadow = ImageUtils.create(742, 82, true);
+	gTemp = dropShadow.createGraphics();
+	gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
+	gTemp.fillPolygon([0, 99, 107, 107, 139, 606, 638, 638, 646, 742, 742, 0],
+		[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
+	blur = new BlurFilter(1,3);
+	blur.filter(dropShadow,dropShadow);
+	g.drawImage(dropShadow, 0, 961, null);
+		
 	// Draw lower panel
 	panel = ImageUtils.create(739, 82, true);
 	gTemp = panel.createGraphics();
 	portraits[4].paint(gTemp, target);
-	mask = createLowerPanelImage(false);
-	panel = applyGrayscaleMaskToAlpha(panel, mask);
+	mask = createLowerPanelImage();
+	panel = applyAlphaMaskToImage(panel, mask);
 	g.drawImage(panel, 0, 958, null);
 
 	// Draw panel line art
@@ -1217,8 +1223,7 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	g.drawLine(0, 1030, 208, 1030);
 	g.drawLine(208, 1030, 218, 1040);
 	g.drawLine(739, 1030, 531, 1030);
-	g.drawLine(531, 1030, 521, 1040);
-	
+	g.drawLine(531, 1030, 521, 1040);	
 }
 
 function onClear() {
@@ -1263,9 +1268,9 @@ function onClear() {
 	$CustomShipActionLinked5 = '-';
 	$CustomShipIcon = 'custom';
 	
-	$CustomFactionTint1 = '0.0, 0.0, 0.0';
-	$CustomFactionTint2 = '0.0, 0.0, 0.0';
-	$CustomFactionTint3 = '0.0, 0.0, 0.0';
+	$CustomFactionMainTint = '0.0, 0.0, 0.0';
+	$CustomFactionFireArcTint = '0.0, 0.0, 0.0';
+
 }
 
 // These can be used to perform special processing during open/save.
@@ -1344,7 +1349,7 @@ function createTranslucentImage(source, opacity) {
 	return im;
 }
 
-function applyGrayscaleMaskToAlpha(image, mask) {
+function applyAlphaMaskToImage(image, mask) {
     width = image.getWidth();
     height = image.getHeight();
 
@@ -1353,29 +1358,17 @@ function applyGrayscaleMaskToAlpha(image, mask) {
 
     for (i = 0; i < imagePixels.length; i++) {
         color = imagePixels[i] & 0x00ffffff; // Mask preexisting alpha
-        alpha = maskPixels[i] << 24; // Shift blue to alpha
+        alpha = maskPixels[i] & 0xff000000;
         imagePixels[i] = color | alpha;
     }
     image.setRGB(0, 0, width, height, imagePixels, 0, width);
     return image;
 }
 
-//function applyAlphaMaskToImage(image, mask) {
-//	//image = new B
-// 
-//    return image;
-//}
-//
-function createDropShadow(image) {
-	blur = new BlurFilter(2,1);
-	blur.filter(image,image);
-    return image;
-}
-
-function invertAlpha(soureImage) {
+function invertAlpha(image) {
 	invert = new AlphaInversionFilter();
-	invert.filter(soureImage,destinationImage);
-    return destinationImage;
+	invert.filter(image,image);
+    return image;
 }
 
 function getShipStat(shipId, stat) {
@@ -1424,51 +1417,27 @@ function R(nametag,x,y) {
 	return new Region(value);
 }
 
-function createUpperPanelImage(isStencil) {
+function createUpperPanelImage() {
 	image = ImageUtils.create(739, 127, true);
 	g = image.createGraphics();
-	if (isStencil) {
-		g.setPaint(Color(255 / 255, 255 / 255, 255 / 255));
-	} else {
-		g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	}
-	g.fillRect(0, 0, 739, 127);
-	if (isStencil) {
-		g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	} else {
-		g.setPaint(Color(255 / 255, 255 / 255, 255 / 255));
-	}
+	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
+
 	//g.fillPolygon([0, 95, 111, 111, 138, 601, 628, 628, 644, 739, 739, 627, 619, 120, 112, 0],
 	//	[127, 127, 111, 43, 16, 16, 43, 111, 127, 127, 8, 8, 0, 0, 8, 8], 16);
 	g.fillPolygon([0, 92, 104, 104, 135, 604, 635, 635, 647, 739, 739, 627, 619, 120, 112, 0],
-		[120, 120, 108, 40, 9, 9, 40, 108, 120, 120, 8, 8, 0, 0, 8, 8], 16);	
-	if (isStencil) {
-		image = applyGrayscaleMaskToAlpha(image, image);
-	}
+		[120, 120, 108, 40, 9, 9, 40, 108, 120, 120, 8, 8, 0, 0, 8, 8], 16);
     return image;
 }
 
-function createLowerPanelImage(isStencil) {
+function createLowerPanelImage() {
 	image = ImageUtils.create(739, 82, true);
 	g = image.createGraphics();
-	if (isStencil) {
-		g.setPaint(Color(255 / 255, 255 / 255, 255 / 255));
-	} else {
-		g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	}
-	g.fillRect(0, 0, 739, 127);
-	if (isStencil) {
-		g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	} else {
-		g.setPaint(Color(255 / 255, 255 / 255, 255 / 255));
-	}
+	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
+
 	//g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
-	//	[0, 0, 12, 32, 53, 53, 32, 12, 0, 0, 82, 82], 12);		
+	//	[0, 0, 12, 32, 53, 53, 32, 12, 0, 0, 82, 82], 12);
 	g.fillPolygon([0, 96, 104, 104, 136, 603, 635, 635, 643, 739, 739, 0],
 		[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
-	if (isStencil) {
-		image = applyGrayscaleMaskToAlpha(image, image);
-	}	
     return image;
 }
 
