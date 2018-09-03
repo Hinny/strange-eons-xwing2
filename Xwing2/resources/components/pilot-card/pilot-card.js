@@ -1090,11 +1090,15 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	// Tint the Text Area
 	textArea = ImageUtils.create(739, 1040, true);
 	gTemp = textArea.createGraphics();
-	//TODO: Gradient tint...
-	gTemp.setPaint(color1);
+	gTemp.setPaint(Xwing2.getColor('white'));
 	gTemp.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
-	textArea = createTranslucentImage(textArea, 0.10);
+	radialPaint = new java.awt.RadialGradientPaint(302.2 -xMod / 2, 626, 400, [0.4, 1.0], [Xwing2.getColor('white'), color1]);
+	textArea = createTexturedImage(textArea, radialPaint);
+	textArea = createTranslucentImage(textArea, 0.2);
 	g.drawImage(textArea, 0, 0, null);
+	
+	// Draw faction symbol
+	// TODO
 	
 	//TODO: Gradient art in between the line art
 	
