@@ -380,9 +380,11 @@ function createInterface(diy,editor) {
 	customFactionHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-faction");
 
 	customFactionMainTintPanel = tintPanel();
+	customFactionMainTintPanel.getBorder().setTitle(@xw2-color-main);
 	bindings.add( 'CustomFactionMainTint', customFactionMainTintPanel, [0, 1, 2] );
 
 	customFactionFireArcTintPanel = tintPanel();
+	customFactionFireArcTintPanel.getBorder().setTitle(@xw2-color-fire-arcs);
 	bindings.add( 'CustomFactionFireArcTint', customFactionFireArcTintPanel, [0, 1, 2] );
 
 	customFactionUpperPanel = portraitPanel(diy,3);
@@ -394,13 +396,8 @@ function createInterface(diy,editor) {
 	customFactionPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref][min:pref][min:pref,grow]','');
 	customFactionPanel.setTitle(@xw2-custom-faction);
 	customFactionPanel.place(customFactionHelpButton,'wrap para');
-	customFactionPanel.place(separator(),'span,growx,wrap para');
-	customFactionPanel.place(@xw2-color-main, 'span, wrap');
 	customFactionPanel.place(customFactionMainTintPanel,'wrap para');
-	customFactionPanel.place(separator(),'span,growx,wrap para');
-	customFactionPanel.place(@xw2-color-fire-arcs, 'span, wrap');
 	customFactionPanel.place(customFactionFireArcTintPanel,'wrap para');
-	customFactionPanel.place(separator(),'span,growx,wrap para');
 	customFactionPanel.place(customFactionUpperPanel,'span,growx,wrap');
 	customFactionPanel.place(customFactionLowerPanel,'span,growx,wrap');
 	customFactionPanel.editorTabScrolling = true;
@@ -615,6 +612,7 @@ function createBackPainter(diy, sheet) {
 
 function paintFront(g,diy,sheet) {
 	if (sheet.sheetIndex == 0) {
+		//paintFrontFaceFrame(g, diy, sheet, textBoxStyle);
 		paintFrontFace(g, diy, sheet);
 	} else {
 		paintToken(g, diy, sheet);
@@ -1044,6 +1042,7 @@ function paintToken(g,diy,sheet) {
 	g.fillOval(Math.round((tokenWidth - cutoutSize)/2), Math.round((tokenHeight - cutoutSize)/2), cutoutSize, cutoutSize );
 }
 
+//function paintFrontFaceFrame(g, diy, sheet, textBoxStyle, actionsInActionBar, mainColor, fireArcColor, upperPanelPortrait, upperPanelPortrait) {
 function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	if (textBoxStyle == 'full') {
 		xMod = 0;
@@ -1080,8 +1079,8 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	}
 	RGB1 = Color.HSBtoRGB(HSB1[0], HSB1[1], HSB1[2]);
 	RGB2 = Color.HSBtoRGB(HSB2[0], HSB2[1], HSB2[2]);
-	color1 = new Color(RGB1);
-	color2 = new Color(RGB2);
+	mainColor = new Color(RGB1);
+	fireArcColor = new Color(RGB2);
 		
 	// Draw Text Area
 	g.setPaint(Xwing2.getColor('white'));
@@ -1092,7 +1091,7 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	gTemp = textArea.createGraphics();
 	gTemp.setPaint(Xwing2.getColor('white'));
 	gTemp.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
-	radialPaint = new java.awt.RadialGradientPaint(302.2 -xMod / 2, 626, 400, [0.4, 1.0], [Xwing2.getColor('white'), color1]);
+	radialPaint = new java.awt.RadialGradientPaint(302.2 -xMod / 2, 626, 400, [0.4, 1.0], [Xwing2.getColor('white'), mainColor]);
 	textArea = createTexturedImage(textArea, radialPaint);
 	textArea = createTranslucentImage(textArea, 0.2);
 	g.drawImage(textArea, 0, 0, null);
@@ -1100,13 +1099,27 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 	// Draw faction symbol
 	// TODO
 	
-	//TODO: Gradient art in between the line art
+	// Gradient art in between the line art
+	gradiantArt = ImageUtils.create(18, 105, true);
+	gTemp = gradiantArt.createGraphics();
+	gTemp.setPaint(Xwing2.getColor('white'));
+	gTemp.fillRect(0,0,18,105);
+	gradientPaint = new java.awt.GradientPaint(0, 0, Color(24 / 255, 20 / 255, 21 / 255), 0, 250, mainColor);
+	gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+	g.drawImage(gradiantArt, 609-xMod, 678, null);
+	
+	gradiantArt = ImageUtils.create(18, 209, true);
+	gTemp = gradiantArt.createGraphics();
+	gTemp.setPaint(Xwing2.getColor('white'));
+	gTemp.fillRect(0,0,18,209);
+	gradientPaint = new java.awt.GradientPaint(0, 50, Color(24 / 255, 20 / 255, 21 / 255), 0, 380, mainColor);
+	gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+	g.drawImage(gradiantArt, 609-xMod, 470, null);
 	
 	// Draw Line Art
-	g.setPaint(color1);
+	g.setPaint(mainColor);
 	g.setStroke(BasicStroke(2));
-	//TODO: turn this on!
-	//g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 	//TODO: Polyline?
 	g.drawLine(0, 419, 170, 419);
