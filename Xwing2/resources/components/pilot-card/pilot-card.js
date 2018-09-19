@@ -611,21 +611,22 @@ function createBackPainter(diy, sheet) {
 }
 
 function paintFront(g, diy, sheet) {
-	//Draw template
-	// TODO: Remove extra dev templates
-	if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum' || $Faction == 'custom'){
-		[mainColor, fireArcColor, actionsInActionBar, textBoxStyle] = setCommonVariables(g, diy, sheet);
-	}
-		
-	if (sheet.sheetIndex == 0) { // Front Face
+	
+	if (sheet.sheetIndex == 0) {
+		textBoxSize = getTextBoxSize();
 		if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum' || $Faction == 'custom'){
-			paintFrontFaceFrame(g, sheet, textBoxStyle, actionsInActionBar, mainColor);
+			mainColor = getMainColor();
+			actionsInActionBar = getActionsInActionBar();
+			paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColor);
 		} else {
+			// TODO: Remove extra dev templates	
 			imageTemplate =  'dev-' + $Faction + '-template';
 			sheet.paintImage(g, imageTemplate, 0, 0);
 		}
-		paintFrontFaceInfo(g, diy, sheet, textBoxStyle);
+		paintFrontFaceInfo(g, diy, sheet, textBoxSize);
 	} else {
+		mainColor = getMainColor();
+		fireArcColor = getFireArcColor();
 		paintToken(g, diy, sheet, mainColor, fireArcColor);
 	}	
 }
@@ -638,7 +639,7 @@ function paintBack(g,diy,sheet) {
 	sheet.paintImage(g, imageTemplate,0,0);
 }
 
-function paintFrontFaceFrame(g, sheet, textBoxStyle, actionsInActionBar, mainColor) {
+function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColor) {
 	target = sheet.getRenderTarget();
 		
 	imageTemplate = 'pilot-blank-template';
@@ -648,7 +649,7 @@ function paintFrontFaceFrame(g, sheet, textBoxStyle, actionsInActionBar, mainCol
 	//Draw portrait
 	portraits[0].paint(g, target);
 		
-	if (textBoxStyle == 'full') {
+	if (textBoxSize == 'full') {
 		xMod = 0;
 	} else {
 		xMod = 83; // Adjustment for reduced text area
@@ -670,6 +671,13 @@ function paintFrontFaceFrame(g, sheet, textBoxStyle, actionsInActionBar, mainCol
 	
 	// Draw faction symbol
 	// TODO
+	factionSymbol = ImageUtils.create(1000, 1000, true);
+	gTemp = factionSymbol.createGraphics();
+	imageTemplate = 'pilot-' + $Faction + '-faction-symbol-template';
+	sheet.paintImage(gTemp, imageTemplate,0,0);
+	//gTemp.setPaint(mainColor);	
+	//factionSymbol = createTranslucentImage(factionSymbol, 0.2);
+	g.drawImage(factionSymbol, 130-(xMod/2), 450, null);
 	
 	// Gradient art in between the line art
 	gradiantArt = ImageUtils.create(18, 105, true);
@@ -823,7 +831,7 @@ function paintFrontFaceFrame(g, sheet, textBoxStyle, actionsInActionBar, mainCol
 
 }
 
-function paintFrontFaceInfo(g, diy, sheet, textBoxStyle) {
+function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 	target = sheet.getRenderTarget();
 
 	// Draw the name
@@ -884,7 +892,7 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxStyle) {
 	} else if ($ShipModel != 'custom' && getShipStat($ShipModel, 'ability-name') != '') {
 		text = text + '\n<div>\n<width regular><b><i>' + Xwing2.smallCaps('' + getShipStat($ShipModel, 'ability-name')) + ': </i></b></width>'+ getShipStat($ShipModel, 'ability-text');
 	}
-	if (textBoxStyle == 'full') {
+	if (textBoxSize == 'full') {
 		fullAbilityTextBox.markupText = text;
 		fullAbilityTextBox.draw(g, R('full-text'));
 	} else {
@@ -911,7 +919,7 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxStyle) {
 	}
 	if ($ChargeValue != '-') {stats.push( ['charge', $ChargeValue, $ChargeRecurring]);}
 	if ($ForceValue != '-') {stats.push( ['force', $ForceValue, 1]);}
-	if (textBoxStyle == 'full') {
+	if (textBoxSize == 'full') {
 		xCenterPoint = 268;
 		switch (stats.length) {
 			case 2: xDistanceBetween = 132; break;
@@ -994,7 +1002,7 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxStyle) {
 		}
 	}
 	yCenterPoint = 650;
-	if (textBoxStyle == 'full') {
+	if (textBoxSize == 'full') {
 		xCenterPoint = 635;
 	} else {
 		xCenterPoint = 590;
@@ -1205,24 +1213,33 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	g.fillOval(Math.round((tokenWidth - cutoutSize)/2), Math.round((tokenHeight - cutoutSize)/2), cutoutSize, cutoutSize );
 }
 
-function setCommonVariables(g, diy, sheet) {
-	// Set faction colors
+function getMainColor() {
 	if ($Faction == 'custom') {
-		HSB1 = $CustomFactionMainTint.split(',');
-		HSB2 = $CustomFactionFireArcTint.split(',');
-		HSB1[0] = HSB1[0] / 360;
-		HSB2[0] = HSB2[0] / 360;
-
+		HSB = $CustomFactionMainTint.split(',');
+		HSB[0] = HSB[0] / 360;
 	} else {
-		HSB1 = getFactionStat($Faction, 'main-tint').split(',');
-		HSB2 = getFactionStat($Faction, 'fire-arc-tint').split(',');
+		HSB = getFactionStat($Faction, 'main-tint').split(',');
 	}
-	RGB1 = Color.HSBtoRGB(HSB1[0], HSB1[1], HSB1[2]);
-	RGB2 = Color.HSBtoRGB(HSB2[0], HSB2[1], HSB2[2]);
-	mainColor = new Color(RGB1);
-	fireArcColor = new Color(RGB2);
+	RGB = Color.HSBtoRGB(HSB[0], HSB[1], HSB[2]);
+	mainColor = new Color(RGB);
 	
-	// Text box style
+	return mainColor;
+}
+
+function getFireArcColor() {
+	if ($Faction == 'custom') {
+		HSB = $CustomFactionFireArcTint.split(',');
+		HSB[0] = HSB[0] / 360;
+	} else {
+		HSB = getFactionStat($Faction, 'fire-arc-tint').split(',');
+	}
+	RGB = Color.HSBtoRGB(HSB[0], HSB[1], HSB[2]);
+	fireArcColor = new Color(RGB);
+	
+	return fireArcColor;
+}
+
+function getTextBoxSize() {
 	if ($ShipModel == 'custom') {
 		hasLinkedAction =
 			$CustomShipActionLinked1 != '-' ||
@@ -1239,12 +1256,15 @@ function setCommonVariables(g, diy, sheet) {
 			getShipStat($ShipModel,'action-5-linked') != '-';
 	}
 	if (hasLinkedAction) {
-		textBoxStyle = 'reduced';
+		textBoxSize = 'reduced';
 	} else {
-		textBoxStyle = 'full';
+		textBoxSize = 'full';
 	}
 	
-	// Count actions in action bar
+	return textBoxSize;
+}
+	
+function getActionsInActionBar() {
 	actionsInActionBar = 0;
 	if ($ShipModel == 'custom') {
 		if ($CustomShipActionName1 != '-') {actionsInActionBar++;}
@@ -1260,8 +1280,12 @@ function setCommonVariables(g, diy, sheet) {
 		if (getShipStat($ShipModel, 'action-5-name') != '-') {actionsInActionBar++;}
 	}	
 	
-	return [mainColor, fireArcColor, actionsInActionBar, textBoxStyle];
+	return actionsInActionBar;
 }
+
+
+
+
 function onClear() {
 	$Epithet = '';
 	$ShipModel = 'custom';
