@@ -11,6 +11,12 @@
 
 pilot-blank-template = components/pilot-card/images/framework/blank.jp2
 pilot-blank-dpi = 300
+
+pilot-icon-background-template = components/pilot-card/images/framework/icon-background.png
+pilot-icon-background-dpi = 500
+pilot-initiative-background-template = components/pilot-card/images/framework/initiative-background.png
+pilot-initiative-background-dpi = 500
+
 pilot-rebel-front-full-template = components/pilot-card/images/temp/blank-imperial-full-text.png
 pilot-rebel-front-full-dpi = 300
 pilot-imperial-front-full-template = components/pilot-card/images/temp/blank-imperial-full-text.png

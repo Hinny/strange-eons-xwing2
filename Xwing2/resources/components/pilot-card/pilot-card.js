@@ -610,12 +610,23 @@ function createBackPainter(diy, sheet) {
 
 }
 
-function paintFront(g,diy,sheet) {
-	if (sheet.sheetIndex == 0) {
-		//paintFrontFaceFrame(g, diy, sheet, textBoxStyle);
-		paintFrontFace(g, diy, sheet);
+function paintFront(g, diy, sheet) {
+	//Draw template
+	// TODO: Remove extra dev templates
+	if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum' || $Faction == 'custom'){
+		[mainColor, fireArcColor, actionsInActionBar, textBoxStyle] = setCommonVariables(g, diy, sheet);
+	}
+		
+	if (sheet.sheetIndex == 0) { // Front Face
+		if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum' || $Faction == 'custom'){
+			paintFrontFaceFrame(g, sheet, textBoxStyle, actionsInActionBar, mainColor);
+		} else {
+			imageTemplate =  'dev-' + $Faction + '-template';
+			sheet.paintImage(g, imageTemplate, 0, 0);
+		}
+		paintFrontFaceInfo(g, diy, sheet, textBoxStyle);
 	} else {
-		paintToken(g, diy, sheet);
+		paintToken(g, diy, sheet, mainColor, fireArcColor);
 	}	
 }
 
@@ -627,44 +638,194 @@ function paintBack(g,diy,sheet) {
 	sheet.paintImage(g, imageTemplate,0,0);
 }
 
-function paintFrontFace(g,diy,sheet) {
-	imageTemplate = 'pilot-blank-template';
-	sheet.paintImage(g, imageTemplate,0,0);
+function paintFrontFaceFrame(g, sheet, textBoxStyle, actionsInActionBar, mainColor) {
 	target = sheet.getRenderTarget();
 		
+	imageTemplate = 'pilot-blank-template';
+	sheet.paintImage(g, imageTemplate,0,0);
+
+	
 	//Draw portrait
 	portraits[0].paint(g, target);
-	
-	//Draw template
-	if ($ShipModel == 'custom') {
-		hasLinkedAction =
-			$CustomShipActionLinked1 != '-' ||
-			$CustomShipActionLinked2 != '-' ||
-			$CustomShipActionLinked3 != '-'	||
-			$CustomShipActionLinked4 != '-' ||
-			$CustomShipActionLinked5 != '-';
+		
+	if (textBoxStyle == 'full') {
+		xMod = 0;
 	} else {
-		hasLinkedAction =
-			getShipStat($ShipModel,'action-1-linked') != '-' ||
-			getShipStat($ShipModel,'action-2-linked') != '-' ||
-			getShipStat($ShipModel,'action-3-linked') != '-' ||
-			getShipStat($ShipModel,'action-4-linked') != '-' ||
-			getShipStat($ShipModel,'action-5-linked') != '-';
-	}
-	if (hasLinkedAction) {
-		textBoxStyle = 'reduced';
-	} else {
-		textBoxStyle = 'full';
-	}
-	// TODO: Remove extra dev templates
-	if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum' || $Faction == 'custom'){
-		// Draw template
-		paintFrontFaceFrame(g, diy, sheet, textBoxStyle);
-	} else {
-		imageTemplate =  'dev-' + $Faction + '-template';
-		sheet.paintImage(g, imageTemplate, 0, 0);
+		xMod = 83; // Adjustment for reduced text area
 	}
 	
+	// Draw Text Area
+	g.setPaint(Xwing2.getColor('white'));
+	g.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
+	
+	// Tint the Text Area
+	textArea = ImageUtils.create(739, 1040, true);
+	gTemp = textArea.createGraphics();
+	gTemp.setPaint(Xwing2.getColor('white'));
+	gTemp.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
+	radialPaint = new java.awt.RadialGradientPaint(302.2 -xMod / 2, 626, 400, [0.4, 1.0], [Xwing2.getColor('white'), mainColor]);
+	textArea = createTexturedImage(textArea, radialPaint);
+	textArea = createTranslucentImage(textArea, 0.2);
+	g.drawImage(textArea, 0, 0, null);
+	
+	// Draw faction symbol
+	// TODO
+	
+	// Gradient art in between the line art
+	gradiantArt = ImageUtils.create(18, 105, true);
+	gTemp = gradiantArt.createGraphics();
+	gTemp.setPaint(Xwing2.getColor('white'));
+	gTemp.fillRect(0,0,18,105);
+	gradientPaint = new java.awt.GradientPaint(0, 0, Color(24 / 255, 20 / 255, 21 / 255), 0, 250, mainColor);
+	gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+	g.drawImage(gradiantArt, 609-xMod, 678, null);
+	
+	gradiantArt = ImageUtils.create(18, 209, true);
+	gTemp = gradiantArt.createGraphics();
+	gTemp.setPaint(Xwing2.getColor('white'));
+	gTemp.fillRect(0,0,18,209);
+	gradientPaint = new java.awt.GradientPaint(0, 50, Color(24 / 255, 20 / 255, 21 / 255), 0, 380, mainColor);
+	gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+	g.drawImage(gradiantArt, 609-xMod, 470, null);
+	
+	// Draw Line Art
+	g.setPaint(mainColor);
+	g.setStroke(BasicStroke(2));
+	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+	//TODO: Polyline?
+	g.drawLine(0, 419, 170, 419);
+	g.drawLine(171, 419, 192, 398);
+	g.drawLine(193, 397, 546, 397);
+	g.drawLine(547, 398, 568, 419);
+	g.drawLine(569, 419, 739, 419);
+	
+	g.drawLine(0, 977, 126, 977);
+	g.drawLine(127, 977, 139, 965);
+	g.drawLine(600, 965, 139, 965);
+	g.drawLine(612, 977, 600, 965);
+	g.drawLine(613, 977, 739, 977);
+
+	g.drawLine(0, 447, 585-xMod, 447);
+	g.drawLine(586-xMod, 447, 607-xMod, 468);
+	g.drawLine(608-xMod, 469, 608-xMod, 783);
+	g.drawLine(607-xMod, 784, 586-xMod, 805);
+	g.drawLine(585-xMod, 805, 0, 805);
+	
+	g.drawLine(651-xMod, 447, 739, 447);
+	g.drawLine(629-xMod, 468, 650-xMod, 447);
+	g.drawLine(628-xMod, 469, 628-xMod, 918);
+	g.drawLine(629-xMod, 919, 650-xMod, 940);
+	g.drawLine(651-xMod, 940, 739, 940);
+	
+	g.drawLine(608-xMod, 469, 628-xMod, 469);
+	g.drawLine(608-xMod, 506, 628-xMod, 506);
+	g.drawLine(608-xMod, 615, 628-xMod, 615);
+	g.drawLine(608-xMod, 680, 628-xMod, 680);
+	g.drawLine(608-xMod, 709, 628-xMod, 709);
+	g.drawLine(608-xMod, 751, 628-xMod, 751);
+	g.drawLine(608-xMod, 783, 628-xMod, 783);
+	
+	g.drawOval(612-xMod, 521, 12, 1);
+	g.drawOval(612-xMod, 638, 12, 1);
+	g.drawOval(612-xMod, 740, 12, 1);
+	
+	switch (actionsInActionBar) {
+		case 0: yDistanceBetween = 0; break;
+		case 1: yDistanceBetween = 0; break;
+		case 2: yDistanceBetween = 245; break;
+		case 3: yDistanceBetween = 164; break;
+		case 4: yDistanceBetween = 123; break;
+		case 5: yDistanceBetween = 100; break;
+	}
+	yCenterPoint = 694;
+	for (let i = 1; i < actionsInActionBar; ++i) {
+		y = yCenterPoint + yDistanceBetween * (i - 1/2) - yDistanceBetween * (actionsInActionBar - 1) / 2;
+		g.drawLine(628-xMod, y, 1040, y);
+	}
+	
+	g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
+	g.setStroke(BasicStroke(1.6));
+	for (i = 0; i < 66; i++) {
+		yRel = i*4.7;
+		if (i == 3 || i == 23 || i == 36 || i == 47 || i == 55 || i == 61 || i == 63) {
+			g.drawLine(615-xMod, 474 + yRel, 621-xMod, 474 + yRel);
+		} else {
+			g.drawLine(618-xMod, 474 + yRel, 618-xMod, 474 + yRel);
+		}
+	}
+	
+	// Draw upper and lower panel backgrounds
+	g.setPaint(Color(80 / 255, 80 / 255, 80 / 255));
+	g.fillPolygon([0, 95, 111, 111, 138, 601, 628, 628, 644, 739, 739, 627, 619, 120, 112, 0],
+		[436, 436, 420, 352, 325, 325, 352, 420, 436, 436, 317, 317, 309, 309, 317, 317], 16);
+	g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
+		[958, 958, 970, 990, 1011, 1011, 990, 970, 958, 958, 1040, 1040], 12);
+
+	// Draw upper panel drop shadow
+	dropShadow = ImageUtils.create(742, 127, true);
+	gTemp = dropShadow.createGraphics();
+	gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
+	gTemp.fillPolygon([0, 95, 107, 107, 138, 607, 638, 638, 650, 742, 742, 622, 618, 123, 115, 0],
+		[120, 120, 108, 40, 9, 9, 40, 108, 120, 120, 8, 8, 0, 0, 8, 8], 16);
+	blur = new BlurFilter(1,3);
+	blur.filter(dropShadow,dropShadow);
+	g.drawImage(dropShadow, 0, 312, null);
+	
+	// Draw upper panel
+	panel = ImageUtils.create(739, 127, true);
+	gTemp = panel.createGraphics();
+	portraits[3].paint(gTemp, target);
+	mask = createUpperPanelImage();
+	panel = applyAlphaMaskToImage(panel, mask);
+	g.drawImage(panel, 0, 309, null);
+
+	// Draw lower panel drop shadow
+	dropShadow = ImageUtils.create(742, 82, true);
+	gTemp = dropShadow.createGraphics();
+	gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
+	gTemp.fillPolygon([0, 99, 107, 107, 139, 606, 638, 638, 646, 742, 742, 0],
+		[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
+	blur = new BlurFilter(1,3);
+	blur.filter(dropShadow,dropShadow);
+	g.drawImage(dropShadow, 0, 961, null);
+		
+	// Draw lower panel
+	panel = ImageUtils.create(739, 82, true);
+	gTemp = panel.createGraphics();
+	portraits[4].paint(gTemp, target);
+	mask = createLowerPanelImage();
+	panel = applyAlphaMaskToImage(panel, mask);
+	g.drawImage(panel, 0, 958, null);
+
+	// Draw panel line art
+	// TODO: Make 3D fx
+	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
+	g.setStroke(BasicStroke(1.0));
+	g.drawLine(0, 331, 122, 331);
+	g.drawLine(0, 416, 104, 416);
+	g.drawLine(739, 331, 617, 331);
+	g.drawLine(739, 416, 635, 416);
+	g.drawLine(168, 315, 571, 315);
+	g.drawLine(168, 315, 162, 309);
+	g.drawLine(571, 315, 577, 309);
+
+	g.drawLine(0, 1030, 208, 1030);
+	g.drawLine(208, 1030, 218, 1040);
+	g.drawLine(739, 1030, 531, 1030);
+	g.drawLine(531, 1030, 521, 1040);
+	
+	imageTemplate = 'pilot-initiative-background-template';
+	sheet.paintImage(g, imageTemplate,19,317);
+
+	imageTemplate = 'pilot-icon-background-template';
+	sheet.paintImage(g, imageTemplate,19,965);
+
+}
+
+function paintFrontFaceInfo(g, diy, sheet, textBoxStyle) {
+	target = sheet.getRenderTarget();
+
 	// Draw the name
 	if ($$UniquePilot.yesNo) {
 		nameBox.markupText = '<uni>' + diy.name;
@@ -869,7 +1030,9 @@ function paintFrontFace(g,diy,sheet) {
 	}
 }
 
-function paintToken(g,diy,sheet) {
+function paintToken(g, diy, sheet, mainColor, fireArcColor) {
+	target = sheet.getRenderTarget();
+	
 	if ($ShipModel == 'custom') {
 		tokenSize = $CustomShipSize;
 	} else {
@@ -1042,12 +1205,43 @@ function paintToken(g,diy,sheet) {
 	g.fillOval(Math.round((tokenWidth - cutoutSize)/2), Math.round((tokenHeight - cutoutSize)/2), cutoutSize, cutoutSize );
 }
 
-//function paintFrontFaceFrame(g, diy, sheet, textBoxStyle, actionsInActionBar, mainColor, fireArcColor, upperPanelPortrait, upperPanelPortrait) {
-function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
-	if (textBoxStyle == 'full') {
-		xMod = 0;
+function setCommonVariables(g, diy, sheet) {
+	// Set faction colors
+	if ($Faction == 'custom') {
+		HSB1 = $CustomFactionMainTint.split(',');
+		HSB2 = $CustomFactionFireArcTint.split(',');
+		HSB1[0] = HSB1[0] / 360;
+		HSB2[0] = HSB2[0] / 360;
+
 	} else {
-		xMod = 83; // Adjustment for reduced text area
+		HSB1 = getFactionStat($Faction, 'main-tint').split(',');
+		HSB2 = getFactionStat($Faction, 'fire-arc-tint').split(',');
+	}
+	RGB1 = Color.HSBtoRGB(HSB1[0], HSB1[1], HSB1[2]);
+	RGB2 = Color.HSBtoRGB(HSB2[0], HSB2[1], HSB2[2]);
+	mainColor = new Color(RGB1);
+	fireArcColor = new Color(RGB2);
+	
+	// Text box style
+	if ($ShipModel == 'custom') {
+		hasLinkedAction =
+			$CustomShipActionLinked1 != '-' ||
+			$CustomShipActionLinked2 != '-' ||
+			$CustomShipActionLinked3 != '-'	||
+			$CustomShipActionLinked4 != '-' ||
+			$CustomShipActionLinked5 != '-';
+	} else {
+		hasLinkedAction =
+			getShipStat($ShipModel,'action-1-linked') != '-' ||
+			getShipStat($ShipModel,'action-2-linked') != '-' ||
+			getShipStat($ShipModel,'action-3-linked') != '-' ||
+			getShipStat($ShipModel,'action-4-linked') != '-' ||
+			getShipStat($ShipModel,'action-5-linked') != '-';
+	}
+	if (hasLinkedAction) {
+		textBoxStyle = 'reduced';
+	} else {
+		textBoxStyle = 'full';
 	}
 	
 	// Count actions in action bar
@@ -1064,185 +1258,10 @@ function paintFrontFaceFrame(g, diy, sheet, textBoxStyle) {
 		if (getShipStat($ShipModel, 'action-3-name') != '-') {actionsInActionBar++;}
 		if (getShipStat($ShipModel, 'action-4-name') != '-') {actionsInActionBar++;}
 		if (getShipStat($ShipModel, 'action-5-name') != '-') {actionsInActionBar++;}
-	}
+	}	
 	
-	// Set faction colors
-	if ($Faction == 'custom') {
-		HSB1 = $CustomFactionMainTint.split(',');
-		HSB2 = $CustomFactionFireArcTint.split(',');
-		HSB1[0] = HSB1[0] / 360;
-		HSB2[0] = HSB2[0] / 360;
-
-	} else {
-		HSB1 = getFactionStat($Faction, 'main-tint').split(',');
-		HSB2 = getFactionStat($Faction, 'fire-arc-tint').split(',');
-	}
-	RGB1 = Color.HSBtoRGB(HSB1[0], HSB1[1], HSB1[2]);
-	RGB2 = Color.HSBtoRGB(HSB2[0], HSB2[1], HSB2[2]);
-	mainColor = new Color(RGB1);
-	fireArcColor = new Color(RGB2);
-		
-	// Draw Text Area
-	g.setPaint(Xwing2.getColor('white'));
-	g.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
-	
-	// Tint the Text Area
-	textArea = ImageUtils.create(739, 1040, true);
-	gTemp = textArea.createGraphics();
-	gTemp.setPaint(Xwing2.getColor('white'));
-	gTemp.fillPolygon([0,585-xMod,605-xMod,605-xMod,585-xMod,0], [450,450,470,782,802,802], 6);
-	radialPaint = new java.awt.RadialGradientPaint(302.2 -xMod / 2, 626, 400, [0.4, 1.0], [Xwing2.getColor('white'), mainColor]);
-	textArea = createTexturedImage(textArea, radialPaint);
-	textArea = createTranslucentImage(textArea, 0.2);
-	g.drawImage(textArea, 0, 0, null);
-	
-	// Draw faction symbol
-	// TODO
-	
-	// Gradient art in between the line art
-	gradiantArt = ImageUtils.create(18, 105, true);
-	gTemp = gradiantArt.createGraphics();
-	gTemp.setPaint(Xwing2.getColor('white'));
-	gTemp.fillRect(0,0,18,105);
-	gradientPaint = new java.awt.GradientPaint(0, 0, Color(24 / 255, 20 / 255, 21 / 255), 0, 250, mainColor);
-	gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
-	g.drawImage(gradiantArt, 609-xMod, 678, null);
-	
-	gradiantArt = ImageUtils.create(18, 209, true);
-	gTemp = gradiantArt.createGraphics();
-	gTemp.setPaint(Xwing2.getColor('white'));
-	gTemp.fillRect(0,0,18,209);
-	gradientPaint = new java.awt.GradientPaint(0, 50, Color(24 / 255, 20 / 255, 21 / 255), 0, 380, mainColor);
-	gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
-	g.drawImage(gradiantArt, 609-xMod, 470, null);
-	
-	// Draw Line Art
-	g.setPaint(mainColor);
-	g.setStroke(BasicStroke(2));
-	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-	//TODO: Polyline?
-	g.drawLine(0, 419, 170, 419);
-	g.drawLine(171, 419, 192, 398);
-	g.drawLine(193, 397, 546, 397);
-	g.drawLine(547, 398, 568, 419);
-	g.drawLine(569, 419, 739, 419);
-	
-	g.drawLine(0, 977, 126, 977);
-	g.drawLine(127, 977, 139, 965);
-	g.drawLine(600, 965, 139, 965);
-	g.drawLine(612, 977, 600, 965);
-	g.drawLine(613, 977, 739, 977);
-
-	g.drawLine(0, 447, 585-xMod, 447);
-	g.drawLine(586-xMod, 447, 607-xMod, 468);
-	g.drawLine(608-xMod, 469, 608-xMod, 783);
-	g.drawLine(607-xMod, 784, 586-xMod, 805);
-	g.drawLine(585-xMod, 805, 0, 805);
-	
-	g.drawLine(651-xMod, 447, 739, 447);
-	g.drawLine(629-xMod, 468, 650-xMod, 447);
-	g.drawLine(628-xMod, 469, 628-xMod, 918);
-	g.drawLine(629-xMod, 919, 650-xMod, 940);
-	g.drawLine(651-xMod, 940, 739, 940);
-	
-	g.drawLine(608-xMod, 469, 628-xMod, 469);
-	g.drawLine(608-xMod, 506, 628-xMod, 506);
-	g.drawLine(608-xMod, 615, 628-xMod, 615);
-	g.drawLine(608-xMod, 680, 628-xMod, 680);
-	g.drawLine(608-xMod, 709, 628-xMod, 709);
-	g.drawLine(608-xMod, 751, 628-xMod, 751);
-	g.drawLine(608-xMod, 783, 628-xMod, 783);
-	
-	g.drawOval(612-xMod, 521, 12, 1);
-	g.drawOval(612-xMod, 638, 12, 1);
-	g.drawOval(612-xMod, 740, 12, 1);
-	
-	switch (actionsInActionBar) {
-		case 0: yDistanceBetween = 0; break;
-		case 1: yDistanceBetween = 0; break;
-		case 2: yDistanceBetween = 245; break;
-		case 3: yDistanceBetween = 164; break;
-		case 4: yDistanceBetween = 123; break;
-		case 5: yDistanceBetween = 100; break;
-	}
-	yCenterPoint = 694;
-	for (let i = 1; i < actionsInActionBar; ++i) {
-		y = yCenterPoint + yDistanceBetween * (i - 1/2) - yDistanceBetween * (actionsInActionBar - 1) / 2;
-		g.drawLine(628-xMod, y, 1040, y);
-	}
-	
-	g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
-	g.setStroke(BasicStroke(1.6));
-	for (i = 0; i < 66; i++) {
-		yRel = i*4.7;
-		if (i == 3 || i == 23 || i == 36 || i == 47 || i == 55 || i == 61 || i == 63) {
-			g.drawLine(615-xMod, 474 + yRel, 621-xMod, 474 + yRel);
-		} else {
-			g.drawLine(618-xMod, 474 + yRel, 618-xMod, 474 + yRel);
-		}
-	}
-	
-	// Draw upper and lower panel backgrounds
-	g.setPaint(Color(80 / 255, 80 / 255, 80 / 255));
-	g.fillPolygon([0, 95, 111, 111, 138, 601, 628, 628, 644, 739, 739, 627, 619, 120, 112, 0],
-		[436, 436, 420, 352, 325, 325, 352, 420, 436, 436, 317, 317, 309, 309, 317, 317], 16);
-	g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
-		[958, 958, 970, 990, 1011, 1011, 990, 970, 958, 958, 1040, 1040], 12);
-
-	// Draw upper panel drop shadow
-	dropShadow = ImageUtils.create(742, 127, true);
-	gTemp = dropShadow.createGraphics();
-	gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
-	gTemp.fillPolygon([0, 95, 107, 107, 138, 607, 638, 638, 650, 742, 742, 622, 618, 123, 115, 0],
-		[120, 120, 108, 40, 9, 9, 40, 108, 120, 120, 8, 8, 0, 0, 8, 8], 16);
-	blur = new BlurFilter(1,3);
-	blur.filter(dropShadow,dropShadow);
-	g.drawImage(dropShadow, 0, 312, null);
-	
-	// Draw upper panel
-	panel = ImageUtils.create(739, 127, true);
-	gTemp = panel.createGraphics();
-	portraits[3].paint(gTemp, target);
-	mask = createUpperPanelImage();
-	panel = applyAlphaMaskToImage(panel, mask);
-	g.drawImage(panel, 0, 309, null);
-
-	// Draw lower panel drop shadow
-	dropShadow = ImageUtils.create(742, 82, true);
-	gTemp = dropShadow.createGraphics();
-	gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
-	gTemp.fillPolygon([0, 99, 107, 107, 139, 606, 638, 638, 646, 742, 742, 0],
-		[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
-	blur = new BlurFilter(1,3);
-	blur.filter(dropShadow,dropShadow);
-	g.drawImage(dropShadow, 0, 961, null);
-		
-	// Draw lower panel
-	panel = ImageUtils.create(739, 82, true);
-	gTemp = panel.createGraphics();
-	portraits[4].paint(gTemp, target);
-	mask = createLowerPanelImage();
-	panel = applyAlphaMaskToImage(panel, mask);
-	g.drawImage(panel, 0, 958, null);
-
-	// Draw panel line art
-	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-	g.setStroke(BasicStroke(1.0));
-	g.drawLine(0, 331, 122, 331);
-	g.drawLine(0, 416, 104, 416);
-	g.drawLine(739, 331, 617, 331);
-	g.drawLine(739, 416, 635, 416);
-	g.drawLine(168, 315, 571, 315);
-	g.drawLine(168, 315, 162, 309);
-	g.drawLine(571, 315, 577, 309);
-	
-	g.drawLine(0, 1030, 208, 1030);
-	g.drawLine(208, 1030, 218, 1040);
-	g.drawLine(739, 1030, 531, 1030);
-	g.drawLine(531, 1030, 521, 1040);	
+	return [mainColor, fireArcColor, actionsInActionBar, textBoxStyle];
 }
-
 function onClear() {
 	$Epithet = '';
 	$ShipModel = 'custom';
