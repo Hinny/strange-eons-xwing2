@@ -50,6 +50,8 @@ function create(diy) {
 	diy.backTemplateKey = 'pilot-blank';
 	diy.setTemplateKey(2,'pilot-large-token');
 	
+	// TODO: Fix portraits[#].setClipStencil(image) for every portrait
+	
 	// Card Art
 	diy.customPortraitHandling = true;
 	portraits[0] = new DefaultPortrait(diy,'pilot');
@@ -96,6 +98,38 @@ function create(diy) {
 	image = createLowerPanelImage();
 	image = invertAlpha(image);
 	portraits[4].setClipStencil(image);
+	
+	// Faction Symbol Outline
+	portraits[5] = new DefaultPortrait(diy,'faction-symbol-outline');
+	portraits[5].setScaleUsesMinimum(false);
+	portraits[5].facesToUpdate = 1;
+	portraits[5].backgroundFilled = false;
+	portraits[5].clipping = true;
+	portraits[5].installDefault();
+	
+	// Faction Symbol Front
+	portraits[6] = new DefaultPortrait(diy,'faction-symbol-front');
+	portraits[6].setScaleUsesMinimum(false);
+	portraits[6].facesToUpdate = 1;
+	portraits[6].backgroundFilled = false;
+	portraits[6].clipping = true;
+	portraits[6].installDefault();
+	
+	// Faction Symbol Back
+	portraits[7] = new DefaultPortrait(portraits[5],'faction-symbol-back');
+	portraits[7].setScaleUsesMinimum(false);
+	portraits[7].facesToUpdate = 2;
+	portraits[7].backgroundFilled = false;
+	portraits[7].clipping = true;
+	portraits[7].installDefault();
+	
+	// Faction Background Back
+	portraits[8] = new DefaultPortrait(diy,'faction-background');
+	portraits[8].setScaleUsesMinimum(false);
+	portraits[8].facesToUpdate = 2;
+	portraits[8].backgroundFilled = false;
+	portraits[8].clipping = true;
+	portraits[8].installDefault();
 	
 	// install the example pilot
 	diy.name = #xw2-pilot-name;
@@ -193,14 +227,14 @@ function createInterface(diy,editor) {
 	pilotTextArea = textArea('',6,15,true);
 	bindings.add('Text',pilotTextArea,[0]);
 	
-	chargeValueItems = ['-','1','2','3','4','5','6','7','8','9'];
+	chargeValueItems = ['-','1','2','3','4','5','6'];
 	chargeValueBox = comboBox(chargeValueItems);
 	bindings.add('ChargeValue',chargeValueBox,[0]);
 	
 	chargeRecurringCheckbox = checkBox(@xw2-recurring);
 	bindings.add('ChargeRecurring',chargeRecurringCheckbox,[0]);
 
-	forceValueItems = ['-','1','2','3','4','5'];
+	forceValueItems = ['-','1','2','3'];
 	forceValueBox = comboBox(forceValueItems);
 	bindings.add('ForceValue',forceValueBox,[0]);
 	
@@ -336,7 +370,7 @@ function createInterface(diy,editor) {
 	shipIconItems.push(ListItem('t65xwing',@xw2-ship-t65xwing-name));
 	shipIconItems.push(ListItem('tielnfighter',@xw2-ship-tielnfighter-name));
 	shipIconItems.push(ListItem('fangfighter',@xw2-ship-fangfighter-name));
-	customShipIconBox = comboBox(shipItems);
+	customShipIconBox = comboBox(shipIconItems);
 	bindings.add('CustomShipIcon',customShipIconBox,[0,2]);
 
 	customShipIconCardPanel = portraitPanel(diy,1);
@@ -378,13 +412,23 @@ function createInterface(diy,editor) {
 	customShipPanel.editorTabScrolling = true;
 
 	customFactionHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-faction");
-
+	
 	customFactionMainTintPanel = tintPanel();
 	customFactionMainTintPanel.getBorder().setTitle(@xw2-color-main);
+	customFactionMainTintPanel.setPresets(
+		@xw2-faction-rebel, getFactionStat('rebel', 'main-tint'),
+		@xw2-faction-imperial, getFactionStat('imperial', 'main-tint'),
+		@xw2-faction-scum, getFactionStat('scum', 'main-tint')
+	);
 	bindings.add( 'CustomFactionMainTint', customFactionMainTintPanel, [0, 1, 2] );
 
 	customFactionFireArcTintPanel = tintPanel();
 	customFactionFireArcTintPanel.getBorder().setTitle(@xw2-color-fire-arcs);
+	customFactionFireArcTintPanel.setPresets(
+		@xw2-faction-rebel, getFactionStat('rebel', 'fire-arc-tint'),
+		@xw2-faction-imperial, getFactionStat('imperial', 'fire-arc-tint'),
+		@xw2-faction-scum, getFactionStat('scum', 'fire-arc-tint')
+	);
 	bindings.add( 'CustomFactionFireArcTint', customFactionFireArcTintPanel, [0, 1, 2] );
 
 	customFactionUpperPanel = portraitPanel(diy,3);
@@ -392,6 +436,19 @@ function createInterface(diy,editor) {
 		
 	customFactionLowerPanel = portraitPanel(diy,4);
 	customFactionLowerPanel.panelTitle = @xw2-faction-lower-panel;
+	
+	customFactionSymbolOutlinePanel = portraitPanel(diy,5);
+	customFactionSymbolOutlinePanel.panelTitle = @xw2-faction-symbol-outline;
+
+	customFactionSymbolFrontPanel = portraitPanel(diy,6);
+	customFactionSymbolFrontPanel.panelTitle = @xw2-faction-symbol-front;
+
+	customFactionSymbolBackPanel = portraitPanel(diy,7);
+	customFactionSymbolBackPanel.setParentPanel(customFactionSymbolFrontPanel);		
+	customFactionSymbolBackPanel.panelTitle = @xw2-faction-symbol-back;
+
+	customFactionBackgroundPanel = portraitPanel(diy,8);
+	customFactionBackgroundPanel.panelTitle = @xw2-faction-background;
 
 	customFactionPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref][min:pref][min:pref,grow]','');
 	customFactionPanel.setTitle(@xw2-custom-faction);
@@ -400,6 +457,10 @@ function createInterface(diy,editor) {
 	customFactionPanel.place(customFactionFireArcTintPanel,'wrap para');
 	customFactionPanel.place(customFactionUpperPanel,'span,growx,wrap');
 	customFactionPanel.place(customFactionLowerPanel,'span,growx,wrap');
+	customFactionPanel.place(customFactionSymbolOutlinePanel,'span,growx,wrap');
+	customFactionPanel.place(customFactionSymbolFrontPanel,'span,growx,wrap');
+	customFactionPanel.place(customFactionSymbolBackPanel,'span,growx,wrap');
+	customFactionPanel.place(customFactionBackgroundPanel,'span,growx,wrap');
 	customFactionPanel.editorTabScrolling = true;
 
  	diy.setNameField(nameField);
@@ -556,11 +617,19 @@ function createInterface(diy,editor) {
 				customFactionFireArcTintPanel.setVisible(false);
 				customFactionUpperPanel.setVisible(false);
 				customFactionLowerPanel.setVisible(false);
+				customFactionSymbolOutlinePanel.setVisible(false);
+				customFactionSymbolFrontPanel.setVisible(false);
+				customFactionSymbolBackPanel.setVisible(false);
+				customFactionBackgroundPanel.setVisible(false);
 			} else {
 				customFactionMainTintPanel.setVisible(true);
 				customFactionFireArcTintPanel.setVisible(true);
 				customFactionUpperPanel.setVisible(true);
 				customFactionLowerPanel.setVisible(true);
+				customFactionSymbolOutlinePanel.setVisible(true);
+				customFactionSymbolFrontPanel.setVisible(true);
+				customFactionSymbolBackPanel.setVisible(true);
+				customFactionBackgroundPanel.setVisible(true);
 			}
 		} catch(ex) {
 			Error.handleUncaught(ex);
@@ -632,11 +701,17 @@ function paintFront(g, diy, sheet) {
 }
 
 function paintBack(g,diy,sheet) {
+	target = sheet.getRenderTarget();
+	
 	imageTemplate = 'pilot-blank-template';
 	sheet.paintImage(g, imageTemplate,0,0);
-
-	imageTemplate = 'pilot-' + $Faction + '-back-template';
-	sheet.paintImage(g, imageTemplate,0,0);
+	
+	if ($Faction == 'custom') {
+		portraits[8].paint(g, target);
+	} else {
+		imageTemplate = 'pilot-' + $Faction + '-back-template';
+		sheet.paintImage(g, imageTemplate,0,0);
+	}
 }
 
 function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColor) {
@@ -645,7 +720,6 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	imageTemplate = 'pilot-blank-template';
 	sheet.paintImage(g, imageTemplate,0,0);
 
-	
 	//Draw portrait
 	portraits[0].paint(g, target);
 		
@@ -669,15 +743,18 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	textArea = createTranslucentImage(textArea, 0.2);
 	g.drawImage(textArea, 0, 0, null);
 	
-	// Draw faction symbol
-	// TODO
-	factionSymbol = ImageUtils.create(1000, 1000, true);
+	// Draw faction symbol outline in text area background
+	factionSymbol = ImageUtils.create(330, 330, true);
 	gTemp = factionSymbol.createGraphics();
-	imageTemplate = 'pilot-' + $Faction + '-faction-symbol-template';
-	sheet.paintImage(gTemp, imageTemplate,0,0);
-	//gTemp.setPaint(mainColor);	
-	//factionSymbol = createTranslucentImage(factionSymbol, 0.2);
-	g.drawImage(factionSymbol, 130-(xMod/2), 450, null);
+	if ($Faction == 'custom') {
+		portraits[5].paint(gTemp,target);
+	} else {
+		imageTemplate = 'pilot-' + $Faction + '-faction-symbol-template';
+		sheet.paintImage(gTemp, imageTemplate,0,0);
+	}
+	factionSymbol = createTexturedImage(factionSymbol, mainColor);
+	factionSymbol = createTranslucentImage(factionSymbol, 0.12);
+	g.drawImage(factionSymbol, 140-(xMod/2), 466, null);
 	
 	// Gradient art in between the line art
 	gradiantArt = ImageUtils.create(18, 105, true);
@@ -828,7 +905,11 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 
 	imageTemplate = 'pilot-icon-background-template';
 	sheet.paintImage(g, imageTemplate,19,965);
-
+	
+	// Draw faction symbol
+	if ($Faction == 'custom') {
+		portraits[6].paint(g,target);
+	}
 }
 
 function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
@@ -951,9 +1032,8 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 		sheet.drawTitle(g, stats[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
 		if (stats[i][2] == '1') {
 			x = xi + 28;
-			//y = y2 - 18;
-			y = y2;
-			sheet.drawTitle(g, Xwing2.textToIconChar('recurring'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 10, sheet.ALIGN_CENTER);
+			y = y2 + 9;
+			sheet.drawTitle(g, Xwing2.textToIconChar('recurring'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13.5, sheet.ALIGN_CENTER);
 		}
 		dotList = Xwing2.calculateDottedCircle(stats[i][0], false);
 		for each (dot in dotList) {
@@ -1213,12 +1293,17 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	g.fillOval(Math.round((tokenWidth - cutoutSize)/2), Math.round((tokenHeight - cutoutSize)/2), cutoutSize, cutoutSize );
 }
 
+function splitHSB(HSBString) {
+	HSB = HSBString.split(',');
+	HSB[0] = HSB[0] / 360;
+	return HSB;
+}
+
 function getMainColor() {
 	if ($Faction == 'custom') {
-		HSB = $CustomFactionMainTint.split(',');
-		HSB[0] = HSB[0] / 360;
+		HSB = splitHSB($CustomFactionMainTint);
 	} else {
-		HSB = getFactionStat($Faction, 'main-tint').split(',');
+		HSB = splitHSB(getFactionStat($Faction, 'main-tint'));
 	}
 	RGB = Color.HSBtoRGB(HSB[0], HSB[1], HSB[2]);
 	mainColor = new Color(RGB);
@@ -1228,10 +1313,9 @@ function getMainColor() {
 
 function getFireArcColor() {
 	if ($Faction == 'custom') {
-		HSB = $CustomFactionFireArcTint.split(',');
-		HSB[0] = HSB[0] / 360;
+		HSB = splitHSB($CustomFactionFireArcTint);
 	} else {
-		HSB = getFactionStat($Faction, 'fire-arc-tint').split(',');
+		HSB = splitHSB(getFactionStat($Faction, 'fire-arc-tint'));
 	}
 	RGB = Color.HSBtoRGB(HSB[0], HSB[1], HSB[2]);
 	fireArcColor = new Color(RGB);
@@ -1342,6 +1426,10 @@ function onRead(diy,ois) {
 	portraits[2] = ois.readObject();
 	portraits[3] = ois.readObject();
 	portraits[4] = ois.readObject();
+	portraits[5] = ois.readObject();
+	portraits[6] = ois.readObject();
+	portraits[7] = ois.readObject();
+	portraits[8] = ois.readObject();
 }
 
 function onWrite(diy,oos) {
@@ -1350,6 +1438,10 @@ function onWrite(diy,oos) {
 	oos.writeObject(portraits[2]);
 	oos.writeObject(portraits[3]);
 	oos.writeObject(portraits[4]);
+	oos.writeObject(portraits[5]);
+	oos.writeObject(portraits[6]);
+	oos.writeObject(portraits[7]);
+	oos.writeObject(portraits[8]);
 }
 
 /**
@@ -1482,8 +1574,6 @@ function createUpperPanelImage() {
 	g = image.createGraphics();
 	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
 
-	//g.fillPolygon([0, 95, 111, 111, 138, 601, 628, 628, 644, 739, 739, 627, 619, 120, 112, 0],
-	//	[127, 127, 111, 43, 16, 16, 43, 111, 127, 127, 8, 8, 0, 0, 8, 8], 16);
 	g.fillPolygon([0, 92, 104, 104, 135, 604, 635, 635, 647, 739, 739, 627, 619, 120, 112, 0],
 		[120, 120, 108, 40, 9, 9, 40, 108, 120, 120, 8, 8, 0, 0, 8, 8], 16);
     return image;
@@ -1494,8 +1584,6 @@ function createLowerPanelImage() {
 	g = image.createGraphics();
 	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
 
-	//g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
-	//	[0, 0, 12, 32, 53, 53, 32, 12, 0, 0, 82, 82], 12);
 	g.fillPolygon([0, 96, 104, 104, 136, 603, 635, 635, 643, 739, 739, 0],
 		[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
     return image;

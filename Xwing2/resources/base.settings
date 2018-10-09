@@ -26,20 +26,6 @@ pilot-scum-faction-symbol-dpi = 300
 pilot-custom-faction-symbol-template = components/pilot-card/images/faction/scum.png
 pilot-custom-faction-symbol-dpi = 300
 
-
-pilot-rebel-front-full-template = components/pilot-card/images/temp/blank-imperial-full-text.png
-pilot-rebel-front-full-dpi = 300
-pilot-imperial-front-full-template = components/pilot-card/images/temp/blank-imperial-full-text.png
-pilot-imperial-front-full-dpi = 300
-pilot-scum-front-full-template = components/pilot-card/images/temp/blank-imperial-full-text.png
-pilot-scum-front-full-dpi = 300
-pilot-rebel-front-reduced-template = components/pilot-card/images/temp/blank-imperial-reduced-text.png
-pilot-rebel-front-reduced-dpi = 300
-pilot-imperial-front-reduced-template = components/pilot-card/images/temp/blank-imperial-reduced-text.png
-pilot-imperial-front-reduced-dpi = 300
-pilot-scum-front-reduced-template = components/pilot-card/images/temp/blank-imperial-reduced-text.png
-pilot-scum-front-reduced-dpi = 300
-
 # For development only
 dev-luke-template = components/pilot-card/images/temp/luke-skywalker.png
 dev-luke-dpi = 300
@@ -58,11 +44,11 @@ dev-terroch-dpi = 300
 dev-lando-template = components/pilot-card/images/temp/lando-calrissian.png
 dev-lando-dpi = 300
 
-pilot-rebel-back-template = components/pilot-card/images/temp/rebel-back.png
+pilot-rebel-back-template = components/pilot-card/images/faction/rebel-backside.jp2
 pilot-rebel-back-dpi = 300
-pilot-imperial-back-template = components/pilot-card/images/temp/imperial-back.png
+pilot-imperial-back-template = components/pilot-card/images/faction/imperial-backside.jp2
 pilot-imperial-back-dpi = 300
-pilot-scum-back-template = components/pilot-card/images/temp/scum-back.png
+pilot-scum-back-template = components/pilot-card/images/faction/scum-backside.jp2
 pilot-scum-back-dpi = 300
 
 pilot-small-token-template = components/pilot-card/images/framework/small-token.jp2
@@ -88,6 +74,18 @@ faction-upper-panel-portrait-true-clip-region = 0,309,739,127
 faction-lower-panel-portrait-template = components/pilot-card/images/example/example-panel.jpg
 faction-lower-panel-portrait-clip-region = 0,0,739,82
 faction-lower-panel-portrait-true-clip-region = 0,958,739,82
+
+faction-symbol-outline-portrait-template = components/pilot-card/images/example/example-symbol.png
+faction-symbol-outline-portrait-clip-region = 0,0,320,320
+
+faction-symbol-front-portrait-template = components/pilot-card/images/example/example-symbol.png
+faction-symbol-front-portrait-clip-region = 646,334,80,80
+
+faction-symbol-back-portrait-template = components/pilot-card/images/example/example-symbol.png
+faction-symbol-back-portrait-clip-region = 100,100,500,500
+
+faction-background-portrait-template = components/pilot-card/images/example/example-panel.jpg
+faction-background-portrait-clip-region = 0,0,739,1040
 
 pilot-name-region = 128,330,484,56
 pilot-epithet-region = 184,403,371,40
