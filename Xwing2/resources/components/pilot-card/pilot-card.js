@@ -680,7 +680,6 @@ function createBackPainter(diy, sheet) {
 }
 
 function paintFront(g, diy, sheet) {
-	
 	if (sheet.sheetIndex == 0) {
 		textBoxSize = getTextBoxSize();
 		if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum' || $Faction == 'custom'){
@@ -697,7 +696,7 @@ function paintFront(g, diy, sheet) {
 		mainColor = getMainColor();
 		fireArcColor = getFireArcColor();
 		paintToken(g, diy, sheet, mainColor, fireArcColor);
-	}	
+	}
 }
 
 function paintBack(g,diy,sheet) {
@@ -842,8 +841,8 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	
 	// Draw upper and lower panel backgrounds
 	g.setPaint(Color(80 / 255, 80 / 255, 80 / 255));
-	g.fillPolygon([0, 95, 111, 111, 138, 601, 628, 628, 644, 739, 739, 627, 619, 120, 112, 0],
-		[436, 436, 420, 352, 325, 325, 352, 420, 436, 436, 317, 317, 309, 309, 317, 317], 16);
+	g.fillPolygon([0, 95, 114, 114, 138, 601, 625, 625, 644, 739, 739, 624, 615, 124, 115, 0],
+		[439, 439, 420, 352, 328, 328, 352, 420, 439, 439, 318, 318, 309, 309, 318, 318], 16);
 	g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
 		[958, 958, 970, 990, 1011, 1011, 990, 970, 958, 958, 1040, 1040], 12);
 
@@ -851,8 +850,11 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	dropShadow = ImageUtils.create(742, 127, true);
 	gTemp = dropShadow.createGraphics();
 	gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
-	gTemp.fillPolygon([0, 95, 107, 107, 138, 607, 638, 638, 650, 742, 742, 622, 618, 123, 115, 0],
-		[120, 120, 108, 40, 9, 9, 40, 108, 120, 120, 8, 8, 0, 0, 8, 8], 16);
+	gTemp.fillPolygon([0, 95, 110, 110, 138, 607, 635, 635, 650, 742, 742, 619, 614, 127, 118, 0],
+		[123, 123, 108, 40, 12, 12, 40, 108, 123, 123, 9, 9, 0, 0, 9, 9], 16);
+		
+
+		
 	blur = new BlurFilter(1,3);
 	blur.filter(dropShadow,dropShadow);
 	g.drawImage(dropShadow, 0, 312, null);
@@ -887,10 +889,10 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	// TODO: Make 3D fx
 	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
 	g.setStroke(BasicStroke(1.0));
-	g.drawLine(0, 331, 122, 331);
-	g.drawLine(0, 416, 104, 416);
-	g.drawLine(739, 331, 617, 331);
-	g.drawLine(739, 416, 635, 416);
+	g.drawLine(0, 331, 125, 331);
+	g.drawLine(0, 416, 107, 416);
+	g.drawLine(739, 331, 614, 331);
+	g.drawLine(739, 416, 632, 416);
 	g.drawLine(168, 315, 571, 315);
 	g.drawLine(168, 315, 162, 309);
 	g.drawLine(571, 315, 577, 309);
@@ -1574,8 +1576,8 @@ function createUpperPanelImage() {
 	g = image.createGraphics();
 	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
 
-	g.fillPolygon([0, 92, 104, 104, 135, 604, 635, 635, 647, 739, 739, 627, 619, 120, 112, 0],
-		[120, 120, 108, 40, 9, 9, 40, 108, 120, 120, 8, 8, 0, 0, 8, 8], 16);
+	g.fillPolygon([0, 92, 107, 107, 135, 604, 632, 632, 647, 739, 739, 624, 615, 124, 115, 0],
+		[123, 123, 108, 40, 12, 12, 40, 108, 123, 123, 9, 9, 0, 0, 9, 9], 16);
     return image;
 }
 
