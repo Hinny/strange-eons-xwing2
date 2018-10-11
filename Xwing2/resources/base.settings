@@ -51,6 +51,21 @@ pilot-imperial-back-dpi = 300
 pilot-scum-back-template = components/pilot-card/images/faction/scum-backside.jp2
 pilot-scum-back-dpi = 300
 
+pilot-rebel-upper-panel-template = components/pilot-card/images/faction/rebel-upper-panel.png
+pilot-rebel-upper-panel-dpi = 300
+pilot-imperial-upper-panel-template = components/pilot-card/images/faction/imperial-upper-panel.png
+pilot-imperial-upper-panel-dpi = 300
+pilot-scum-upper-panel-template = components/pilot-card/images/faction/scum-upper-panel.png
+pilot-scum-upper-panel-dpi = 300
+
+pilot-rebel-lower-panel-template = components/pilot-card/images/faction/rebel-lower-panel.png
+pilot-rebel-lower-panel-dpi = 300
+pilot-imperial-lower-panel-template = components/pilot-card/images/faction/imperial-lower-panel.png
+pilot-imperial-lower-panel-dpi = 300
+pilot-scum-lower-panel-template = components/pilot-card/images/faction/scum-lower-panel.png
+pilot-scum-lower-panel-dpi = 300
+
+
 pilot-small-token-template = components/pilot-card/images/framework/small-token.jp2
 pilot-small-token-dpi = 300
 pilot-medium-token-template = components/pilot-card/images/framework/medium-token.jp2

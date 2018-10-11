@@ -852,20 +852,22 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
 	gTemp.fillPolygon([0, 95, 110, 110, 138, 607, 635, 635, 650, 742, 742, 619, 614, 127, 118, 0],
 		[123, 123, 108, 40, 12, 12, 40, 108, 123, 123, 9, 9, 0, 0, 9, 9], 16);
-		
-
-		
 	blur = new BlurFilter(1,3);
 	blur.filter(dropShadow,dropShadow);
 	g.drawImage(dropShadow, 0, 312, null);
 	
 	// Draw upper panel
-	panel = ImageUtils.create(739, 127, true);
-	gTemp = panel.createGraphics();
-	portraits[3].paint(gTemp, target);
-	mask = createUpperPanelImage();
-	panel = applyAlphaMaskToImage(panel, mask);
-	g.drawImage(panel, 0, 309, null);
+	if ($Faction == 'custom') {
+		panel = ImageUtils.create(739, 127, true);
+		gTemp = panel.createGraphics();
+		portraits[3].paint(gTemp, target);
+		mask = createUpperPanelImage();
+		panel = applyAlphaMaskToImage(panel, mask);
+		g.drawImage(panel, 0, 309, null);
+	} else {
+		imageTemplate = 'pilot-' + $Faction + '-upper-panel-template';
+		sheet.paintImage(g, imageTemplate,0,309);
+	}
 
 	// Draw lower panel drop shadow
 	dropShadow = ImageUtils.create(742, 82, true);
@@ -878,13 +880,17 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	g.drawImage(dropShadow, 0, 961, null);
 		
 	// Draw lower panel
-	panel = ImageUtils.create(739, 82, true);
-	gTemp = panel.createGraphics();
-	portraits[4].paint(gTemp, target);
-	mask = createLowerPanelImage();
-	panel = applyAlphaMaskToImage(panel, mask);
-	g.drawImage(panel, 0, 958, null);
-
+	if ($Faction == 'custom') {
+		panel = ImageUtils.create(739, 82, true);
+		gTemp = panel.createGraphics();
+		portraits[4].paint(gTemp, target);
+		mask = createLowerPanelImage();
+		panel = applyAlphaMaskToImage(panel, mask);
+		g.drawImage(panel, 0, 958, null);
+	} else {
+		imageTemplate = 'pilot-' + $Faction + '-lower-panel-template';
+		sheet.paintImage(g, imageTemplate,0,965);
+	}
 	// Draw panel line art
 	// TODO: Make 3D fx
 	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
