@@ -1518,7 +1518,15 @@ function applyAlphaMaskToImage(image, mask) {
 
     for (i = 0; i < imagePixels.length; i++) {
         color = imagePixels[i] & 0x00ffffff; // Mask preexisting alpha
-        alpha = maskPixels[i] & 0xff000000;
+        alphaFromImage = imagePixels[i] & 0xff000000; // Mask color
+        alphaFromMask = maskPixels[i] & 0xff000000;
+        
+        if (alphaFromImage < alphaFromMask) {
+        	alpha = alphaFromMask;
+        } else {
+        	alpha = alphaFromImage;
+        }
+                
         imagePixels[i] = color | alpha;
     }
     image.setRGB(0, 0, width, height, imagePixels, 0, width);
