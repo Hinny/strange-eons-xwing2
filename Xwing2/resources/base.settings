@@ -23,8 +23,6 @@ pilot-imperial-faction-symbol-template = components/pilot-card/images/faction/im
 pilot-imperial-faction-symbol-dpi = 300
 pilot-scum-faction-symbol-template = components/pilot-card/images/faction/scum.png
 pilot-scum-faction-symbol-dpi = 300
-pilot-custom-faction-symbol-template = components/pilot-card/images/faction/scum.png
-pilot-custom-faction-symbol-dpi = 300
 
 # For development only
 dev-luke-template = components/pilot-card/images/temp/luke-skywalker.png

@@ -711,6 +711,20 @@ function paintBack(g,diy,sheet) {
 		imageTemplate = 'pilot-' + $Faction + '-back-template';
 		sheet.paintImage(g, imageTemplate,0,0);
 	}
+	
+	if ($Faction == 'custom') {
+		backLineArt = ImageUtils.create(370, 520, true);
+		gTemp = backLineArt.createGraphics();
+		gTemp.setStroke(BasicStroke(1.5));
+		gTemp.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		gTemp.setPaint(Color.WHITE);
+		gTemp.drawLine(64, 0, 64, 520);
+		gTemp.setPaint(Color.BLACK);
+		gTemp.drawLine(62, 0, 62, 520);
+		backLineArt = createTranslucentImage(backLineArt, 0.5);
+		g.drawImage(backLineArt, 0, 0, null);
+	}
+	
 }
 
 function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColor) {
