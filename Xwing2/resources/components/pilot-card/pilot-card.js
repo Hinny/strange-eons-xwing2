@@ -699,14 +699,14 @@ function paintFront(g, diy, sheet) {
 	}
 }
 
-function paintBack(g,diy,sheet) {
+function paintBack(g, diy, sheet) {
 	target = sheet.getRenderTarget();
 	
 	imageTemplate = 'pilot-blank-template';
 	sheet.paintImage(g, imageTemplate,0,0);
 	
 	if ($Faction == 'custom') {
-		portraits[8].paint(g, target);
+		portraits[8].paint(g, target);		
 	} else {
 		imageTemplate = 'pilot-' + $Faction + '-back-template';
 		sheet.paintImage(g, imageTemplate,0,0);
@@ -717,12 +717,50 @@ function paintBack(g,diy,sheet) {
 		gTemp = backLineArt.createGraphics();
 		gTemp.setStroke(BasicStroke(1.5));
 		gTemp.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		gTemp.setPaint(Color.WHITE);
 		gTemp.drawLine(64, 0, 64, 520);
+		gTemp.drawLine(92, 0, 92, 60);
+		gTemp.drawLine(92, 60, 37, 116);
+		gTemp.drawLine(37, 116, 37, 520);
+		gTemp.drawLine(227, 0, 227, 118);
+		gTemp.drawLine(227, 118, 224, 119);
+		gTemp.drawLine(258, 0, 258, 105);
+		gTemp.drawLine(258, 105, 314, 161);
+		gTemp.drawLine(314, 161, 314, 247);
+		gTemp.drawLine(284, 171, 284, 255);
+		gTemp.drawArc(370-852/2, 520-852/2, 852, 852, 110, 180-110);
+		gTemp.drawArc(370-788/2, 520-788/2, 788, 788, 90, 180-90);
+		gTemp.drawArc(370-718/2, 520-718/2, 718, 718, 104, 180-104);
+		gTemp.drawArc(370-556/2, 520-556/2, 556, 556, 90, 180-90);
+		
 		gTemp.setPaint(Color.BLACK);
 		gTemp.drawLine(62, 0, 62, 520);
+		gTemp.drawLine(90, 0, 90, 59);
+		gTemp.drawLine(90, 59, 35, 115);
+		gTemp.drawLine(35, 115, 35, 520);
+		gTemp.drawLine(225, 0, 225, 117);
+		gTemp.drawLine(225, 117, 222, 118);
+		gTemp.drawLine(256, 0, 256, 106);
+		gTemp.drawLine(256, 106, 312, 162);
+		gTemp.drawLine(312, 162, 312, 246);
+		gTemp.drawLine(286, 169, 286, 253);
+		gTemp.drawLine(286, 168, 283, 169);
+		gTemp.drawArc(370-854/2, 520-854/2, 854, 854, 110, 180-110);
+		gTemp.drawArc(370-792/2, 520-792/2, 792, 792, 90, 180-90);
+		gTemp.drawArc(370-722/2, 520-722/2, 722, 722, 104, 180-104);
+		gTemp.drawArc(370-560/2, 520-560/2, 560, 560, 90, 180-90);
+		
 		backLineArt = createTranslucentImage(backLineArt, 0.5);
+	
+		backLineArtFlipHorz = turnAndFlip(backLineArt, TurnAndFlipFilter.TURN_0_FLIP_HORZ);
+		backLineArtFlipVert = turnAndFlip(backLineArt, TurnAndFlipFilter.TURN_0_FLIP_VERT);
+		backLineArtFlipBoth = turnAndFlip(backLineArt, TurnAndFlipFilter.TURN_0_FLIP_BOTH);
+		
 		g.drawImage(backLineArt, 0, 0, null);
+		g.drawImage(backLineArtFlipHorz, 370, 0, null);
+		g.drawImage(backLineArtFlipVert, 0, 520, null);
+		g.drawImage(backLineArtFlipBoth, 370, 520, null);
 	}
 	
 }
@@ -1551,6 +1589,18 @@ function invertAlpha(image) {
 	invert = new AlphaInversionFilter();
 	invert.filter(image,image);
     return image;
+}
+
+function turnAndFlip(image, orientation) {
+	// Examples of orientation: TURN_90_LEFT, TURN_180, TURN_0_FLIP_HORZ, TURN_0_FLIP_VERT
+	
+	invert = new TurnAndFlipFilter(orientation);
+	// TurnAndFlipFilter does not support in-place filtering (the source and destination images must be different).
+	// Thus, we must create a copy
+	filteredImage = ImageUtils.copy(image);
+	invert.filter(image,filteredImage);
+
+	return filteredImage;
 }
 
 function getShipStat(shipId, stat) {
