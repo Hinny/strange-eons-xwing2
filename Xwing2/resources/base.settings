@@ -17,6 +17,9 @@ pilot-icon-background-dpi = 300
 pilot-initiative-background-template = components/pilot-card/images/framework/initiative-background.png
 pilot-initiative-background-dpi = 300
 
+pilot-dark-edges-template = components/pilot-card/images/framework/dark-edges.png
+pilot-dark-edges-dpi = 300
+
 pilot-rebel-faction-symbol-template = components/pilot-card/images/faction/rebel.png
 pilot-rebel-faction-symbol-dpi = 300
 pilot-imperial-faction-symbol-template = components/pilot-card/images/faction/imperial.png
@@ -63,7 +66,6 @@ pilot-imperial-lower-panel-dpi = 300
 pilot-scum-lower-panel-template = components/pilot-card/images/faction/scum-lower-panel.png
 pilot-scum-lower-panel-dpi = 300
 
-
 pilot-small-token-template = components/pilot-card/images/framework/small-token.jp2
 pilot-small-token-dpi = 300
 pilot-medium-token-template = components/pilot-card/images/framework/medium-token.jp2
@@ -88,14 +90,14 @@ faction-lower-panel-portrait-template = components/pilot-card/images/example/exa
 faction-lower-panel-portrait-clip-region = 0,0,739,82
 faction-lower-panel-portrait-true-clip-region = 0,958,739,82
 
-faction-symbol-outline-portrait-template = components/pilot-card/images/example/example-symbol.png
+faction-symbol-outline-portrait-template = components/pilot-card/images/example/example-symbol-outline.png
 faction-symbol-outline-portrait-clip-region = 0,0,320,320
 
-faction-symbol-front-portrait-template = components/pilot-card/images/example/example-symbol.png
+faction-symbol-front-portrait-template = components/pilot-card/images/example/example-symbol-texture.png
 faction-symbol-front-portrait-clip-region = 646,334,80,80
 
-faction-symbol-back-portrait-template = components/pilot-card/images/example/example-symbol.png
-faction-symbol-back-portrait-clip-region = 100,100,500,500
+faction-symbol-back-portrait-template = components/pilot-card/images/example/example-symbol-texture.png
+faction-symbol-back-portrait-clip-region = 120,270,500,500
 
 faction-background-portrait-template = components/pilot-card/images/example/example-panel.jpg
 faction-background-portrait-clip-region = 0,0,739,1040

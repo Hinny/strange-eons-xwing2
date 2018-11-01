@@ -340,11 +340,8 @@ function Xwing2Object() {
 
 	this.getColor = function getColor(keyword) {
 		switch (keyword) {
-			case 'rebel': {color = Color(239/255,12/255,45/255);} break;
-			case 'scum': {color = Color(218/255,164/255,22/255);} break;
 			case 'initiative': {color = Color(251/255,135/255,12/255);} break;
 			case 'white': {color = Color(1,1,1);} break;
-			case 'imperial':
 			case 'agility': {color = Color(107/255,190/255,72/255);/*color = Color(154/255,216/255,30/255); //old*/} break;
 			case 'red':
 			case 'front':

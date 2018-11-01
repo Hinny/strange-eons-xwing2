@@ -99,14 +99,17 @@ function create(diy) {
 	image = invertAlpha(image);
 	portraits[4].setClipStencil(image);
 	
-	// Faction Symbol Outline
-	portraits[5] = new DefaultPortrait(diy,'faction-symbol-outline');
+	// Faction Background Back
+	portraits[5] = new DefaultPortrait(diy,'faction-background');
 	portraits[5].setScaleUsesMinimum(false);
-	portraits[5].facesToUpdate = 1;
+	portraits[5].facesToUpdate = 2;
 	portraits[5].backgroundFilled = false;
 	portraits[5].clipping = true;
 	portraits[5].installDefault();
-	
+	image = ImageUtils.create(739, 1040, true);
+	g = image.createGraphics();
+	portraits[5].setClipStencil(image);
+
 	// Faction Symbol Front
 	portraits[6] = new DefaultPortrait(diy,'faction-symbol-front');
 	portraits[6].setScaleUsesMinimum(false);
@@ -116,21 +119,25 @@ function create(diy) {
 	portraits[6].installDefault();
 	
 	// Faction Symbol Back
-	portraits[7] = new DefaultPortrait(portraits[5],'faction-symbol-back');
+	portraits[7] = new DefaultPortrait(portraits[6],'faction-symbol-back');
 	portraits[7].setScaleUsesMinimum(false);
 	portraits[7].facesToUpdate = 2;
 	portraits[7].backgroundFilled = false;
 	portraits[7].clipping = true;
 	portraits[7].installDefault();
+	image = ImageUtils.create(500, 500, true);
+	g = image.createGraphics();
+	portraits[7].setClipStencil(image);
 	
-	// Faction Background Back
-	portraits[8] = new DefaultPortrait(diy,'faction-background');
+	// Faction Symbol Outline
+	portraits[8] = new DefaultPortrait(diy,'faction-symbol-outline');
 	portraits[8].setScaleUsesMinimum(false);
-	portraits[8].facesToUpdate = 2;
+	portraits[8].facesToUpdate = 1;
 	portraits[8].backgroundFilled = false;
 	portraits[8].clipping = true;
 	portraits[8].installDefault();
-	
+
+		
 	// install the example pilot
 	diy.name = #xw2-pilot-name;
 	$Epithet = #xw2-pilot-epithet;
@@ -176,6 +183,7 @@ function create(diy) {
 	
 	$CustomFactionMainTint = #xw2-pilot-custom-faction-main-tint;
 	$CustomFactionFireArcTint = #xw2-pilot-custom-faction-fire-arc-tint;
+	$CustomFactionDarkEdges = #xw2-pilot-custom-faction-dark-edges;
 }
 
 function createInterface(diy,editor) {
@@ -420,7 +428,7 @@ function createInterface(diy,editor) {
 		@xw2-faction-imperial, getFactionStat('imperial', 'main-tint'),
 		@xw2-faction-scum, getFactionStat('scum', 'main-tint')
 	);
-	bindings.add( 'CustomFactionMainTint', customFactionMainTintPanel, [0, 1, 2] );
+	bindings.add( 'CustomFactionMainTint', customFactionMainTintPanel, [0, 2] );
 
 	customFactionFireArcTintPanel = tintPanel();
 	customFactionFireArcTintPanel.getBorder().setTitle(@xw2-color-fire-arcs);
@@ -429,7 +437,10 @@ function createInterface(diy,editor) {
 		@xw2-faction-imperial, getFactionStat('imperial', 'fire-arc-tint'),
 		@xw2-faction-scum, getFactionStat('scum', 'fire-arc-tint')
 	);
-	bindings.add( 'CustomFactionFireArcTint', customFactionFireArcTintPanel, [0, 1, 2] );
+	bindings.add( 'CustomFactionFireArcTint', customFactionFireArcTintPanel, [0, 2] );
+
+	custonFactionDarkEdgesCheckbox = checkBox(@xw2-faction-dark-edges);
+	bindings.add('CustomFactionDarkEdges',custonFactionDarkEdgesCheckbox,[1]);
 
 	customFactionUpperPanel = portraitPanel(diy,3);
 	customFactionUpperPanel.panelTitle = @xw2-faction-upper-panel;
@@ -437,9 +448,9 @@ function createInterface(diy,editor) {
 	customFactionLowerPanel = portraitPanel(diy,4);
 	customFactionLowerPanel.panelTitle = @xw2-faction-lower-panel;
 	
-	customFactionSymbolOutlinePanel = portraitPanel(diy,5);
-	customFactionSymbolOutlinePanel.panelTitle = @xw2-faction-symbol-outline;
-
+	customFactionBackgroundPanel = portraitPanel(diy,5);
+	customFactionBackgroundPanel.panelTitle = @xw2-faction-background;
+	
 	customFactionSymbolFrontPanel = portraitPanel(diy,6);
 	customFactionSymbolFrontPanel.panelTitle = @xw2-faction-symbol-front;
 
@@ -447,20 +458,21 @@ function createInterface(diy,editor) {
 	customFactionSymbolBackPanel.setParentPanel(customFactionSymbolFrontPanel);		
 	customFactionSymbolBackPanel.panelTitle = @xw2-faction-symbol-back;
 
-	customFactionBackgroundPanel = portraitPanel(diy,8);
-	customFactionBackgroundPanel.panelTitle = @xw2-faction-background;
+	customFactionSymbolOutlinePanel = portraitPanel(diy,8);
+	customFactionSymbolOutlinePanel.panelTitle = @xw2-faction-symbol-outline;
 
 	customFactionPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref][min:pref][min:pref,grow]','');
 	customFactionPanel.setTitle(@xw2-custom-faction);
 	customFactionPanel.place(customFactionHelpButton,'wrap para');
 	customFactionPanel.place(customFactionMainTintPanel,'wrap para');
 	customFactionPanel.place(customFactionFireArcTintPanel,'wrap para');
+	customFactionPanel.place(custonFactionDarkEdgesCheckbox,'wrap para');
 	customFactionPanel.place(customFactionUpperPanel,'span,growx,wrap');
 	customFactionPanel.place(customFactionLowerPanel,'span,growx,wrap');
-	customFactionPanel.place(customFactionSymbolOutlinePanel,'span,growx,wrap');
+	customFactionPanel.place(customFactionBackgroundPanel,'span,growx,wrap');
 	customFactionPanel.place(customFactionSymbolFrontPanel,'span,growx,wrap');
 	customFactionPanel.place(customFactionSymbolBackPanel,'span,growx,wrap');
-	customFactionPanel.place(customFactionBackgroundPanel,'span,growx,wrap');
+	customFactionPanel.place(customFactionSymbolOutlinePanel,'span,growx,wrap');
 	customFactionPanel.editorTabScrolling = true;
 
  	diy.setNameField(nameField);
@@ -682,15 +694,9 @@ function createBackPainter(diy, sheet) {
 function paintFront(g, diy, sheet) {
 	if (sheet.sheetIndex == 0) {
 		textBoxSize = getTextBoxSize();
-		if ($Faction == 'rebel' || $Faction == 'imperial' || $Faction == 'scum' || $Faction == 'custom'){
-			mainColor = getMainColor();
-			actionsInActionBar = getActionsInActionBar();
-			paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColor);
-		} else {
-			// TODO: Remove extra dev templates	
-			imageTemplate =  'dev-' + $Faction + '-template';
-			sheet.paintImage(g, imageTemplate, 0, 0);
-		}
+		mainColor = getMainColor();
+		actionsInActionBar = getActionsInActionBar();
+		paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColor);
 		paintFrontFaceInfo(g, diy, sheet, textBoxSize);
 	} else {
 		mainColor = getMainColor();
@@ -706,7 +712,7 @@ function paintBack(g, diy, sheet) {
 	sheet.paintImage(g, imageTemplate,0,0);
 	
 	if ($Faction == 'custom') {
-		portraits[8].paint(g, target);		
+		portraits[5].paint(g, target);		
 	} else {
 		imageTemplate = 'pilot-' + $Faction + '-back-template';
 		sheet.paintImage(g, imageTemplate,0,0);
@@ -761,8 +767,16 @@ function paintBack(g, diy, sheet) {
 		g.drawImage(backLineArtFlipHorz, 370, 0, null);
 		g.drawImage(backLineArtFlipVert, 0, 520, null);
 		g.drawImage(backLineArtFlipBoth, 370, 520, null);
+		
+		// Draw Faction Symbol
+		portraits[7].paint(g, target);
+		
+		// Draw Dark Edges
+		if ($$CustomFactionDarkEdges.yesNo) {
+			imageTemplate = 'pilot-dark-edges-template';
+			sheet.paintImage(g, imageTemplate,0,0);
+		}
 	}
-	
 }
 
 function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColor) {
@@ -798,7 +812,7 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	factionSymbol = ImageUtils.create(330, 330, true);
 	gTemp = factionSymbol.createGraphics();
 	if ($Faction == 'custom') {
-		portraits[5].paint(gTemp,target);
+		portraits[8].paint(gTemp,target);
 	} else {
 		imageTemplate = 'pilot-' + $Faction + '-faction-symbol-template';
 		sheet.paintImage(gTemp, imageTemplate,0,0);
@@ -1217,7 +1231,7 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	// Draw shaded fire arc area
 	fireArcArea = ImageUtils.create(tokenWidth, tokenHeight, true);
 	gTemp = fireArcArea.createGraphics();
-	gTemp.setPaint(Xwing2.getColor($Faction));
+	gTemp.setPaint(fireArcColor);
 	fireArcs = [];
 	if ($ShipModel == 'custom') {
 		if ($CustomShipAttackValue1 != '-') {fireArcs.push($CustomShipAttackArc1);}
@@ -1269,7 +1283,7 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	g.drawLine(Math.round(tokenWidth/2), Math.round(tokenHeight/2), Math.round(tokenWidth/2)+bullsEyeXAdjustment, Math.round(tokenHeight/2)-bullsEyeYAdjustment);
 		
 	// Draw fire arc lines
-	g.setPaint(Xwing2.getColor($Faction));
+	g.setPaint(fireArcColor);
 	g.setStroke(BasicStroke(3));
 	for (let i = 0; i < fireArcs.length; ++i) {
 		switch (fireArcs[i]) {
@@ -1308,7 +1322,39 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	}
 
 	// Draw frame
-	// TODO
+//	if (tokenSize == 'small') {
+//		tokenWidth = 402;
+//		tokenHeight = 472;
+//		cutoutSize = 140;
+//		bullsEyeYAdjustment = 112;
+//		//bullsEyeYAdjustment = 139;
+//	} else if (tokenSize == 'medium'){
+//		tokenWidth = 638;
+//		tokenHeight = 709;
+//		cutoutSize = 190;
+//		bullsEyeYAdjustment = 106;
+//		//bullsEyeYAdjustment = 131;
+//	} else { // tokenSize == 'large'
+//		tokenWidth = 850;
+//		tokenHeight = 945;
+//		cutoutSize = 190;
+//		bullsEyeYAdjustment = 106;
+//		//bullsEyeYAdjustment = 131;
+//	}
+
+	g.setPaint(mainColor);
+	g.setStroke(BasicStroke(2));
+	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+	g.drawLine(0, tokenHeight-200, 50, tokenHeight-200);
+
+	if (tokenSize == 'small') {
+
+	} else if (tokenSize == 'medium'){
+
+	} else { // tokenSize == 'large'
+
+	}
 
 	// Draw Pilot Name
 	if ($$UniquePilot.yesNo) {
@@ -1318,35 +1364,35 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	}
 	tokenNameBox.drawAsSingleLine(g, R(tokenSize + '-token-name'));
 
-	// Draw Initiative
-	if ($Initiative == '\u25a0') {
-		g.setPaint(Xwing2.getColor('initiative'));
-		initRect = R('initiative-square', 0, 0);
-		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
-	} else {
-		sheet.drawOutlinedTitle(g, $Initiative, R(tokenSize + '-token-initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
-	}
-
-	// Draw Ship Icon
-	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
-		iconRect = R(tokenSize + '-token-icon');
-		iconImage = portraits[2].getImage();
-		iconScale = portraits[2].getScale();
-		AT = java.awt.geom.AffineTransform;
-		tokenTransform = AT.getTranslateInstance(
-			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
-			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
-		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
-		g.drawImage( iconImage, tokenTransform, null );
-	} else {
-		if ( $ShipModel == 'custom' ) {
-			shipIcon = $CustomShipIcon;
-		} else {
-			shipIcon = getShipStat($ShipModel, 'icon');
-		}
-		g.setPaint(Color.WHITE);
-		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R(tokenSize + '-token-icon'), Xwing2.shipFont, 24, sheet.ALIGN_CENTER);
-  	}
+//	// Draw Initiative
+//	if ($Initiative == '\u25a0') {
+//		g.setPaint(Xwing2.getColor('initiative'));
+//		initRect = R('initiative-square', 0, 0);
+//		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
+//	} else {
+//		sheet.drawOutlinedTitle(g, $Initiative, R(tokenSize + '-token-initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
+//	}
+//
+//	// Draw Ship Icon
+//	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
+//		iconRect = R(tokenSize + '-token-icon');
+//		iconImage = portraits[2].getImage();
+//		iconScale = portraits[2].getScale();
+//		AT = java.awt.geom.AffineTransform;
+//		tokenTransform = AT.getTranslateInstance(
+//			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
+//			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
+//		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
+//		g.drawImage( iconImage, tokenTransform, null );
+//	} else {
+//		if ( $ShipModel == 'custom' ) {
+//			shipIcon = $CustomShipIcon;
+//		} else {
+//			shipIcon = getShipStat($ShipModel, 'icon');
+//		}
+//		g.setPaint(Color.WHITE);
+//		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R(tokenSize + '-token-icon'), Xwing2.shipFont, 24, sheet.ALIGN_CENTER);
+//  	}
 	
 	//Draw central cutout circle
 	g.setPaint(Color.WHITE);
@@ -1474,7 +1520,7 @@ function onClear() {
 	
 	$CustomFactionMainTint = '0.0, 0.0, 0.0';
 	$CustomFactionFireArcTint = '0.0, 0.0, 0.0';
-
+	$CustomFactionDarkEdges = 'no';
 }
 
 // These can be used to perform special processing during open/save.
