@@ -50,8 +50,6 @@ function create(diy) {
 	diy.backTemplateKey = 'pilot-blank';
 	diy.setTemplateKey(2,'pilot-large-token');
 	
-	// TODO: Fix portraits[#].setClipStencil(image) for every portrait
-	
 	// Card Art
 	diy.customPortraitHandling = true;
 	portraits[0] = new DefaultPortrait(diy,'pilot');
@@ -684,7 +682,7 @@ function createFrontPainter(diy,sheet) {
 	fullAbilityTextBox = Xwing2.abilityBox(sheet, 8.8);
 	reducedAbilityTextBox = Xwing2.abilityBox(sheet, 8);
 	
-	tokenNameBox = Xwing2.headingBox(sheet,10);
+	tokenNameBox = Xwing2.headingBox(sheet, 8.8);
 }
 
 function createBackPainter(diy, sheet) {
@@ -843,31 +841,11 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	g.setStroke(BasicStroke(2));
 	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-	//TODO: Polyline?
-	g.drawLine(0, 419, 170, 419);
-	g.drawLine(171, 419, 192, 398);
-	g.drawLine(193, 397, 546, 397);
-	g.drawLine(547, 398, 568, 419);
-	g.drawLine(569, 419, 739, 419);
-	
-	g.drawLine(0, 977, 126, 977);
-	g.drawLine(127, 977, 139, 965);
-	g.drawLine(600, 965, 139, 965);
-	g.drawLine(612, 977, 600, 965);
-	g.drawLine(613, 977, 739, 977);
-
-	g.drawLine(0, 447, 585-xMod, 447);
-	g.drawLine(586-xMod, 447, 607-xMod, 468);
-	g.drawLine(608-xMod, 469, 608-xMod, 783);
-	g.drawLine(607-xMod, 784, 586-xMod, 805);
-	g.drawLine(585-xMod, 805, 0, 805);
-	
-	g.drawLine(651-xMod, 447, 739, 447);
-	g.drawLine(629-xMod, 468, 650-xMod, 447);
-	g.drawLine(628-xMod, 469, 628-xMod, 918);
-	g.drawLine(629-xMod, 919, 650-xMod, 940);
-	g.drawLine(651-xMod, 940, 739, 940);
-	
+	g.drawPolyline([0, 171, 193, 546, 568, 739], [419, 419, 397, 397, 419, 419], 6);
+	g.drawPolyline([0, 127, 139, 600, 612, 739], [977, 977, 965, 965, 977, 977], 6);
+	g.drawPolyline([0, 586-xMod, 608-xMod, 608-xMod, 586-xMod, 0], [447, 447, 469, 783, 805, 805], 6);
+	g.drawPolyline([739, 650-xMod, 628-xMod, 628-xMod, 650-xMod, 739], [447, 447, 469, 918, 940, 940], 6);	
+		
 	g.drawLine(608-xMod, 469, 628-xMod, 469);
 	g.drawLine(608-xMod, 506, 628-xMod, 506);
 	g.drawLine(608-xMod, 615, 628-xMod, 615);
@@ -875,7 +853,7 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	g.drawLine(608-xMod, 709, 628-xMod, 709);
 	g.drawLine(608-xMod, 751, 628-xMod, 751);
 	g.drawLine(608-xMod, 783, 628-xMod, 783);
-	
+		
 	g.drawOval(612-xMod, 521, 12, 1);
 	g.drawOval(612-xMod, 638, 12, 1);
 	g.drawOval(612-xMod, 740, 12, 1);
@@ -965,14 +943,9 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	g.drawLine(0, 416, 107, 416);
 	g.drawLine(739, 331, 614, 331);
 	g.drawLine(739, 416, 632, 416);
-	g.drawLine(168, 315, 571, 315);
-	g.drawLine(168, 315, 162, 309);
-	g.drawLine(571, 315, 577, 309);
-
-	g.drawLine(0, 1030, 208, 1030);
-	g.drawLine(208, 1030, 218, 1040);
-	g.drawLine(739, 1030, 531, 1030);
-	g.drawLine(531, 1030, 521, 1040);
+	g.drawPolyline([162, 168, 571, 577], [309, 315, 315, 309], 4);
+	g.drawPolyline([0, 208, 218], [1030, 1030, 1040], 3);
+	g.drawPolyline([739, 531, 521], [1030, 1030, 1040], 3);
 	
 	imageTemplate = 'pilot-initiative-background-template';
 	sheet.paintImage(g, imageTemplate,19,317);
@@ -1028,10 +1001,12 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
   	
 	// Draw Initiative
 	if ($Initiative == '\u25a0') {
-		g.setPaint(Xwing2.getColor('initiative'));
-		initRect = R('initiative-square', 0, 0);
+		initRect = R('initiative-square-border', 0, 0);
+		g.setPaint(Color.BLACK);
 		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
-		//TODO: black contour
+		initRect = R('initiative-square', 0, 0);
+		g.setPaint(Xwing2.getColor('initiative'));
+		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
 	} else {
 		sheet.drawOutlinedTitle( g, $Initiative, R('initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
 	}
@@ -1324,7 +1299,7 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	// Draw frame
 //	if (tokenSize == 'small') {
 //		tokenWidth = 402;
-//		tokenHeight = 472;
+//		tokenHeight = 472; 
 //		cutoutSize = 140;
 //		bullsEyeYAdjustment = 112;
 //		//bullsEyeYAdjustment = 139;
@@ -1342,16 +1317,41 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 //		//bullsEyeYAdjustment = 131;
 //	}
 
-	g.setPaint(mainColor);
-	g.setStroke(BasicStroke(2));
+
 	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-	g.drawLine(0, tokenHeight-200, 50, tokenHeight-200);
-
+	g.setStroke(BasicStroke(2));
+	
 	if (tokenSize == 'small') {
-
+		g.setPaint(color.BLACK);
+		//g.setPaint(color.WHITE);
+		g.fillPolygon([0, 62, 90, 90, 74, 0], [294, 294, 322, 366, 386, 386], 6);
+		g.fillPolygon([402, 340, 312, 312, 328, 402], [294, 294, 322, 366, 386, 386], 6);
+		g.fillPolygon([90, 312, 328, 74], [366, 366, 386, 386], 4);
+		g.fillPolygon([0, 402, 402, 380, 22, 0], [386, 386, 419, 445, 445, 419], 6);
+		
+		// Gradient art in between the line art
+		// TODO
+//		gradiantArt = ImageUtils.create(18, 209, true);
+//		gTemp = gradiantArt.createGraphics();
+//		gTemp.setPaint(Xwing2.getColor('white'));
+//		gTemp.fillRect(0,0,18,209);
+//		gradientPaint = new java.awt.GradientPaint(0, 50, Color(24 / 255, 20 / 255, 21 / 255), 0, 380, mainColor);
+//		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+//		g.drawImage(gradiantArt, , 470, null);
+//		
+		g.setPaint(mainColor);
+		g.drawPolyline([0, 62, 90, 90, 74, 0], [294, 294, 322, 366, 386, 386], 6);
+		g.drawPolyline([402, 340, 312, 312, 328, 402], [294, 294, 322, 366, 386, 386], 6);
+		g.drawPolyline([90, 312, 328, 74], [366, 366, 386, 386], 4);
+		g.drawPolyline([0, 402], [386, 386], 2); g.drawPolyline([402, 380, 22, 0], [419, 445, 445, 419], 4);
+		
 	} else if (tokenSize == 'medium'){
-
+//		g.setPaint(color.BLACK);
+//		g.setPaint(color.WHITE);
+//		g.fillPolygon([0, 62, 90, 90, 62, 0], [294, 294, 322, 366, 399, 399], 6);
+//		
+//		g.setPaint(mainColor);
+//		g.drawPolyline([0, 62, 90, 90, 62, 0], [294, 294, 322, 366, 399, 399], 6);
 	} else { // tokenSize == 'large'
 
 	}
@@ -1364,35 +1364,36 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	}
 	tokenNameBox.drawAsSingleLine(g, R(tokenSize + '-token-name'));
 
-//	// Draw Initiative
-//	if ($Initiative == '\u25a0') {
-//		g.setPaint(Xwing2.getColor('initiative'));
-//		initRect = R('initiative-square', 0, 0);
-//		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
-//	} else {
-//		sheet.drawOutlinedTitle(g, $Initiative, R(tokenSize + '-token-initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
-//	}
-//
-//	// Draw Ship Icon
-//	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
-//		iconRect = R(tokenSize + '-token-icon');
-//		iconImage = portraits[2].getImage();
-//		iconScale = portraits[2].getScale();
-//		AT = java.awt.geom.AffineTransform;
-//		tokenTransform = AT.getTranslateInstance(
-//			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
-//			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
-//		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
-//		g.drawImage( iconImage, tokenTransform, null );
-//	} else {
-//		if ( $ShipModel == 'custom' ) {
-//			shipIcon = $CustomShipIcon;
-//		} else {
-//			shipIcon = getShipStat($ShipModel, 'icon');
-//		}
-//		g.setPaint(Color.WHITE);
-//		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R(tokenSize + '-token-icon'), Xwing2.shipFont, 24, sheet.ALIGN_CENTER);
-//  	}
+	// Draw Initiative
+	if ($Initiative == '\u25a0') {
+		//TODO: Draw black border
+		g.setPaint(Xwing2.getColor('initiative'));
+		initRect = R('initiative-square', 0, 0);
+		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
+	} else {
+		sheet.drawOutlinedTitle(g, $Initiative, R(tokenSize + '-token-initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
+	}
+
+	// Draw Ship Icon
+	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
+		iconRect = R(tokenSize + '-token-icon');
+		iconImage = portraits[2].getImage();
+		iconScale = portraits[2].getScale();
+		AT = java.awt.geom.AffineTransform;
+		tokenTransform = AT.getTranslateInstance(
+			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
+			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
+		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
+		g.drawImage( iconImage, tokenTransform, null );
+	} else {
+		if ( $ShipModel == 'custom' ) {
+			shipIcon = $CustomShipIcon;
+		} else {
+			shipIcon = getShipStat($ShipModel, 'icon');
+		}
+		g.setPaint(Color.WHITE);
+		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R(tokenSize + '-token-icon'), Xwing2.shipFont, 24, sheet.ALIGN_CENTER);
+  	}
 	
 	//Draw central cutout circle
 	g.setPaint(Color.WHITE);
