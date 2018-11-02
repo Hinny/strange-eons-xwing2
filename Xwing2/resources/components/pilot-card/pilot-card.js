@@ -1323,35 +1323,102 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	
 	if (tokenSize == 'small') {
 		g.setPaint(color.BLACK);
-		//g.setPaint(color.WHITE);
-		g.fillPolygon([0, 62, 90, 90, 74, 0], [294, 294, 322, 366, 386, 386], 6);
-		g.fillPolygon([402, 340, 312, 312, 328, 402], [294, 294, 322, 366, 386, 386], 6);
-		g.fillPolygon([90, 312, 328, 74], [366, 366, 386, 386], 4);
-		g.fillPolygon([0, 402, 402, 380, 22, 0], [386, 386, 419, 445, 445, 419], 6);
+		g.fillPolygon([0, 62, 90, 90, 74, 0], [294, 294, 322, 366, 384, 384], 6);
+		g.fillPolygon([402, 340, 312, 312, 328, 402], [294, 294, 322, 366, 384, 384], 6);
+		g.fillPolygon([90, 312, 328, 74], [366, 366, 384, 384], 4);
+		g.fillPolygon([0, 402, 402, 380, 22, 0], [384, 384, 419, 445, 445, 419], 6);
 		
 		// Gradient art in between the line art
-		// TODO
-//		gradiantArt = ImageUtils.create(18, 209, true);
-//		gTemp = gradiantArt.createGraphics();
-//		gTemp.setPaint(Xwing2.getColor('white'));
-//		gTemp.fillRect(0,0,18,209);
-//		gradientPaint = new java.awt.GradientPaint(0, 50, Color(24 / 255, 20 / 255, 21 / 255), 0, 380, mainColor);
-//		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
-//		g.drawImage(gradiantArt, , 470, null);
-//		
-		g.setPaint(mainColor);
-		g.drawPolyline([0, 62, 90, 90, 74, 0], [294, 294, 322, 366, 386, 386], 6);
-		g.drawPolyline([402, 340, 312, 312, 328, 402], [294, 294, 322, 366, 386, 386], 6);
-		g.drawPolyline([90, 312, 328, 74], [366, 366, 386, 386], 4);
-		g.drawPolyline([0, 402], [386, 386], 2); g.drawPolyline([402, 380, 22, 0], [419, 445, 445, 419], 4);
+		gradiantArt = ImageUtils.create(109, 18, true);
+		gTemp = gradiantArt.createGraphics();
+		gTemp.setPaint(Xwing2.getColor('white'));
+		gTemp.fillRect(0,0,109,18);
+		gradientPaint = new java.awt.GradientPaint(0, 9, Color(0 / 255, 0 / 255, 0 / 255), 209, 9, mainColor);
+		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+		g.drawImage(gradiantArt, 94, 366, null);
+		gradiantArt = ImageUtils.create(109, 18, true);
+		gTemp = gradiantArt.createGraphics();
+		gTemp.setPaint(Xwing2.getColor('white'));
+		gTemp.fillRect(0,0,109,18);
+		gradientPaint = new java.awt.GradientPaint(-100, 9, mainColor, 109, 9, Color(0 / 255, 0 / 255, 0 / 255));
+		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+		g.drawImage(gradiantArt, 203, 366, null);
 		
+		g.setPaint(mainColor);
+		g.drawPolyline([0, 62, 90, 90, 74, 0], [294, 294, 322, 366, 384, 384], 6);
+		g.drawPolyline([402, 340, 312, 312, 328, 402], [294, 294, 322, 366, 384, 384], 6);
+		g.drawPolyline([90, 312, 328, 74], [366, 366, 384, 384], 4);
+		g.drawPolyline([0, 402], [384, 384], 2); g.drawPolyline([402, 380, 22, 0], [419, 445, 445, 419], 4);
+		g.drawLine(95, 366, 95, 384);
+		g.drawLine(135, 366, 135, 384);
+		g.drawLine(189, 366, 190, 384);
+		g.drawLine(225, 366, 225, 384);		
+		g.drawLine(307, 366, 307, 384);
+		g.drawOval(147, 370, 1, 10);
+		g.drawOval(279, 370, 1, 10);
+		
+		g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
+		g.setStroke(BasicStroke(1.6));
+		for (i = 0; i < 35; i++) {
+			xRel = i*6.0;
+			if (i == 2 || i == 4 || i == 10 || i == 18 || i == 29) {
+				g.drawLine(99 + xRel, 373, 99 + xRel, 377);
+			} else {
+				g.drawLine(99 + xRel, 375, 99 + xRel, 375);
+			}
+		}
 	} else if (tokenSize == 'medium'){
-//		g.setPaint(color.BLACK);
-//		g.setPaint(color.WHITE);
-//		g.fillPolygon([0, 62, 90, 90, 62, 0], [294, 294, 322, 366, 399, 399], 6);
-//		
-//		g.setPaint(mainColor);
-//		g.drawPolyline([0, 62, 90, 90, 62, 0], [294, 294, 322, 366, 399, 399], 6);
+		g.setPaint(color.BLACK);
+		g.fillPolygon([0, 62, 90, 90, 66, 0], [531, 531, 559, 609, 636, 636], 6);
+		g.fillPolygon([638, 576, 548, 548, 572, 638], [531, 531, 559, 609, 636, 636], 6);
+		g.fillPolygon([90, 548, 564, 74], [609, 609, 627, 627], 4);
+		g.fillPolygon([0, 66, 74, 564, 572, 638, 638, 548, 526, 112, 90, 0], [636, 636, 627, 627, 636, 636, 656, 656, 682, 682, 656, 656], 12);
+
+		// Gradient art in between the line art
+		gradiantArt = ImageUtils.create(150, 18, true);
+		gTemp = gradiantArt.createGraphics();
+		gTemp.setPaint(Xwing2.getColor('white'));
+		gTemp.fillRect(0,0,150,18);
+		gradientPaint = new java.awt.GradientPaint(0, 9, Color(0 / 255, 0 / 255, 0 / 255), 230, 9, mainColor);
+		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+		g.drawImage(gradiantArt, 94, 609, null);
+		gradiantArt = ImageUtils.create(300, 18, true);
+		gTemp = gradiantArt.createGraphics();
+		gTemp.setPaint(Xwing2.getColor('white'));
+		gTemp.fillRect(0,0,300,18);
+		gradientPaint = new java.awt.GradientPaint(-240, 9, mainColor, 220, 9, Color(0 / 255, 0 / 255, 0 / 255));
+		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+		g.drawImage(gradiantArt, 203, 609, null);
+		
+		g.setPaint(mainColor);
+		g.drawPolyline([0, 62, 90, 90, 66, 0], [531, 531, 559, 609, 636, 636], 6);
+		g.drawPolyline([638, 576, 548, 548, 572, 638], [531, 531, 559, 609, 636, 636], 6);
+		g.drawPolyline([90, 548, 564, 74], [609, 609, 627, 627], 4);
+		g.drawPolyline([0, 66, 74, 564, 572, 638], [636, 636, 627, 627, 636, 636], 6);
+		g.drawPolyline([0, 90, 112, 526, 548, 638], [656, 656, 682, 682, 656, 656], 6);
+		g.drawLine(95, 610, 95, 627);
+		g.drawLine(115, 610, 115, 626);
+		g.drawLine(157, 610, 157, 626);
+		g.drawLine(211, 610, 211, 626);
+		g.drawLine(247, 610, 247, 626);
+		g.drawLine(331, 610, 331, 626);
+		g.drawLine(475, 610, 475, 626);
+		g.drawLine(543, 610, 543, 626);
+
+		g.drawOval(169, 613, 1, 10);
+		g.drawOval(301, 613, 1, 10);
+		g.drawOval(457, 613, 1, 10);
+		
+		g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
+		g.setStroke(BasicStroke(1.6));
+		for (i = 0; i < 75; i++) {
+			xRel = i*6.0;
+			if (i == 6 || i == 8 || i == 14 || i == 22 || i == 33 || i == 47 || i == 67) {
+				g.drawLine(97 + xRel, 616, 97 + xRel, 620);
+			} else {
+				g.drawLine(97 + xRel, 618, 97 + xRel, 618);
+			}
+		}
 	} else { // tokenSize == 'large'
 
 	}
@@ -1366,7 +1433,6 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 
 	// Draw Initiative
 	if ($Initiative == '\u25a0') {
-		//TODO: Draw black border
 		g.setPaint(Xwing2.getColor('initiative'));
 		initRect = R('initiative-square', 0, 0);
 		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
