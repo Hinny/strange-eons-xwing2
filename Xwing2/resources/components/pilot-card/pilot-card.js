@@ -195,19 +195,14 @@ function createInterface(diy,editor) {
 	factionItems.push(ListItem('rebel',@xw2-faction-rebel));
 	factionItems.push(ListItem('imperial',@xw2-faction-imperial));
 	factionItems.push(ListItem('scum',@xw2-faction-scum));
-	factionItems.push(ListItem('luke','Luke'));
-	factionItems.push(ListItem('redsquad','RedSquad'));
-	factionItems.push(ListItem('redhighres','RedHighRes'));
-	factionItems.push(ListItem('dutch','Dutch'));
-	factionItems.push(ListItem('howlrunner','Howlrunner'));
-	factionItems.push(ListItem('feroph','Feroph'));
-	factionItems.push(ListItem('terroch','Terroch'));
-	factionItems.push(ListItem('lando','Lando'));
 	factionBox = comboBox(factionItems);
 	bindings.add('Faction',factionBox,[0,1,2]);	
 
 	shipItems = [];
 	shipItems.push(ListItem('custom',@xw2-ship-custom-name));
+	shipItems.push(ListItem('bwing',@xw2-ship-bwing-name));
+	shipItems.push(ListItem('arc170',@xw2-ship-arc170-name));
+	shipItems.push(ListItem('attackshuttle',@xw2-ship-attackshuttle-name));
 	shipItems.push(ListItem('t65xwing',@xw2-ship-t65xwing-name));
 	shipItems.push(ListItem('tielnfighter',@xw2-ship-tielnfighter-name));
 	shipItems.push(ListItem('fangfighter',@xw2-ship-fangfighter-name));
@@ -373,6 +368,9 @@ function createInterface(diy,editor) {
 	// as it is only the ship icon that is interesting here.
 	shipIconItems = [];
 	shipIconItems.push(ListItem('custom',@xw2-ship-custom-name));
+	shipItems.push(ListItem('bwing',@xw2-ship-bwing-name));
+	shipItems.push(ListItem('arc170',@xw2-ship-arc170-name));
+	shipItems.push(ListItem('attackshuttle',@xw2-ship-attackshuttle-name));
 	shipIconItems.push(ListItem('t65xwing',@xw2-ship-t65xwing-name));
 	shipIconItems.push(ListItem('tielnfighter',@xw2-ship-tielnfighter-name));
 	shipIconItems.push(ListItem('fangfighter',@xw2-ship-fangfighter-name));
