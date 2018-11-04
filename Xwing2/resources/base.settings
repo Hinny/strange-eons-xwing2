@@ -76,11 +76,12 @@ pilot-large-token-dpi = 300
 pilot-portrait-template = components/pilot-card/images/example/example-art.jpg
 pilot-portrait-clip-region = 0,0,739,317
 
-ship-card-portrait-template = components/pilot-card/images/example/example-icon.png
-ship-card-portrait-clip-region = 23,963,65,65
+ship-icon-card-portrait-template = components/pilot-card/images/example/example-ship-icon.png
+ship-icon-card-portrait-clip-region = 28,968,55,55
 
-ship-token-portrait-template = components/pilot-card/images/example/example-icon.png
-ship-token-portrait-clip-region = 38,387,65,65
+ship-icon-token-portrait-template = components/pilot-card/images/example/example-ship-icon.png
+ship-icon-token-portrait-clip-region = 320,302,75,75
+# Clip region depends on token size
 
 faction-upper-panel-portrait-template = components/pilot-card/images/example/example-panel.jpg
 faction-upper-panel-portrait-clip-region = 0,0,739,127
@@ -111,6 +112,7 @@ pilot-initiative-square-border-region = 39,351,33,33
 pilot-full-text-region = 21,468,561,317
 pilot-reduced-text-region = 21,468,476,317
 pilot-icon-region = 23,963,65,65
+pilot-copy-right-region = 615,1007,100,25
 pilot-small-token-name-region = 10,394,382,35
 pilot-medium-token-name-region = 128,631,382,35
 pilot-large-token-name-region = 234,867,382,35
@@ -120,9 +122,9 @@ pilot-large-token-initiative-region = 8,776,70,84
 pilot-small-token-initiative-square-region = 31,325,25,25
 pilot-medium-token-initiative-square-region = 31,569,25,25
 pilot-large-token-initiative-square-region = 31,805,25,25
-pilot-small-token-icon-region = 330,307,65,65
-pilot-medium-token-icon-region = 566,551,65,65
-pilot-large-token-icon-region = 778,787,65,65
+pilot-small-token-icon-region = 320,302,75,75
+pilot-medium-token-icon-region = 552,546,75,75
+pilot-large-token-icon-region = 764,782,75,75
 
 pilot-legal-region = 559,703,142,21
 

@@ -60,7 +60,7 @@ function create(diy) {
 	portraits[0].installDefault();
 	
 	// Ship Icon,Card
-	portraits[1] = new DefaultPortrait(diy,'ship-card');
+	portraits[1] = new DefaultPortrait(diy,'ship-icon-card');
 	portraits[1].setScaleUsesMinimum(true);
 	portraits[1].facesToUpdate = 1;
 	portraits[1].backgroundFilled = false;
@@ -68,7 +68,7 @@ function create(diy) {
 	portraits[1].installDefault();
 	
 	// Ship Icon,Token
-	portraits[2] = new DefaultPortrait(portraits[1],'ship-token');
+	portraits[2] = new DefaultPortrait(portraits[1],'ship-icon-token');
 	portraits[2].setScaleUsesMinimum(true);
 	portraits[2].facesToUpdate = 4;
 	portraits[2].backgroundFilled = false;
@@ -681,7 +681,7 @@ function createFrontPainter(diy,sheet) {
 	fullAbilityTextBox = Xwing2.abilityBox(sheet, 9);
 	fullAbilityTextBox = Xwing2.abilityBox(sheet, 8.8);
 	reducedAbilityTextBox = Xwing2.abilityBox(sheet, 8);
-	
+	copyRightBox = Xwing2.copyRightBox(sheet,4.5);
 	tokenNameBox = Xwing2.headingBox(sheet, 8.8);
 }
 
@@ -957,6 +957,10 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	if ($Faction == 'custom') {
 		portraits[6].paint(g,target);
 	}
+	
+	// Draw Copy Right Text
+	copyRightBox.markupText = "\u00a9LFL \u00a9FFG";
+	copyRightBox.drawAsSingleLine(g, R('copy-right'));
 }
 
 function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
@@ -1297,27 +1301,6 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 	}
 
 	// Draw frame
-//	if (tokenSize == 'small') {
-//		tokenWidth = 402;
-//		tokenHeight = 472; 
-//		cutoutSize = 140;
-//		bullsEyeYAdjustment = 112;
-//		//bullsEyeYAdjustment = 139;
-//	} else if (tokenSize == 'medium'){
-//		tokenWidth = 638;
-//		tokenHeight = 709;
-//		cutoutSize = 190;
-//		bullsEyeYAdjustment = 106;
-//		//bullsEyeYAdjustment = 131;
-//	} else { // tokenSize == 'large'
-//		tokenWidth = 850;
-//		tokenHeight = 945;
-//		cutoutSize = 190;
-//		bullsEyeYAdjustment = 106;
-//		//bullsEyeYAdjustment = 131;
-//	}
-
-
 	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	g.setStroke(BasicStroke(2));
 	
@@ -1369,10 +1352,10 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 		}
 	} else if (tokenSize == 'medium'){
 		g.setPaint(color.BLACK);
-		g.fillPolygon([0, 62, 90, 90, 66, 0], [531, 531, 559, 609, 636, 636], 6);
-		g.fillPolygon([638, 576, 548, 548, 572, 638], [531, 531, 559, 609, 636, 636], 6);
-		g.fillPolygon([90, 548, 564, 74], [609, 609, 627, 627], 4);
-		g.fillPolygon([0, 66, 74, 564, 572, 638, 638, 548, 526, 112, 90, 0], [636, 636, 627, 627, 636, 636, 656, 656, 682, 682, 656, 656], 12);
+		g.fillPolygon([0, 66, 94, 94, 66, 0], [531, 531, 559, 605, 636, 636], 6);
+		g.fillPolygon([638, 572, 544, 544, 572, 638], [531, 531, 559, 605, 636, 636], 6);
+		g.fillPolygon([94, 544, 560, 78], [605, 605, 623, 623], 4);
+		g.fillPolygon([0, 66, 78, 560, 572, 638, 638, 544, 522, 116, 94, 0], [636, 636, 623, 623, 636, 636, 656, 656, 682, 682, 656, 656], 12);
 
 		// Gradient art in between the line art
 		gradiantArt = ImageUtils.create(150, 18, true);
@@ -1381,46 +1364,100 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 		gTemp.fillRect(0,0,150,18);
 		gradientPaint = new java.awt.GradientPaint(0, 9, Color(0 / 255, 0 / 255, 0 / 255), 230, 9, mainColor);
 		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
-		g.drawImage(gradiantArt, 94, 609, null);
+		g.drawImage(gradiantArt, 94, 605, null);
 		gradiantArt = ImageUtils.create(300, 18, true);
 		gTemp = gradiantArt.createGraphics();
 		gTemp.setPaint(Xwing2.getColor('white'));
 		gTemp.fillRect(0,0,300,18);
 		gradientPaint = new java.awt.GradientPaint(-240, 9, mainColor, 220, 9, Color(0 / 255, 0 / 255, 0 / 255));
 		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
-		g.drawImage(gradiantArt, 203, 609, null);
+		g.drawImage(gradiantArt, 203, 605, null);
 		
 		g.setPaint(mainColor);
-		g.drawPolyline([0, 62, 90, 90, 66, 0], [531, 531, 559, 609, 636, 636], 6);
-		g.drawPolyline([638, 576, 548, 548, 572, 638], [531, 531, 559, 609, 636, 636], 6);
-		g.drawPolyline([90, 548, 564, 74], [609, 609, 627, 627], 4);
-		g.drawPolyline([0, 66, 74, 564, 572, 638], [636, 636, 627, 627, 636, 636], 6);
-		g.drawPolyline([0, 90, 112, 526, 548, 638], [656, 656, 682, 682, 656, 656], 6);
-		g.drawLine(95, 610, 95, 627);
-		g.drawLine(115, 610, 115, 626);
-		g.drawLine(157, 610, 157, 626);
-		g.drawLine(211, 610, 211, 626);
-		g.drawLine(247, 610, 247, 626);
-		g.drawLine(331, 610, 331, 626);
-		g.drawLine(475, 610, 475, 626);
-		g.drawLine(543, 610, 543, 626);
+		g.drawPolyline([0, 66, 94, 94, 66, 0], [531, 531, 559, 605, 636, 636], 6);
+		g.drawPolyline([638, 572, 544, 544, 572, 638], [531, 531, 559, 605, 636, 636], 6);
+		g.drawPolyline([94, 544, 560, 78], [605, 605, 623, 623], 4);
+		g.drawPolyline([0, 66, 78, 560, 572, 638], [636, 636, 623, 623, 636, 636], 6);
+		g.drawPolyline([0, 94, 116, 522, 544, 638], [656, 656, 682, 682, 656, 656], 6);
+		g.drawLine(99, 606, 99, 622);
+		g.drawLine(118, 606, 118, 622);
+		g.drawLine(160, 606, 160, 622);
+		g.drawLine(214, 606, 214, 622);
+		g.drawLine(250, 606, 250, 622);
+		g.drawLine(334, 606, 334, 622);
+		g.drawLine(472, 606, 472, 622);
+		g.drawLine(539, 606, 539, 622);
 
-		g.drawOval(169, 613, 1, 10);
-		g.drawOval(301, 613, 1, 10);
-		g.drawOval(457, 613, 1, 10);
+		g.drawOval(172, 609, 1, 10);
+		g.drawOval(304, 609, 1, 10);
+		g.drawOval(454, 609, 1, 10);
 		
 		g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
 		g.setStroke(BasicStroke(1.6));
-		for (i = 0; i < 75; i++) {
+		for (i = 0; i < 74; i++) {
 			xRel = i*6.0;
-			if (i == 6 || i == 8 || i == 14 || i == 22 || i == 33 || i == 47 || i == 67) {
-				g.drawLine(97 + xRel, 616, 97 + xRel, 620);
+			if (i == 6 || i == 8 || i == 14 || i == 22 || i == 33 || i == 47 || i == 66) {
+				g.drawLine(100 + xRel, 611, 100 + xRel, 617);
 			} else {
-				g.drawLine(97 + xRel, 618, 97 + xRel, 618);
+				g.drawLine(100 + xRel, 614, 100 + xRel, 614);
 			}
 		}
 	} else { // tokenSize == 'large'
+		g.setPaint(color.BLACK);
+		g.fillPolygon([0, 66, 94, 94, 66, 0], [767, 767, 795, 841, 872, 872], 6);
+		g.fillPolygon([850, 784, 756, 756, 784, 850], [767, 767, 795, 841, 872, 872], 6);
+		g.fillPolygon([216, 634, 650, 200], [841, 841, 859, 859], 4);
+		g.fillPolygon([78, 94, 114, 130], [859, 841, 841, 859], 4);
+		g.fillPolygon([772, 756, 736, 720], [859, 841, 841, 859], 4);
+		g.fillPolygon([0, 66, 78, 772, 784, 850, 850, 650, 628, 222, 200, 0], [872, 872, 859, 859, 872, 872, 892, 892, 918, 918, 892, 892], 12);
 
+		// Gradient art in between the line art
+		gradiantArt = ImageUtils.create(150, 18, true);
+		gTemp = gradiantArt.createGraphics();
+		gTemp.setPaint(Xwing2.getColor('white'));
+		gTemp.fillRect(0,0,150,18);
+		gradientPaint = new java.awt.GradientPaint(0, 9, Color(0 / 255, 0 / 255, 0 / 255), 230, 9, mainColor);
+		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+		g.drawImage(gradiantArt, 200, 841, null);
+		gradiantArt = ImageUtils.create(300, 18, true);
+		gTemp = gradiantArt.createGraphics();
+		gTemp.setPaint(Xwing2.getColor('white'));
+		gTemp.fillRect(0,0,300,18);
+		gradientPaint = new java.awt.GradientPaint(-240, 9, mainColor, 220, 9, Color(0 / 255, 0 / 255, 0 / 255));
+		gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
+		g.drawImage(gradiantArt, 309, 841, null);
+		
+		g.setPaint(mainColor);
+		g.drawPolyline([0, 66, 94, 94, 66, 0], [767, 767, 795, 841, 872, 872], 6);
+		g.drawPolyline([850, 784, 756, 756, 784, 850], [767, 767, 795, 841, 872, 872], 6);
+		g.drawPolygon([216, 634, 650, 200], [841, 841, 859, 859], 4);
+		g.drawPolygon([78, 94, 114, 130], [859, 841, 841, 859], 4);
+		g.drawPolygon([772, 756, 736, 720], [859, 841, 841, 859], 4);
+		g.drawPolyline([0, 66, 78, 772, 784, 850], [872, 872, 859, 859, 872, 872], 6);
+		g.drawPolyline([0, 200, 222, 628, 650, 850], [892, 892, 918, 918, 892, 892], 6);
+		
+		g.drawLine(224, 842, 224, 858);
+		g.drawLine(266, 842, 266, 858);
+		g.drawLine(320, 842, 320, 858);
+		g.drawLine(356, 842, 356, 858);
+		g.drawLine(440, 842, 440, 858);
+		g.drawLine(578, 842, 578, 858);
+		g.drawLine(626, 842, 626, 858);
+
+		g.drawOval(278, 845, 1, 10);
+		g.drawOval(410, 845, 1, 10);
+		g.drawOval(560, 845, 1, 10);
+		
+		g.setPaint(Color(190 / 255, 190 / 255, 190 / 255));
+		g.setStroke(BasicStroke(1.6));
+		for (i = 0; i < 66; i++) {
+			xRel = i*6.0;
+			if (i == 2 || i == 4 || i == 10 || i == 18 || i == 29 || i == 43 || i == 62) {
+				g.drawLine(230 + xRel, 847, 230 + xRel, 853);
+			} else {
+				g.drawLine(230 + xRel, 850, 230 + xRel, 850);
+			}
+		}
 	}
 
 	// Draw Pilot Name
@@ -1442,16 +1479,15 @@ function paintToken(g, diy, sheet, mainColor, fireArcColor) {
 
 	// Draw Ship Icon
 	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
-		iconRect = R(tokenSize + '-token-icon');
-		iconImage = portraits[2].getImage();
-		iconScale = portraits[2].getScale();
-		AT = java.awt.geom.AffineTransform;
-		tokenTransform = AT.getTranslateInstance(
-			38 + iconRect.getX() - (iconImage.width*iconScale)/2 + portraits[2].getPanX(),
-			32 + iconRect.getY() - (iconImage.height*iconScale)/2 + portraits[2].getPanY());
-		tokenTransform.concatenate(AT.getScaleInstance(iconScale, iconScale));
-		g.drawImage( iconImage, tokenTransform, null );
-	} else {
+		if (tokenSize == 'small') {
+			$ship-icon-token-portrait-clip-region = $pilot-small-token-icon-region;
+		} else if (tokenSize == 'medium'){
+			$ship-icon-token-portrait-clip-region = $pilot-medium-token-icon-region;
+		} else { // tokenSize == 'large'
+			$ship-icon-token-portrait-clip-region = $pilot-large-token-icon-region;
+		}
+		portraits[2].paint(g, target);
+	} else { 
 		if ( $ShipModel == 'custom' ) {
 			shipIcon = $CustomShipIcon;
 		} else {

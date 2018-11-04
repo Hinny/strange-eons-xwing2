@@ -116,6 +116,26 @@ function Xwing2Object() {
 		return box;		
 	};
 	
+	this.copyRightBox = function bodyBox(sheet, size) {
+		var box = markupBox(sheet);
+
+		box.defaultStyle = new TextStyle(
+			FAMILY,		this.abilityFamily,
+			SIZE,		size,
+			COLOR,		Color.WHITE,
+			WEIGHT,		WEIGHT_EXTRABOLD,
+			WIDTH,		WIDTH_SEMI_CONDENSED,
+			POSTURE,	POSTURE_REGULAR
+		);
+
+		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
+		box.headlineAlignment = box.LAYOUT_CENTER;
+		//box.lineTightness = 1.5;	
+		box.textFitting= box.FIT_SCALE_TEXT;
+
+		return box;		
+	};
+	
 	this.abilityBox = function bodyBox(sheet, size) {
 		var box = markupBox(sheet);
 
