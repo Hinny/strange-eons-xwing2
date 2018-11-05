@@ -312,7 +312,7 @@ function Xwing2Object() {
 		box.setReplacementForTag('tiepunisher', '<ship>' + this.textToShipChar('tiepunisher') + '</ship>');
 		box.setReplacementForTag('tiephantom', '<ship>' + this.textToShipChar('tiephantom') + '</ship>');
 		box.setReplacementForTag('upsilonshuttle', '<ship>' + this.textToShipChar('upsilonshuttle') + '</ship>');
-		box.setReplacementForTag('quadjumper', '<ship>' + this.textToShipChar('quadjumper') + '</ship>');
+		box.setReplacementForTag('spacetug', '<ship>' + this.textToShipChar('spacetug') + '</ship>');
 		box.setReplacementForTag('tiestriker', '<ship>' + this.textToShipChar('tiestriker') + '</ship>');
 		box.setReplacementForTag('uwing', '<ship>' + this.textToShipChar('uwing') + '</ship>');
 		box.setReplacementForTag('tieaggressor', '<ship>' + this.textToShipChar('tieaggressor') + '</ship>');
@@ -324,6 +324,9 @@ function Xwing2Object() {
 		box.setReplacementForTag('kimogila', '<ship>' + this.textToShipChar('kimogila') + '</ship>');
 		box.setReplacementForTag('tiesilencer', '<ship>' + this.textToShipChar('tiesilencer') + '</ship>');
 		box.setReplacementForTag('bsf17bomber', '<ship>' + this.textToShipChar('bsf17bomber') + '</ship>');
+		box.setReplacementForTag('tiereaper', '<ship>' + this.textToShipChar('tiereaper') + '</ship>');
+		box.setReplacementForTag('customyt1300', '<ship>' + this.textToShipChar('customyt1300') + '</ship>');
+		box.setReplacementForTag('escapecraft', '<ship>' + this.textToShipChar('escapecraft') + '</ship>');
 		
 		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
 		box.headlineAlignment = box.LAYOUT_CENTER;
@@ -511,7 +514,7 @@ function Xwing2Object() {
 			case 'tiepunisher': iconChar = 'N'; break;
 			case 'tiephantom': iconChar = 'P'; break;
 			case 'upsilonshuttle': iconChar = 'U'; break;
-			case 'quadjumper': iconChar = 'q'; break;
+			case 'spacetug': iconChar = 'q'; break;
 			case 'tiestriker': iconChar = 'T'; break;
 			case 'uwing': iconChar = 'u'; break;
 			case 'tieaggressor': iconChar = 'A'; break;
@@ -523,6 +526,9 @@ function Xwing2Object() {
 			case 'kimogila': iconChar = 'K'; break;
 			case 'tiesilencer': iconChar = '$'; break;
 			case 'bsf17bomber': iconChar = 'Z'; break;
+			case 'tiereaper': iconChar = 'V'; break;
+			case 'customyt1300': iconChar = 'W'; break;
+			case 'escapecraft': iconChar = 'X'; break;
 		}
 		return iconChar;
 	};

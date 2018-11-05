@@ -74,6 +74,9 @@ function create(diy) {
 	portraits[2].backgroundFilled = false;
 	portraits[2].clipping = true;
 	portraits[2].installDefault();
+	image = ImageUtils.create(65, 65, true);
+	g = image.createGraphics();
+	portraits[2].setClipStencil(image);
 	
 	// Upper Panel
 	portraits[3] = new DefaultPortrait(diy,'faction-upper-panel');
@@ -203,9 +206,48 @@ function createInterface(diy,editor) {
 	shipItems.push(ListItem('bwing',@xw2-ship-bwing-name));
 	shipItems.push(ListItem('arc170',@xw2-ship-arc170-name));
 	shipItems.push(ListItem('attackshuttle',@xw2-ship-attackshuttle-name));
+	shipItems.push(ListItem('auzituck',@xw2-ship-auzituck-name));
+	shipItems.push(ListItem('ywing',@xw2-ship-ywing-name));
+	shipItems.push(ListItem('kwing',@xw2-ship-kwing-name));
+	shipItems.push(ListItem('ewing',@xw2-ship-ewing-name));
+	shipItems.push(ListItem('hwk290',@xw2-ship-hwk290-name));
+	shipItems.push(ListItem('yt1300',@xw2-ship-yt1300-name));
+	shipItems.push(ListItem('awing',@xw2-ship-awing-name));
+	shipItems.push(ListItem('sheatipede',@xw2-ship-sheatipede-name));
 	shipItems.push(ListItem('t65xwing',@xw2-ship-t65xwing-name));
+	shipItems.push(ListItem('uwing',@xw2-ship-uwing-name));
+	shipItems.push(ListItem('vcx100',@xw2-ship-vcx100-name));
+	shipItems.push(ListItem('yt2400',@xw2-ship-yt2400-name));
+	shipItems.push(ListItem('z95',@xw2-ship-z95-name));
+	shipItems.push(ListItem('starwing',@xw2-ship-starwing-name));
+	shipItems.push(ListItem('lambda',@xw2-ship-lambda-name));
+	shipItems.push(ListItem('tieadvancedv1',@xw2-ship-tieadvancedv1-name));
+	shipItems.push(ListItem('tieadvancedx1',@xw2-ship-tieadvancedx1-name));
+	shipItems.push(ListItem('tiereaper',@xw2-ship-tiereaper-name));
+	shipItems.push(ListItem('tiedefender',@xw2-ship-tiedefender-name));
+	shipItems.push(ListItem('tieaggressor',@xw2-ship-tieaggressor-name));
+	shipItems.push(ListItem('tiepunisher',@xw2-ship-tiepunisher-name));
+	shipItems.push(ListItem('tieinterceptor',@xw2-ship-tieinterceptor-name));
 	shipItems.push(ListItem('tielnfighter',@xw2-ship-tielnfighter-name));
+	shipItems.push(ListItem('tiephantom',@xw2-ship-tiephantom-name));
+	shipItems.push(ListItem('tiebomber',@xw2-ship-tiebomber-name));
+	shipItems.push(ListItem('tiestriker',@xw2-ship-tiestriker-name));
+	shipItems.push(ListItem('vt49',@xw2-ship-vt49-name));
+	shipItems.push(ListItem('aggressor',@xw2-ship-aggressor-name));
+	shipItems.push(ListItem('customyt1300',@xw2-ship-customyt1300-name));
+	shipItems.push(ListItem('escapecraft',@xw2-ship-escapecraft-name));
 	shipItems.push(ListItem('fangfighter',@xw2-ship-fangfighter-name));
+	shipItems.push(ListItem('firespray',@xw2-ship-firespray-name));
+	shipItems.push(ListItem('g1a',@xw2-ship-g1a-name));
+	shipItems.push(ListItem('jumpmaster',@xw2-ship-jumpmaster-name));
+	shipItems.push(ListItem('kihraxz',@xw2-ship-kihraxz-name));
+	shipItems.push(ListItem('lancer',@xw2-ship-lancer-name));
+	shipItems.push(ListItem('kimogila',@xw2-ship-kimogila-name));
+	shipItems.push(ListItem('m3a',@xw2-ship-m3a-name));
+	shipItems.push(ListItem('spacetug',@xw2-ship-spacetug-name));
+	shipItems.push(ListItem('scurrg',@xw2-ship-scurrg-name));
+	shipItems.push(ListItem('starviper',@xw2-ship-starviper-name));
+	shipItems.push(ListItem('yv666',@xw2-ship-yv666-name));
 	
 	shipBox = comboBox(shipItems);
 	bindings.add('ShipModel',shipBox,[0,2]);
@@ -245,8 +287,8 @@ function createInterface(diy,editor) {
 	mainPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref,grow]','');
 	mainPanel.setTitle(@xw2-info);
 	mainPanel.place(mainHelpButton,'wrap para');
-	mainPanel.place(@xw2-faction,'',factionBox,'wmin 180,span 3,wrap');	
-	mainPanel.place(@xw2-ship-model,'',shipBox,'wmin 180,span 3,wrap');
+	mainPanel.place(@xw2-faction,'',factionBox,'wmin 250,span 3,wrap');	
+	mainPanel.place(@xw2-ship-model,'',shipBox,'wmin 250,span 3,wrap');
 	mainPanel.place(@xw2-pilotname,'',nameField,'span,growx,wrap');
 	mainPanel.place(@xw2-epithet,'',epithetField,'span,growx,wrap');
 	mainPanel.place(@xw2-initiative,'',initiativeBox,'wmin 52');
@@ -364,17 +406,8 @@ function createInterface(diy,editor) {
 	customShipAbilityTextArea = textArea('',6,15,true);
 	bindings.add('CustomShipAbilityText',customShipAbilityTextArea,[0]);
 
-	// same list as shipItems,but without alt versions of ships,
-	// as it is only the ship icon that is interesting here.
-	shipIconItems = [];
-	shipIconItems.push(ListItem('custom',@xw2-ship-custom-name));
-	shipItems.push(ListItem('bwing',@xw2-ship-bwing-name));
-	shipItems.push(ListItem('arc170',@xw2-ship-arc170-name));
-	shipItems.push(ListItem('attackshuttle',@xw2-ship-attackshuttle-name));
-	shipIconItems.push(ListItem('t65xwing',@xw2-ship-t65xwing-name));
-	shipIconItems.push(ListItem('tielnfighter',@xw2-ship-tielnfighter-name));
-	shipIconItems.push(ListItem('fangfighter',@xw2-ship-fangfighter-name));
-	customShipIconBox = comboBox(shipIconItems);
+	// same list as shipItemBox
+	customShipIconBox = comboBox(shipItems);
 	bindings.add('CustomShipIcon',customShipIconBox,[0,2]);
 
 	customShipIconCardPanel = portraitPanel(diy,1);
@@ -1147,6 +1180,15 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 		case 5: yDistanceBetween = 100; break;
 	}	
 	for (let i = 0; i < actions.length; ++i) {
+		if ($$Droid.yesNo) {
+			if (actions[i][0] == 'focus') {
+				actions[i][0] = 'calculate';
+			}
+			if (actions[i][2] == 'focus') {
+				actions[i][2] = 'calculate';
+			}
+		}
+		
 		y = yCenterPoint + yDistanceBetween * i - yDistanceBetween * (actions.length - 1) / 2;
 		if (actions[i][2] != '-') {
 			x = xCenterPoint - 50;
@@ -1574,13 +1616,10 @@ function getActionsInActionBar() {
 	return actionsInActionBar;
 }
 
-
-
-
 function onClear() {
 	$Epithet = '';
 	$ShipModel = 'custom';
-	$Faction = 'rebel';
+	$Faction = 'custom';
 	$Initiative = '1';
 	$UniquePilot = 'no';
 	$Droid = 'no';
