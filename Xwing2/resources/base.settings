@@ -9,81 +9,122 @@
 # will be ignored.
 #
 
-pilot-blank-template = components/pilot-card/images/blank.png
+pilot-blank-template = components/pilot-card/images/framework/blank.jp2
 pilot-blank-dpi = 300
-pilot-rebel-front-full-template = components/pilot-card/images/blank-imperial-full-text.png
-pilot-rebel-front-full-dpi = 300
-pilot-imperial-front-full-template = components/pilot-card/images/blank-imperial-full-text.png
-pilot-imperial-front-full-dpi = 300
-pilot-scum-front-full-template = components/pilot-card/images/blank-imperial-full-text.png
-pilot-scum-front-full-dpi = 300
-pilot-rebel-front-reduced-template = components/pilot-card/images/blank-imperial-reduced-text.png
-pilot-rebel-front-reduced-dpi = 300
-pilot-imperial-front-reduced-template = components/pilot-card/images/blank-imperial-reduced-text.png
-pilot-imperial-front-reduced-dpi = 300
-pilot-scum-front-reduced-template = components/pilot-card/images/blank-imperial-reduced-text.png
-pilot-scum-front-reduced-dpi = 300
+
+pilot-icon-background-template = components/pilot-card/images/framework/icon-background.png
+pilot-icon-background-dpi = 300
+pilot-initiative-background-template = components/pilot-card/images/framework/initiative-background.png
+pilot-initiative-background-dpi = 300
+
+pilot-dark-edges-template = components/pilot-card/images/framework/dark-edges.png
+pilot-dark-edges-dpi = 300
+
+pilot-rebel-faction-symbol-template = components/pilot-card/images/faction/rebel.png
+pilot-rebel-faction-symbol-dpi = 300
+pilot-imperial-faction-symbol-template = components/pilot-card/images/faction/imperial.png
+pilot-imperial-faction-symbol-dpi = 300
+pilot-scum-faction-symbol-template = components/pilot-card/images/faction/scum.png
+pilot-scum-faction-symbol-dpi = 300
 
 # For development only
-dev-luke-template = components/pilot-card/images/luke-skywalker.png
+dev-luke-template = components/pilot-card/images/temp/luke-skywalker.png
 dev-luke-dpi = 300
-dev-redsquad-template = components/pilot-card/images/red-squadron-veteran.png
+dev-redsquad-template = components/pilot-card/images/temp/red-squadron-veteran.png
 dev-redsquad-dpi = 300
-dev-dutch-template = components/pilot-card/images/dutch-vander.png
+dev-redhighres-template = components/pilot-card/images/temp/red-squadron-high-res.png
+dev-redhighres-dpi = 300
+dev-dutch-template = components/pilot-card/images/temp/dutch-vander.png
 dev-dutch-dpi = 300
-dev-howlrunner-template = components/pilot-card/images/howlrunner.png
+dev-howlrunner-template = components/pilot-card/images/temp/howlrunner.png
 dev-howlrunner-dpi = 300
-dev-feroph-template = components/pilot-card/images/captain-feroph.png
+dev-feroph-template = components/pilot-card/images/temp/captain-feroph.png
 dev-feroph-dpi = 300
-dev-terroch-template = components/pilot-card/images/old-terroch.png
+dev-terroch-template = components/pilot-card/images/temp/old-terroch.png
 dev-terroch-dpi = 300
-dev-lando-template = components/pilot-card/images/lando-calrissian.png
+dev-lando-template = components/pilot-card/images/temp/lando-calrissian.png
 dev-lando-dpi = 300
 
-pilot-rebel-back-template = components/pilot-card/images/rebel-back.png
+pilot-rebel-back-template = components/pilot-card/images/faction/rebel-backside.jp2
 pilot-rebel-back-dpi = 300
-pilot-imperial-back-template = components/pilot-card/images/imperial-back.png
+pilot-imperial-back-template = components/pilot-card/images/faction/imperial-backside.jp2
 pilot-imperial-back-dpi = 300
-pilot-scum-back-template = components/pilot-card/images/scum-back.png
+pilot-scum-back-template = components/pilot-card/images/faction/scum-backside.jp2
 pilot-scum-back-dpi = 300
 
-pilot-small-token-template = components/pilot-card/images/small-token.jp2
+pilot-rebel-upper-panel-template = components/pilot-card/images/faction/rebel-upper-panel.png
+pilot-rebel-upper-panel-dpi = 300
+pilot-imperial-upper-panel-template = components/pilot-card/images/faction/imperial-upper-panel.png
+pilot-imperial-upper-panel-dpi = 300
+pilot-scum-upper-panel-template = components/pilot-card/images/faction/scum-upper-panel.png
+pilot-scum-upper-panel-dpi = 300
+
+pilot-rebel-lower-panel-template = components/pilot-card/images/faction/rebel-lower-panel.png
+pilot-rebel-lower-panel-dpi = 300
+pilot-imperial-lower-panel-template = components/pilot-card/images/faction/imperial-lower-panel.png
+pilot-imperial-lower-panel-dpi = 300
+pilot-scum-lower-panel-template = components/pilot-card/images/faction/scum-lower-panel.png
+pilot-scum-lower-panel-dpi = 300
+
+pilot-small-token-template = components/pilot-card/images/framework/small-token.jp2
 pilot-small-token-dpi = 300
-pilot-medium-token-template = components/pilot-card/images/medium-token.jp2
+pilot-medium-token-template = components/pilot-card/images/framework/medium-token.jp2
 pilot-medium-token-dpi = 300
-pilot-large-token-template = components/pilot-card/images/large-token.jp2
+pilot-large-token-template = components/pilot-card/images/framework/large-token.jp2
 pilot-large-token-dpi = 300
 
-pilot-portrait-template = components/pilot-card/images/example-art.jpg
+pilot-portrait-template = components/pilot-card/images/example/example-art.jpg
 pilot-portrait-clip-region = 0,0,739,317
 
-ship-card-portrait-template = components/pilot-card/images/example-icon.png
-ship-card-portrait-clip-region = 23,963,65,65
-ship-card-portrait-true-clip-region = 23,963,65,65
+ship-icon-card-portrait-template = components/pilot-card/images/example/example-ship-icon.png
+ship-icon-card-portrait-clip-region = 28,968,55,55
 
-ship-token-portrait-template = components/pilot-card/images/example-icon.png
-ship-token-portrait-clip-region = 38,387,65,65
+ship-icon-token-portrait-template = components/pilot-card/images/example/example-ship-icon.png
+ship-icon-token-portrait-clip-region = 325,304,65,65
+# Clip region depends on token size
+
+faction-upper-panel-portrait-template = components/pilot-card/images/example/example-panel.jpg
+faction-upper-panel-portrait-clip-region = 0,0,739,127
+faction-upper-panel-portrait-true-clip-region = 0,309,739,127
+
+faction-lower-panel-portrait-template = components/pilot-card/images/example/example-panel.jpg
+faction-lower-panel-portrait-clip-region = 0,0,739,82
+faction-lower-panel-portrait-true-clip-region = 0,958,739,82
+
+faction-symbol-outline-portrait-template = components/pilot-card/images/example/example-symbol-outline.png
+faction-symbol-outline-portrait-clip-region = 0,0,320,320
+
+faction-symbol-front-portrait-template = components/pilot-card/images/example/example-symbol-texture.png
+faction-symbol-front-portrait-clip-region = 646,334,80,80
+
+faction-symbol-back-portrait-template = components/pilot-card/images/example/example-symbol-texture.png
+faction-symbol-back-portrait-clip-region = 120,270,500,500
+
+faction-background-portrait-template = components/pilot-card/images/example/example-panel.jpg
+faction-background-portrait-clip-region = 0,0,739,1040
 
 pilot-name-region = 128,330,484,56
 pilot-epithet-region = 184,403,371,40
 pilot-shipmodel-region = 140,963,462,44
 pilot-initiative-region = 20,326,70,84
 pilot-initiative-square-region = 43,355,25,25
+pilot-initiative-square-border-region = 39,351,33,33
 pilot-full-text-region = 21,468,561,317
 pilot-reduced-text-region = 21,468,476,317
 pilot-icon-region = 23,963,65,65
-pilot-small-token-name-region = 9,404,382,35
-pilot-medium-token-name-region = 128,641,382,35
-pilot-large-token-name-region = 234,877,382,35
-pilot-small-token-initiative-region = 21,318,70,84
-pilot-medium-token-initiative-region = 21,555,70,84
-pilot-large-token-initiative-region = 21,791,70,84
-pilot-small-token-initiative-square-region = 44,347,25,25
-pilot-medium-token-initiative-square-region = 44,584,25,25
-pilot-large-token-initiative-square-region = 44,820,25,25
-pilot-small-token-icon-region = 316,318,65,65
-pilot-medium-token-icon-region = 552,555,65,65
-pilot-large-token-icon-region = 764,791,65,65
+pilot-copy-right-region = 615,1007,100,25
+pilot-small-token-name-region = 10,394,382,35
+pilot-medium-token-name-region = 128,631,382,35
+pilot-large-token-name-region = 234,867,382,35
+pilot-small-token-initiative-region = 8,296,70,84
+pilot-medium-token-initiative-region = 8,540,70,84
+pilot-large-token-initiative-region = 8,776,70,84
+pilot-small-token-initiative-square-region = 31,321,25,25
+pilot-medium-token-initiative-square-region = 31,564,25,25
+pilot-large-token-initiative-square-region = 31,801,25,25
+pilot-small-token-icon-region = 325,304,65,65
+pilot-medium-token-icon-region = 557,548,65,65
+pilot-large-token-icon-region = 769,784,65,65
 
 pilot-legal-region = 559,703,142,21
 

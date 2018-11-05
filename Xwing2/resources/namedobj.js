@@ -27,12 +27,14 @@ function Xwing2Object() {
     var kimberly = new Array('fonts/kimberley-bl.ttf');
     var eurostile = new Array('fonts/eurostile.ttf, eurostile-bold.ttf');
     var xwing = new Array('fonts/xwing-miniatures.ttf');
+    var xwingactions = new Array('fonts/xwing-miniatures-actionbar.ttf');
     var xwingships = new Array('fonts/xwing-miniatures-ships.ttf');
     		
 	this.headingFamily = FontUtils.registerFontFamilyFromResources.apply(this, bank_gothic);
 	this.numberFamily = FontUtils.registerFontFamilyFromResources.apply(this, kimberly);
 	this.abilityFamily = FontUtils.registerFontFamilyFromResources.apply(this, eurostile);
 	this.iconFamily = FontUtils.registerFontFamilyFromResources.apply(this, xwing);
+	this.actionFamily = FontUtils.registerFontFamilyFromResources.apply(this, xwingactions);
 	this.shipFamily = FontUtils.registerFontFamilyFromResources.apply(this, xwingships);	
 	
 	// The font we use for stats like initiative and Upgrade bar; when you draw text
@@ -41,6 +43,7 @@ function Xwing2Object() {
 	// set the font's family name (e.g., 'Arial'), style, and size using
 	// TextStyles (see the definition of titleBox, for example).
 	this.iconFont = new Font(this.iconFamily, Font.PLAIN, 7);
+	this.actionFont = new Font(this.actionFamily, Font.PLAIN, 7);
 	this.shipFont = new Font(this.shipFamily, Font.PLAIN, 7);
 	this.numberFont = new Font(this.numberFamily, Font.PLAIN, 7);
 	
@@ -113,6 +116,26 @@ function Xwing2Object() {
 		return box;		
 	};
 	
+	this.copyRightBox = function bodyBox(sheet, size) {
+		var box = markupBox(sheet);
+
+		box.defaultStyle = new TextStyle(
+			FAMILY,		this.abilityFamily,
+			SIZE,		size,
+			COLOR,		Color.WHITE,
+			WEIGHT,		WEIGHT_EXTRABOLD,
+			WIDTH,		WIDTH_SEMI_CONDENSED,
+			POSTURE,	POSTURE_REGULAR
+		);
+
+		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
+		box.headlineAlignment = box.LAYOUT_CENTER;
+		//box.lineTightness = 1.5;	
+		box.textFitting= box.FIT_SCALE_TEXT;
+
+		return box;		
+	};
+	
 	this.abilityBox = function bodyBox(sheet, size) {
 		var box = markupBox(sheet);
 
@@ -133,7 +156,7 @@ function Xwing2Object() {
 			WIDTH,		WIDTH_REGULAR,
 			POSTURE,	POSTURE_REGULAR
 		);
-		
+	
 		shipStyle = new TextStyle(
 			FAMILY,		this.shipFamily,
 			SIZE,		size,
@@ -228,7 +251,7 @@ function Xwing2Object() {
 		box.setReplacementForTag('shield', '<icon>' + this.textToIconChar('shield') + '</icon>');
 		box.setReplacementForTag('hull', '<icon>' + this.textToIconChar('hull') + '</icon>');
 		box.setReplacementForTag('linked', '<icon>' + this.textToIconChar('linked') + '</icon>');
-		box.setReplacementForTag('reoccurring', '<icon>' + this.textToIconChar('reoccurring') + '</icon>');
+		box.setReplacementForTag('recurring', '<icon>' + this.textToIconChar('recurring') + '</icon>');
 		box.setReplacementForTag('astromech', '<icon>' + this.textToIconChar('astromech') + '</icon>');
 		box.setReplacementForTag('device', '<icon>' + this.textToIconChar('device') + '</icon>');
 		box.setReplacementForTag('cannon', '<icon>' + this.textToIconChar('cannon') + '</icon>');
@@ -289,7 +312,7 @@ function Xwing2Object() {
 		box.setReplacementForTag('tiepunisher', '<ship>' + this.textToShipChar('tiepunisher') + '</ship>');
 		box.setReplacementForTag('tiephantom', '<ship>' + this.textToShipChar('tiephantom') + '</ship>');
 		box.setReplacementForTag('upsilonshuttle', '<ship>' + this.textToShipChar('upsilonshuttle') + '</ship>');
-		box.setReplacementForTag('quadjumper', '<ship>' + this.textToShipChar('quadjumper') + '</ship>');
+		box.setReplacementForTag('spacetug', '<ship>' + this.textToShipChar('spacetug') + '</ship>');
 		box.setReplacementForTag('tiestriker', '<ship>' + this.textToShipChar('tiestriker') + '</ship>');
 		box.setReplacementForTag('uwing', '<ship>' + this.textToShipChar('uwing') + '</ship>');
 		box.setReplacementForTag('tieaggressor', '<ship>' + this.textToShipChar('tieaggressor') + '</ship>');
@@ -301,6 +324,9 @@ function Xwing2Object() {
 		box.setReplacementForTag('kimogila', '<ship>' + this.textToShipChar('kimogila') + '</ship>');
 		box.setReplacementForTag('tiesilencer', '<ship>' + this.textToShipChar('tiesilencer') + '</ship>');
 		box.setReplacementForTag('bsf17bomber', '<ship>' + this.textToShipChar('bsf17bomber') + '</ship>');
+		box.setReplacementForTag('tiereaper', '<ship>' + this.textToShipChar('tiereaper') + '</ship>');
+		box.setReplacementForTag('customyt1300', '<ship>' + this.textToShipChar('customyt1300') + '</ship>');
+		box.setReplacementForTag('escapecraft', '<ship>' + this.textToShipChar('escapecraft') + '</ship>');
 		
 		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
 		box.headlineAlignment = box.LAYOUT_CENTER;
@@ -337,11 +363,8 @@ function Xwing2Object() {
 
 	this.getColor = function getColor(keyword) {
 		switch (keyword) {
-			case 'rebel': {color = Color(239/255,12/255,45/255);} break;
-			case 'scum': {color = Color(218/255,164/255,22/255);} break;
 			case 'initiative': {color = Color(251/255,135/255,12/255);} break;
 			case 'white': {color = Color(1,1,1);} break;
-			case 'imperial':
 			case 'agility': {color = Color(107/255,190/255,72/255);/*color = Color(154/255,216/255,30/255); //old*/} break;
 			case 'red':
 			case 'front':
@@ -414,18 +437,18 @@ function Xwing2Object() {
 			case 'leftreversebank': iconChar = 'J'; break;
 			case 'front': iconChar = '{'; break;
 			case 'rear': iconChar = '|'; break;
-			case 'leftside': iconChar = 'f'; break; //TODO: change symbol when it is added to font
-			case 'rightside': iconChar = 'f'; break; //TODO: change symbol when it is added to font
+			case 'leftside': iconChar = '\u00a3'; break;
+			case 'rightside': iconChar = '\u00a2'; break;
 			case 'bullseye': iconChar = '}'; break;
 			case 'singleturret': iconChar = 'p'; break;
 			case 'doubleturret': iconChar = 'q'; break;
 			case 'fullfront': iconChar = '~'; break;
-			case 'fullrear': iconChar = 'f'; break; //TODO: change symbol when it is added to font
+			case 'fullrear': iconChar = '\u00a1'; break;
 			case 'agility': iconChar = '^'; break;
 			case 'shield': iconChar = '*'; break;
 			case 'hull': iconChar = '&'; break;
-			case 'linked': iconChar = '*'; break; //TODO: change symbol when it is added to font
-			case 'reoccurring': iconChar = '&'; break; //TODO: change symbol when it is added to font
+			case 'linked': iconChar = '>'; break;
+			case 'recurring': iconChar = '`'; break;
 			case 'astromech': iconChar = 'A'; break;
 			case 'device': iconChar = 'B'; break;
 			case 'cannon': iconChar = 'C'; break;
@@ -440,7 +463,6 @@ function Xwing2Object() {
 			case 'hardpoint': iconChar = 'H'; break;
 			case 'team': iconChar = 'T'; break;
 			case 'cargo': iconChar = 'G'; break;
-			case 'salvaged': iconChar = 'V'; break;
 			case 'illicit': iconChar = 'I'; break;
 			case 'tech': iconChar = 'X'; break;
 			case 'modification': iconChar = 'm'; break;
@@ -492,7 +514,7 @@ function Xwing2Object() {
 			case 'tiepunisher': iconChar = 'N'; break;
 			case 'tiephantom': iconChar = 'P'; break;
 			case 'upsilonshuttle': iconChar = 'U'; break;
-			case 'quadjumper': iconChar = 'q'; break;
+			case 'spacetug': iconChar = 'q'; break;
 			case 'tiestriker': iconChar = 'T'; break;
 			case 'uwing': iconChar = 'u'; break;
 			case 'tieaggressor': iconChar = 'A'; break;
@@ -504,6 +526,9 @@ function Xwing2Object() {
 			case 'kimogila': iconChar = 'K'; break;
 			case 'tiesilencer': iconChar = '$'; break;
 			case 'bsf17bomber': iconChar = 'Z'; break;
+			case 'tiereaper': iconChar = 'V'; break;
+			case 'customyt1300': iconChar = 'W'; break;
+			case 'escapecraft': iconChar = 'X'; break;
 		}
 		return iconChar;
 	};
