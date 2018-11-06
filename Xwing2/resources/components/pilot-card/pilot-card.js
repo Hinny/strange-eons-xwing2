@@ -40,7 +40,7 @@ function getPortrait(index) {
 }
 
 function create(diy) {
-	diy.version = 1;
+	diy.version = 2;
 	diy.extensionName = 'Xwing2.seext';
 	diy.faceStyle = FaceStyle.CARD_AND_MARKER;
 	diy.transparentFaces = true;
@@ -165,21 +165,26 @@ function create(diy) {
 	$CustomShipHull = #xw2-pilot-custom-ship-hull-value;
 	$CustomShipShield = #xw2-pilot-custom-ship-shield-value;
 	$CustomShipSize = #xw2-pilot-custom-ship-size;
-	$CustomShipActionName1 = #xw2-pilot-custom-ship-action-1-name;
-	$CustomShipActionRed1 = #xw2-pilot-custom-ship-action-1-red;
+	$CustomShipActionStandard1 = #xw2-pilot-custom-ship-action-1-standard;
+	$CustomShipActionStandardRed1 = #xw2-pilot-custom-ship-action-1-standard-red;
 	$CustomShipActionLinked1 = #xw2-pilot-custom-ship-action-1-linked;
-	$CustomShipActionName2 = #xw2-pilot-custom-ship-action-2-name;
-	$CustomShipActionRed2 = #xw2-pilot-custom-ship-action-2-red;
+	$CustomShipActionLinkedRed1 = #xw2-pilot-custom-ship-action-1-linked-red;
+	$CustomShipActionStandard2 = #xw2-pilot-custom-ship-action-2-standard;
+	$CustomShipActionStandardRed2 = #xw2-pilot-custom-ship-action-2-standard-red;
 	$CustomShipActionLinked2 = #xw2-pilot-custom-ship-action-2-linked;
-	$CustomShipActionName3 = #xw2-pilot-custom-ship-action-3-name;
-	$CustomShipActionRed3 = #xw2-pilot-custom-ship-action-3-red;
+	$CustomShipActionLinkedRed2 = #xw2-pilot-custom-ship-action-2-linked-red;
+	$CustomShipActionStandard3 = #xw2-pilot-custom-ship-action-3-standard;
+	$CustomShipActionStandardRed3 = #xw2-pilot-custom-ship-action-3-standard-red;
 	$CustomShipActionLinked3 = #xw2-pilot-custom-ship-action-3-linked;
-	$CustomShipActionName4 = #xw2-pilot-custom-ship-action-4-name;
-	$CustomShipActionRed4 = #xw2-pilot-custom-ship-action-4-red;
+	$CustomShipActionLinkedRed3 = #xw2-pilot-custom-ship-action-3-linked-red;
+	$CustomShipActionStandard4 = #xw2-pilot-custom-ship-action-4-standard;
+	$CustomShipActionStandardRed4 = #xw2-pilot-custom-ship-action-4-standard-red;
 	$CustomShipActionLinked4 = #xw2-pilot-custom-ship-action-4-linked;
-	$CustomShipActionName5 = #xw2-pilot-custom-ship-action-5-name;
-	$CustomShipActionRed5 = #xw2-pilot-custom-ship-action-5-red;
+	$CustomShipActionLinkedRed4 = #xw2-pilot-custom-ship-action-4-linked-red;
+	$CustomShipActionStandard5 = #xw2-pilot-custom-ship-action-5-standard;
+	$CustomShipActionStandardRed5 = #xw2-pilot-custom-ship-action-5-standard-red;
 	$CustomShipActionLinked5 = #xw2-pilot-custom-ship-action-5-linked;
+	$CustomShipActionLinkedRed5 = #xw2-pilot-custom-ship-action-5-linked-red;
 	$CustomShipIcon = #xw2-pilot-custom-ship-icon;
 	
 	$CustomFactionMainTint = #xw2-pilot-custom-faction-main-tint;
@@ -369,36 +374,46 @@ function createInterface(diy,editor) {
 	actionItems.push(ListItem('coordinate',@xw2-action-coordinate));
 	actionItems.push(ListItem('reload',@xw2-action-reload));
 	actionItems.push(ListItem('jam',@xw2-action-jam));
-	customActionNameBox1 = comboBox(actionItems);
-	bindings.add('CustomShipActionName1',customActionNameBox1,[0,2]);
-	customActionRedCheckBox1 = checkBox(@xw2-action-red);
-	bindings.add('CustomShipActionRed1',customActionRedCheckBox1,[0,2]);
+	customActionStandardBox1 = comboBox(actionItems);
+	bindings.add('CustomShipActionStandard1',customActionStandardBox1,[0,2]);
+	customActionStandardRedCheckBox1 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionStandardRed1',customActionStandardRedCheckBox1,[0,2]);
 	customActionLinkedBox1 = comboBox(actionItems);
 	bindings.add('CustomShipActionLinked1',customActionLinkedBox1,[0,2]);
-	customActionNameBox2 = comboBox(actionItems);
-	bindings.add('CustomShipActionName2',customActionNameBox2,[0,2]);
-	customActionRedCheckBox2 = checkBox(@xw2-action-red);
-	bindings.add('CustomShipActionRed2',customActionRedCheckBox2,[0,2]);
+	customActionLinkedRedCheckBox1 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionLinkedRed1',customActionLinkedRedCheckBox1,[0,2]);
+	customActionStandardBox2 = comboBox(actionItems);
+	bindings.add('CustomShipActionStandard2',customActionStandardBox2,[0,2]);
+	customActionStandardRedCheckBox2 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionStandardRed2',customActionStandardRedCheckBox2,[0,2]);
 	customActionLinkedBox2 = comboBox(actionItems);
 	bindings.add('CustomShipActionLinked2',customActionLinkedBox2,[0,2]);
-	customActionNameBox3 = comboBox(actionItems);
-	bindings.add('CustomShipActionName3',customActionNameBox3,[0,2]);
-	customActionRedCheckBox3 = checkBox(@xw2-action-red);
-	bindings.add('CustomShipActionRed3',customActionRedCheckBox3,[0,2]);
+	customActionLinkedRedCheckBox2 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionLinkedRed2',customActionLinkedRedCheckBox2,[0,2]);
+	customActionStandardBox3 = comboBox(actionItems);
+	bindings.add('CustomShipActionStandard3',customActionStandardBox3,[0,2]);
+	customActionStandardRedCheckBox3 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionStandardRed3',customActionStandardRedCheckBox3,[0,2]);
 	customActionLinkedBox3 = comboBox(actionItems);
 	bindings.add('CustomShipActionLinked3',customActionLinkedBox3,[0,2]);
-	customActionNameBox4 = comboBox(actionItems);
-	bindings.add('CustomShipActionName4',customActionNameBox4,[0,2]);
-	customActionRedCheckBox4 = checkBox(@xw2-action-red);
-	bindings.add('CustomShipActionRed4',customActionRedCheckBox4,[0,2]);
+	customActionLinkedRedCheckBox3 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionLinkedRed3',customActionLinkedRedCheckBox3,[0,2]);
+	customActionStandardBox4 = comboBox(actionItems);
+	bindings.add('CustomShipActionStandard4',customActionStandardBox4,[0,2]);
+	customActionStandardRedCheckBox4 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionStandardRed4',customActionStandardRedCheckBox4,[0,2]);
 	customActionLinkedBox4 = comboBox(actionItems);
 	bindings.add('CustomShipActionLinked4',customActionLinkedBox4,[0,2]);
-	customActionNameBox5 = comboBox(actionItems);
-	bindings.add('CustomShipActionName5',customActionNameBox5,[0,2]);
-	customActionRedCheckBox5 = checkBox(@xw2-action-red);
-	bindings.add('CustomShipActionRed5',customActionRedCheckBox5,[0,2]);
+	customActionLinkedRedCheckBox4 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionLinkedRed4',customActionLinkedRedCheckBox4,[0,2]);
+	customActionStandardBox5 = comboBox(actionItems);
+	bindings.add('CustomShipActionStandard5',customActionStandardBox5,[0,2]);
+	customActionStandardRedCheckBox5 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionStandardRed5',customActionStandardRedCheckBox5,[0,2]);
 	customActionLinkedBox5 = comboBox(actionItems);
 	bindings.add('CustomShipActionLinked5',customActionLinkedBox5,[0,2]);
+	customActionLinkedRedCheckBox5 = checkBox(@xw2-action-red);
+	bindings.add('CustomShipActionLinkedRed5',customActionLinkedRedCheckBox5,[0,2]);
 
 	customShipAbilityNameField = textField('X',30);
 	bindings.add('CustomShipAbilityName',customShipAbilityNameField,[0]);
@@ -422,23 +437,23 @@ function createInterface(diy,editor) {
 	customShipPanel.place(customShipHelpButton,'wrap para');
 	customShipPanel.place(@xw2-ship-model,'',customShipModelField,'span,growx,wrap');
 	customShipPanel.place(@xw2-size,'',customSizeBox,'wmin 100,span 2,wrap para');
-	customShipPanel.place(@xw2-agility-value,'',customAgilityBox,'wmin 52');
+	customShipPanel.place(@xw2-agility-value,'',customAgilityBox,'wmin 52,wrap');
 	customShipPanel.place(@xw2-hull-value,'',customHullBox,'wmin 52,wrap');
 	customShipPanel.place(@xw2-shield-value,'',customShieldBox,'wmin 52,span 2,wrap para');
 	customShipPanel.place(@xw2-attack-1,'',customAttackArcBox1, 'wmin 120',customAttackValueBox1,'wmin 52,wrap');
 	customShipPanel.place(@xw2-attack-2,'',customAttackArcBox2, 'wmin 120',customAttackValueBox2,'wmin 52,wrap');
 	customShipPanel.place(@xw2-attack-3,'',customAttackArcBox3, 'wmin 120',customAttackValueBox3,'wmin 52,wrap para');
 	customShipPanel.place(separator(),'span,growx,wrap para');
-	customShipPanel.place(@xw2-action-1,'',customActionNameBox1,'wmin 120',customActionRedCheckBox1,'');
-	customShipPanel.place(customActionLinkedBox1, 'wmin 120,wrap');
-	customShipPanel.place(@xw2-action-2,'',customActionNameBox2,'wmin 120',customActionRedCheckBox2,'');
-	customShipPanel.place(customActionLinkedBox2, 'wmin 120,wrap');
-	customShipPanel.place(@xw2-action-3,'',customActionNameBox3,'wmin 120',customActionRedCheckBox3,'');
-	customShipPanel.place(customActionLinkedBox3, 'wmin 120,wrap');
-	customShipPanel.place(@xw2-action-4,'',customActionNameBox4,'wmin 120',customActionRedCheckBox4,'');
-	customShipPanel.place(customActionLinkedBox4, 'wmin 120,wrap');
-	customShipPanel.place(@xw2-action-5,'',customActionNameBox5,'wmin 120',customActionRedCheckBox5,'');
-	customShipPanel.place(customActionLinkedBox5, 'wmin 120,wrap para');
+	customShipPanel.place(@xw2-action-1,'',customActionStandardBox1,'wmin 120',customActionStandardRedCheckBox1,'wrap');
+	customShipPanel.place('','',customActionLinkedBox1, 'wmin 120', customActionLinkedRedCheckBox1,'wrap para');
+	customShipPanel.place(@xw2-action-2,'',customActionStandardBox2,'wmin 120',customActionStandardRedCheckBox2,'wrap');
+	customShipPanel.place('','',customActionLinkedBox2, 'wmin 120', customActionLinkedRedCheckBox2,'wrap para');
+	customShipPanel.place(@xw2-action-3,'',customActionStandardBox3,'wmin 120',customActionStandardRedCheckBox3,'wrap');
+	customShipPanel.place('','',customActionLinkedBox3, 'wmin 120', customActionLinkedRedCheckBox3,'wrap para');
+	customShipPanel.place(@xw2-action-4,'',customActionStandardBox4,'wmin 120',customActionStandardRedCheckBox4,'wrap');
+	customShipPanel.place('','',customActionLinkedBox4, 'wmin 120', customActionLinkedRedCheckBox4,'wrap para');
+	customShipPanel.place(@xw2-action-5,'',customActionStandardBox5,'wmin 120',customActionStandardRedCheckBox5,'wrap');
+	customShipPanel.place('','',customActionLinkedBox5, 'wmin 120', customActionLinkedRedCheckBox5,'wrap para');
 	customShipPanel.place(separator(),'span,growx,wrap para');
 	customShipPanel.place(@xw2-ship-ability-name,'',customShipAbilityNameField,'span,grow,wrap para');
 	customShipPanel.place(customShipAbilityTextArea,'span,grow,wrap para');
@@ -525,21 +540,26 @@ function createInterface(diy,editor) {
 				customAgilityBox.setEnabled(false);
 				customHullBox.setEnabled(false);
 				customShieldBox.setEnabled(false);
-				customActionNameBox1.setEnabled(false);
-				customActionRedCheckBox1.setEnabled(false);
+				customActionStandardBox1.setEnabled(false);
+				customActionStandardRedCheckBox1.setEnabled(false);
 				customActionLinkedBox1.setEnabled(false);
-				customActionNameBox2.setEnabled(false);
-				customActionRedCheckBox2.setEnabled(false);
+				customActionLinkedRedCheckBox1.setEnabled(false);
+				customActionStandardBox2.setEnabled(false);
+				customActionStandardRedCheckBox2.setEnabled(false);
 				customActionLinkedBox2.setEnabled(false);
-				customActionNameBox3.setEnabled(false);
-				customActionRedCheckBox3.setEnabled(false);
+				customActionLinkedRedCheckBox2.setEnabled(false);
+				customActionStandardBox3.setEnabled(false);
+				customActionStandardRedCheckBox3.setEnabled(false);
 				customActionLinkedBox3.setEnabled(false);
-				customActionNameBox4.setEnabled(false);
-				customActionRedCheckBox4.setEnabled(false);
+				customActionLinkedRedCheckBox3.setEnabled(false);
+				customActionStandardBox4.setEnabled(false);
+				customActionStandardRedCheckBox4.setEnabled(false);
 				customActionLinkedBox4.setEnabled(false);
-				customActionNameBox5.setEnabled(false);
-				customActionRedCheckBox5.setEnabled(false);
+				customActionLinkedRedCheckBox4.setEnabled(false);
+				customActionStandardBox5.setEnabled(false);
+				customActionStandardRedCheckBox5.setEnabled(false);
 				customActionLinkedBox5.setEnabled(false);
+				customActionLinkedRedCheckBox5.setEnabled(false);
 				customShipAbilityNameField.setEnabled(false);
 				customShipAbilityTextArea.setVisible(false);
 				customShipIconBox.setEnabled(false);
@@ -557,89 +577,114 @@ function createInterface(diy,editor) {
 				customAgilityBox.setEnabled(true);
 				customHullBox.setEnabled(true);
 				customShieldBox.setEnabled(true);
-				customActionNameBox1.setEnabled(true);
-				customActionNameBox2.setEnabled(true);
-				customActionNameBox3.setEnabled(true);
-				customActionNameBox4.setEnabled(true);
-				customActionNameBox5.setEnabled(true);
-				if (customActionNameBox1.getSelectedItem() == '-'){
-					customActionRedCheckBox1.setEnabled(false);
+				customActionStandardBox1.setEnabled(true);
+				customActionStandardBox2.setEnabled(true);
+				customActionStandardBox3.setEnabled(true);
+				customActionStandardBox4.setEnabled(true);
+				customActionStandardBox5.setEnabled(true);
+				if (customActionStandardBox1.getSelectedItem() == '-'){
+					customActionStandardRedCheckBox1.setEnabled(false);
 					customActionLinkedBox1.setEnabled(false);
+					customActionLinkedRedCheckBox1.setEnabled(false);
 				} else {
 					customActionLinkedBox1.setEnabled(true);
 					if (customActionLinkedBox1.getSelectedItem() != '-') {
-						customActionRedCheckBox1.setEnabled(false);
+						customActionStandardRedCheckBox1.setEnabled(false);
+						customActionLinkedRedCheckBox1.setEnabled(true);
 					} else {
-						customActionRedCheckBox1.setEnabled(true);
+						customActionStandardRedCheckBox1.setEnabled(true);
+						customActionLinkedRedCheckBox1.setEnabled(false);
 					}
-					if (customActionRedCheckBox1.isSelected()){
+					if (customActionStandardRedCheckBox1.isSelected()){
 						customActionLinkedBox1.setEnabled(false);
+						customActionLinkedRedCheckBox1.setEnabled(false);
 					} else {
 						customActionLinkedBox1.setEnabled(true);
+						customActionLinkedRedCheckBox1.setEnabled(true);
 					}
 				}
-				if (customActionNameBox2.getSelectedItem() == '-'){
-					customActionRedCheckBox2.setEnabled(false);
+				if (customActionStandardBox2.getSelectedItem() == '-'){
+					customActionStandardRedCheckBox2.setEnabled(false);
 					customActionLinkedBox2.setEnabled(false);
+					customActionLinkedRedCheckBox2.setEnabled(false);
 				} else {
 					customActionLinkedBox2.setEnabled(true);
 					if (customActionLinkedBox2.getSelectedItem() != '-') {
-						customActionRedCheckBox2.setEnabled(false);
+						customActionStandardRedCheckBox2.setEnabled(false);
+						customActionLinkedRedCheckBox2.setEnabled(true);
 					} else {
-						customActionRedCheckBox2.setEnabled(true);
+						customActionStandardRedCheckBox2.setEnabled(true);
+						customActionLinkedRedCheckBox2.setEnabled(false);
 					}
-					if (customActionRedCheckBox2.isSelected()){
+					if (customActionStandardRedCheckBox2.isSelected()){
 						customActionLinkedBox2.setEnabled(false);
+						customActionLinkedRedCheckBox2.setEnabled(false);
 					} else {
 						customActionLinkedBox2.setEnabled(true);
+						customActionLinkedRedCheckBox2.setEnabled(true);
 					}
 				}
-				if (customActionNameBox3.getSelectedItem() == '-'){
-					customActionRedCheckBox3.setEnabled(false);
+				if (customActionStandardBox3.getSelectedItem() == '-'){
+					customActionStandardRedCheckBox3.setEnabled(false);
 					customActionLinkedBox3.setEnabled(false);
+					customActionLinkedRedCheckBox3.setEnabled(false);
 				} else {
 					customActionLinkedBox3.setEnabled(true);
 					if (customActionLinkedBox3.getSelectedItem() != '-') {
-						customActionRedCheckBox3.setEnabled(false);
+						customActionStandardRedCheckBox3.setEnabled(false);
+						customActionLinkedRedCheckBox3.setEnabled(true);
 					} else {
-						customActionRedCheckBox3.setEnabled(true);
+						customActionStandardRedCheckBox3.setEnabled(true);
+						customActionLinkedRedCheckBox3.setEnabled(false);
 					}
-					if (customActionRedCheckBox3.isSelected()){
+					if (customActionStandardRedCheckBox3.isSelected()){
 						customActionLinkedBox3.setEnabled(false);
+						customActionLinkedRedCheckBox3.setEnabled(false);
 					} else {
 						customActionLinkedBox3.setEnabled(true);
+						customActionLinkedRedCheckBox3.setEnabled(true);
 					}
 				}
-				if (customActionNameBox4.getSelectedItem() == '-'){
-					customActionRedCheckBox4.setEnabled(false);
+				if (customActionStandardBox4.getSelectedItem() == '-'){
+					customActionStandardRedCheckBox4.setEnabled(false);
 					customActionLinkedBox4.setEnabled(false);
+					customActionLinkedRedCheckBox4.setEnabled(false);
 				} else {
 					customActionLinkedBox4.setEnabled(true);
 					if (customActionLinkedBox4.getSelectedItem() != '-') {
-						customActionRedCheckBox4.setEnabled(false);
+						customActionStandardRedCheckBox4.setEnabled(false);
+						customActionLinkedRedCheckBox4.setEnabled(true);
 					} else {
-						customActionRedCheckBox4.setEnabled(true);
+						customActionStandardRedCheckBox4.setEnabled(true);
+						customActionLinkedRedCheckBox4.setEnabled(false);
 					}
-					if (customActionRedCheckBox4.isSelected()){
+					if (customActionStandardRedCheckBox4.isSelected()){
 						customActionLinkedBox4.setEnabled(false);
+						customActionLinkedRedCheckBox4.setEnabled(false);
 					} else {
 						customActionLinkedBox4.setEnabled(true);
+						customActionLinkedRedCheckBox4.setEnabled(true);
 					}
 				}
-				if (customActionNameBox5.getSelectedItem() == '-'){
-					customActionRedCheckBox5.setEnabled(false);
+				if (customActionStandardBox5.getSelectedItem() == '-'){
+					customActionStandardRedCheckBox5.setEnabled(false);
 					customActionLinkedBox5.setEnabled(false);
+					customActionLinkedRedCheckBox5.setEnabled(false);
 				} else {
 					customActionLinkedBox5.setEnabled(true);
 					if (customActionLinkedBox5.getSelectedItem() != '-') {
-						customActionRedCheckBox5.setEnabled(false);
+						customActionStandardRedCheckBox5.setEnabled(false);
+						customActionLinkedRedCheckBox5.setEnabled(true);
 					} else {
-						customActionRedCheckBox5.setEnabled(true);
+						customActionStandardRedCheckBox5.setEnabled(true);
+						customActionLinkedRedCheckBox5.setEnabled(false);
 					}
-					if (customActionRedCheckBox5.isSelected()){
+					if (customActionStandardRedCheckBox5.isSelected()){
 						customActionLinkedBox5.setEnabled(false);
+						customActionLinkedRedCheckBox5.setEnabled(false);
 					} else {
 						customActionLinkedBox5.setEnabled(true);
+						customActionLinkedRedCheckBox5.setEnabled(true);
 					}
 				}
 				customShipAbilityNameField.setEnabled(true);
@@ -687,20 +732,20 @@ function createInterface(diy,editor) {
 	shipBox.addActionListener(actionFunction);
 	factionBox.addActionListener(actionFunction);
 	uniqueCheckbox.addActionListener(actionFunction);
-	customActionNameBox1.addActionListener(actionFunction);
-	customActionRedCheckBox1.addActionListener(actionFunction);
+	customActionStandardBox1.addActionListener(actionFunction);
+	customActionStandardRedCheckBox1.addActionListener(actionFunction);
 	customActionLinkedBox1.addActionListener(actionFunction);
-	customActionNameBox2.addActionListener(actionFunction);
-	customActionRedCheckBox2.addActionListener(actionFunction);
+	customActionStandardBox2.addActionListener(actionFunction);
+	customActionStandardRedCheckBox2.addActionListener(actionFunction);
 	customActionLinkedBox2.addActionListener(actionFunction);
-	customActionNameBox3.addActionListener(actionFunction);
-	customActionRedCheckBox3.addActionListener(actionFunction);
+	customActionStandardBox3.addActionListener(actionFunction);
+	customActionStandardRedCheckBox3.addActionListener(actionFunction);
 	customActionLinkedBox3.addActionListener(actionFunction);
-	customActionNameBox4.addActionListener(actionFunction);
-	customActionRedCheckBox4.addActionListener(actionFunction);
+	customActionStandardBox4.addActionListener(actionFunction);
+	customActionStandardRedCheckBox4.addActionListener(actionFunction);
 	customActionLinkedBox4.addActionListener(actionFunction);
-	customActionNameBox5.addActionListener(actionFunction);
-	customActionRedCheckBox5.addActionListener(actionFunction);
+	customActionStandardBox5.addActionListener(actionFunction);
+	customActionStandardRedCheckBox5.addActionListener(actionFunction);
 	customActionLinkedBox5.addActionListener(actionFunction);
 	customShipIconBox.addActionListener(actionFunction);
 }
@@ -1133,36 +1178,41 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 	// Draw Action Bar
 	actions = [];
 	if ($ShipModel == 'custom') {
-		if ($CustomShipActionName1 != '-') {actions.push([$CustomShipActionName1, $CustomShipActionRed1, $CustomShipActionLinked1]);}
-		if ($CustomShipActionName2 != '-') {actions.push([$CustomShipActionName2, $CustomShipActionRed2, $CustomShipActionLinked2]);}
-		if ($CustomShipActionName3 != '-') {actions.push([$CustomShipActionName3, $CustomShipActionRed3, $CustomShipActionLinked3]);}
-		if ($CustomShipActionName4 != '-') {actions.push([$CustomShipActionName4, $CustomShipActionRed4, $CustomShipActionLinked4]);}
-		if ($CustomShipActionName5 != '-') {actions.push([$CustomShipActionName5, $CustomShipActionRed5, $CustomShipActionLinked5]);}
+		if ($CustomShipActionStandard1 != '-') {actions.push([$CustomShipActionStandard1, $CustomShipActionStandardRed1, $CustomShipActionLinked1, $CustomShipActionLinkedRed1]);}
+		if ($CustomShipActionStandard2 != '-') {actions.push([$CustomShipActionStandard2, $CustomShipActionStandardRed2, $CustomShipActionLinked2, $CustomShipActionLinkedRed2]);}
+		if ($CustomShipActionStandard3 != '-') {actions.push([$CustomShipActionStandard3, $CustomShipActionStandardRed3, $CustomShipActionLinked3, $CustomShipActionLinkedRed3]);}
+		if ($CustomShipActionStandard4 != '-') {actions.push([$CustomShipActionStandard4, $CustomShipActionStandardRed4, $CustomShipActionLinked4, $CustomShipActionLinkedRed4]);}
+		if ($CustomShipActionStandard5 != '-') {actions.push([$CustomShipActionStandard5, $CustomShipActionStandardRed5, $CustomShipActionLinked5, $CustomShipActionLinkedRed5]);}
 	} else {
-		if (getShipStat($ShipModel, 'action-1-name') != '-') {
-			actions.push([	getShipStat($ShipModel,'action-1-name'), 
-							getShipStat($ShipModel,'action-1-red'),
-							getShipStat($ShipModel,'action-1-linked')]);
+		if (getShipStat($ShipModel, 'action-1-standard') != '-') {
+			actions.push([	getShipStat($ShipModel,'action-1-standard'), 
+							getShipStat($ShipModel,'action-1-standard-red'),
+							getShipStat($ShipModel,'action-1-linked'),
+							getShipStat($ShipModel,'action-1-linked-red')]);
 		}
-		if (getShipStat($ShipModel, 'action-2-name') != '-') {
-			actions.push([	getShipStat($ShipModel,'action-2-name'), 
-							getShipStat($ShipModel,'action-2-red'),
-							getShipStat($ShipModel,'action-2-linked')]);
+		if (getShipStat($ShipModel, 'action-2-standard') != '-') {
+			actions.push([	getShipStat($ShipModel,'action-2-standard'), 
+							getShipStat($ShipModel,'action-2-standard-red'),
+							getShipStat($ShipModel,'action-2-linked'),
+							getShipStat($ShipModel,'action-2-linked-red')]);
 		}
-		if (getShipStat($ShipModel, 'action-3-name') != '-') {
-			actions.push([	getShipStat($ShipModel,'action-3-name'), 
-							getShipStat($ShipModel,'action-3-red'),
-							getShipStat($ShipModel,'action-3-linked')]);
+		if (getShipStat($ShipModel, 'action-3-standard') != '-') {
+			actions.push([	getShipStat($ShipModel,'action-3-standard'), 
+							getShipStat($ShipModel,'action-3-standard-red'),
+							getShipStat($ShipModel,'action-3-linked'),
+							getShipStat($ShipModel,'action-3-linked-red')]);
 		}
-		if (getShipStat($ShipModel, 'action-4-name') != '-') {
-			actions.push([	getShipStat($ShipModel,'action-4-name'), 
-							getShipStat($ShipModel,'action-4-red'),
-							getShipStat($ShipModel,'action-4-linked')]);
+		if (getShipStat($ShipModel, 'action-4-standard') != '-') {
+			actions.push([	getShipStat($ShipModel,'action-4-standard'), 
+							getShipStat($ShipModel,'action-4-standard-red'),
+							getShipStat($ShipModel,'action-4-linked'),
+							getShipStat($ShipModel,'action-4-linked-red')]);
 		}
-		if (getShipStat($ShipModel, 'action-5-name') != '-') {
-			actions.push([	getShipStat($ShipModel,'action-5-name'), 
-							getShipStat($ShipModel,'action-5-red'),
-							getShipStat($ShipModel,'action-5-linked')]);
+		if (getShipStat($ShipModel, 'action-5-standard') != '-') {
+			actions.push([	getShipStat($ShipModel,'action-5-standard'), 
+							getShipStat($ShipModel,'action-5-standard-red'),
+							getShipStat($ShipModel,'action-5-linked'),
+							getShipStat($ShipModel,'action-5-linked-red')]);
 		}
 	}
 	yCenterPoint = 650;
@@ -1190,6 +1240,7 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 		}
 		
 		y = yCenterPoint + yDistanceBetween * i - yDistanceBetween * (actions.length - 1) / 2;
+		
 		if (actions[i][2] != '-') {
 			x = xCenterPoint - 50;
 			g.setPaint(Xwing2.getColor('white'));
@@ -1197,7 +1248,11 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 			x = xCenterPoint;
 			sheet.drawTitle(g, Xwing2.textToIconChar('linked'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);
 			x = xCenterPoint + 50;
-			g.setPaint(Xwing2.getColor('red'));
+			if (actions[i][3] == 'yes' || actions[i][3] == '1') {
+				g.setPaint(Xwing2.getColor('red'));
+			} else {
+				g.setPaint(Xwing2.getColor('white'));
+			}
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][2]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);		
 		} else {
 			x = xCenterPoint;
@@ -1600,17 +1655,17 @@ function getTextBoxSize() {
 function getActionsInActionBar() {
 	actionsInActionBar = 0;
 	if ($ShipModel == 'custom') {
-		if ($CustomShipActionName1 != '-') {actionsInActionBar++;}
-		if ($CustomShipActionName2 != '-') {actionsInActionBar++;}
-		if ($CustomShipActionName3 != '-') {actionsInActionBar++;}
-		if ($CustomShipActionName4 != '-') {actionsInActionBar++;}
-		if ($CustomShipActionName5 != '-') {actionsInActionBar++;}
+		if ($CustomShipActionStandard1 != '-') {actionsInActionBar++;}
+		if ($CustomShipActionStandard2 != '-') {actionsInActionBar++;}
+		if ($CustomShipActionStandard3 != '-') {actionsInActionBar++;}
+		if ($CustomShipActionStandard4 != '-') {actionsInActionBar++;}
+		if ($CustomShipActionStandard5 != '-') {actionsInActionBar++;}
 	} else {
-		if (getShipStat($ShipModel, 'action-1-name') != '-') {actionsInActionBar++;}
-		if (getShipStat($ShipModel, 'action-2-name') != '-') {actionsInActionBar++;}
-		if (getShipStat($ShipModel, 'action-3-name') != '-') {actionsInActionBar++;}
-		if (getShipStat($ShipModel, 'action-4-name') != '-') {actionsInActionBar++;}
-		if (getShipStat($ShipModel, 'action-5-name') != '-') {actionsInActionBar++;}
+		if (getShipStat($ShipModel, 'action-1-standard') != '-') {actionsInActionBar++;}
+		if (getShipStat($ShipModel, 'action-2-standard') != '-') {actionsInActionBar++;}
+		if (getShipStat($ShipModel, 'action-3-standard') != '-') {actionsInActionBar++;}
+		if (getShipStat($ShipModel, 'action-4-standard') != '-') {actionsInActionBar++;}
+		if (getShipStat($ShipModel, 'action-5-standard') != '-') {actionsInActionBar++;}
 	}	
 	
 	return actionsInActionBar;
@@ -1641,25 +1696,30 @@ function onClear() {
 	$CustomShipHull = '1';
 	$CustomShipShield = '-';
 	$CustomShipSize = 'small';
-	$CustomShipActionName1 = '-';
-	$CustomShipActionRed1 = 'no';
+	$CustomShipActionStandard1 = '-';
+	$CustomShipActionStandardRed1 = 'no';
 	$CustomShipActionLinked1 = '-';
-	$CustomShipActionName2 = '-';
-	$CustomShipActionRed2 = 'no';
+	$CustomShipActionLinkedRed1 = 'yes';
+	$CustomShipActionStandard2 = '-';
+	$CustomShipActionStandardRed2 =  'no';
 	$CustomShipActionLinked2 = '-';
-	$CustomShipActionName3 = '-';
-	$CustomShipActionRed3 = 'no';
+	$CustomShipActionLinkedRed2 = 'yes';
+	$CustomShipActionStandard3 ='-';
+	$CustomShipActionStandardRed3 =  'no';
 	$CustomShipActionLinked3 = '-';
-	$CustomShipActionName4 = '-';
-	$CustomShipActionRed4 = 'no';
+	$CustomShipActionLinkedRed3 = 'yes';
+	$CustomShipActionStandard4 = '-';
+	$CustomShipActionStandardRed4 =  'no';
 	$CustomShipActionLinked4 = '-';
-	$CustomShipActionName5 = '-';
-	$CustomShipActionRed5 = 'no';
+	$CustomShipActionLinkedRed4 = 'yes';
+	$CustomShipActionStandard5 = '-';
+	$CustomShipActionStandardRed5 =  'no';
 	$CustomShipActionLinked5 = '-';
+	$CustomShipActionLinkedRed5 = 'yes';
 	$CustomShipIcon = 'custom';
 	
-	$CustomFactionMainTint = '0.0, 0.0, 0.0';
-	$CustomFactionFireArcTint = '0.0, 0.0, 0.0';
+	$CustomFactionMainTint = '0.0, 0.0, 1.0';
+	$CustomFactionFireArcTint = '0.0, 0.0, 1.0';
 	$CustomFactionDarkEdges = 'no';
 }
 
@@ -1667,6 +1727,25 @@ function onClear() {
 // For example,you can seamlessly upgrade from a previous version
 // of the script.
 function onRead(diy,ois) {
+	if( diy.version < 2 ) {
+		$CustomShipActionStandard1 = $CustomShipActionName1;
+		$CustomShipActionStandard2 = $CustomShipActionName2;
+		$CustomShipActionStandard3 = $CustomShipActionName3;
+		$CustomShipActionStandard4 = $CustomShipActionName4;
+		$CustomShipActionStandard5 = $CustomShipActionName5;		
+		if($$CustomShipActionRed1.yesNo) {$CustomShipActionStandardRed1 = 'yes';} else {$CustomShipActionStandardRed1 = 'no';}
+		if($$CustomShipActionRed2.yesNo) {$CustomShipActionStandardRed2 = 'yes';} else {$CustomShipActionStandardRed2 = 'no';}
+		if($$CustomShipActionRed3.yesNo) {$CustomShipActionStandardRed3 = 'yes';} else {$CustomShipActionStandardRed3 = 'no';}
+		if($$CustomShipActionRed4.yesNo) {$CustomShipActionStandardRed4 = 'yes';} else {$CustomShipActionStandardRed4 = 'no';}
+		if($$CustomShipActionRed5.yesNo) {$CustomShipActionStandardRed5 = 'yes';} else {$CustomShipActionStandardRed5 = 'no';}
+		$CustomShipActionLinkedRed1 = 'yes';
+		$CustomShipActionLinkedRed2 = 'yes';
+		$CustomShipActionLinkedRed3 = 'yes';
+		$CustomShipActionLinkedRed4 = 'yes';
+		$CustomShipActionLinkedRed5 = 'yes';
+		diy.version = 2;
+	}
+		
 	portraits[0] = ois.readObject();
 	portraits[1] = ois.readObject();
 	portraits[2] = ois.readObject();
@@ -1676,6 +1755,7 @@ function onRead(diy,ois) {
 	portraits[6] = ois.readObject();
 	portraits[7] = ois.readObject();
 	portraits[8] = ois.readObject();
+	
 }
 
 function onWrite(diy,oos) {
