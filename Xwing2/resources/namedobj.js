@@ -479,12 +479,12 @@ function Xwing2Object() {
 			case 'bwing': iconChar = 'b'; break;
 			case 'vt49': iconChar = 'd'; break;
 			case 'ewing': iconChar = 'e'; break;
-			case 'firespray31': iconChar = 'f'; break;
+			case 'firespray': iconChar = 'f'; break;
 			case 'hwk290': iconChar = 'h'; break;
 			case 'attackshuttle': iconChar = 'g'; break;
 			case 'aggressor': iconChar = 'i'; break;
 			case 'kwing': iconChar = 'k'; break;
-			case 'lambdashuttle': iconChar = 'l'; break;
+			case 'lambda': iconChar = 'l'; break;
 			case 'yt1300': iconChar = 'm'; break;
 			case 'yt2400': iconChar = 'o'; break;
 			case 'vcx100': iconChar = 'G'; break;
@@ -501,9 +501,9 @@ function Xwing2Object() {
 			case 'xwing': iconChar = 'x'; break;
 			case 't70xwing': iconChar = 'w'; break;
 			case 'ywing': iconChar = 'y'; break;
-			case 'headhunter': iconChar = 'z'; break;
-			case 'tieadvanced': iconChar = 'A'; break;
-			case 'tieprototype': iconChar = 'R'; break;
+			case 'z95': iconChar = 'z'; break;
+			case 'tieadvancedx1': iconChar = 'A'; break;
+			case 'tieadvancedv1': iconChar = 'R'; break;
 			case 'tiebomber': iconChar = 'B'; break;
 			case 'tiedefender': iconChar = 'D'; break;
 			case 'tielnfighter': iconChar = 'F'; break;
