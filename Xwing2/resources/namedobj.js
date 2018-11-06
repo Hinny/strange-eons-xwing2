@@ -457,7 +457,7 @@ function Xwing2Object() {
 			case 'missile': iconChar = 'M'; break;
 			case 'system': iconChar = 'S'; break;
 			case 'team': iconChar = 'T'; break;
-			case 'elite': iconChar = 'E'; break;
+			case 'talent': iconChar = 'E'; break;
 			case 'torpedo': iconChar = 'P'; break;
 			case 'turret': iconChar = 'U'; break;
 			case 'hardpoint': iconChar = 'H'; break;
