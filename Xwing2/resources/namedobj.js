@@ -519,7 +519,7 @@ function Xwing2Object() {
 			case 'uwing': iconChar = 'u'; break;
 			case 'tieaggressor': iconChar = 'A'; break;
 			case 'scurrg': iconChar = 'G'; break;
-			case 'auzituck': iconChar = 'n'; break;
+			case 'auzituck': iconChar = '@'; break;
 			case 'sheatipede': iconChar = '%'; break;
 			case 'starwing': iconChar = '&'; break;
 			case 'gunboat': iconChar = '&'; break;
