@@ -105,7 +105,8 @@ faction-background-portrait-clip-region = 0,0,739,1040
 
 pilot-name-region = 128,330,484,56
 pilot-epithet-region = 184,403,371,40
-pilot-shipmodel-region = 140,963,462,44
+pilot-shipmodel-regular-region = 140,963,462,44
+pilot-shipmodel-with-bar-region = 100,993,462,44
 pilot-initiative-region = 20,326,70,84
 pilot-initiative-square-region = 43,355,25,25
 pilot-initiative-square-border-region = 39,351,33,33
