@@ -1151,23 +1151,23 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 			default: throw new Error('Stat bar too crowded! Please reduce the number of stats');
 		}
 	}
-	y1 = 814;
+	y1 = 810;
 	y2 = 865;
 	for (let i = 0; i < stats.length; ++i) {
 		xi = xCenterPoint + xDistanceBetween * i - xDistanceBetween * (stats.length - 1) / 2;
 		color = Xwing2.getColor(stats[i][0]);
 		g.setPaint(color);
-		sheet.drawTitle(g, Xwing2.textToIconChar(stats[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 10, sheet.ALIGN_CENTER);
+		sheet.drawTitle(g, Xwing2.textToIconChar(stats[i][0]), Region(xi.toString() + ',' + y1.toString() + ',100,100'), Xwing2.iconFont, 10.5, sheet.ALIGN_CENTER);
 		sheet.drawTitle(g, stats[i][1], Region(xi.toString() + ',' + y2.toString() + ',100,100'), Xwing2.numberFont, 13.5, sheet.ALIGN_CENTER);
 		if (stats[i][2] == '1') {
 			x = xi + 28;
-			y = y2 + 9;
+			y = y2 + 3;
 			sheet.drawTitle(g, Xwing2.textToIconChar('recurring'), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.iconFont, 13.5, sheet.ALIGN_CENTER);
 		}
 		dotList = Xwing2.calculateDottedCircle(stats[i][0], false);
 		for each (dot in dotList) {
 			x = xi + dot[0];
-			y = y1 - 3 + dot[1];
+			y = y1 + dot[1];
 			dotColor = new Color(color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255, dot[2]);
 			g.setPaint(dotColor);
 			// draw small vector circle (using x-wing font)
