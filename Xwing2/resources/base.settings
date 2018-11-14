@@ -105,14 +105,19 @@ faction-background-portrait-clip-region = 0,0,739,1040
 
 pilot-name-region = 128,330,484,56
 pilot-epithet-region = 184,403,371,40
-pilot-shipmodel-region = 140,963,462,44
+pilot-shipmodel-regular-region = 140,963,462,44
+pilot-shipmodel-with-bar-region = 70,952,300,88
 pilot-initiative-region = 20,326,70,84
 pilot-initiative-square-region = 43,355,25,25
 pilot-initiative-square-border-region = 39,351,33,33
 pilot-full-text-region = 21,468,561,317
 pilot-reduced-text-region = 21,468,476,317
-pilot-icon-region = 23,963,65,65
-pilot-copy-right-region = 615,1007,100,25
+pilot-font-icon-regular-region = 23,963,65,65
+pilot-font-icon-with-bar-region = 13,965,65,65
+pilot-custom-icon-regular-region = 28,968,55,55
+pilot-custom-icon-with-bar-region = 17,970,55,55
+pilot-copyright-with-bar-region = 645,1017,100,25
+pilot-copyright-regular-region = 615,1007,100,25
 pilot-small-token-name-region = 10,394,382,35
 pilot-medium-token-name-region = 128,631,382,35
 pilot-large-token-name-region = 234,867,382,35
@@ -125,6 +130,5 @@ pilot-large-token-initiative-square-region = 31,801,25,25
 pilot-small-token-icon-region = 325,304,65,65
 pilot-medium-token-icon-region = 557,548,65,65
 pilot-large-token-icon-region = 769,784,65,65
-
-pilot-legal-region = 559,703,142,21
-
+pilot-upgrade-region = 390,954,250,88
+pilot-cost-region = 640,960,90,50

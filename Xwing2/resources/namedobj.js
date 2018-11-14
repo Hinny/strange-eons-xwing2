@@ -133,7 +133,57 @@ function Xwing2Object() {
 		//box.lineTightness = 1.5;	
 		box.textFitting= box.FIT_SCALE_TEXT;
 
-		return box;		
+		return box;
+	};
+	
+	this.upgradeBox = function bodyBox(sheet, size) {
+		var box = markupBox(sheet);
+
+		box.defaultStyle = new TextStyle(
+			FAMILY,		this.iconFamily,
+			SIZE,		size,
+			COLOR,		Color.WHITE,
+			WEIGHT,		WEIGHT_REGULAR,
+			WIDTH,		WIDTH_REGULAR,
+			POSTURE,	POSTURE_REGULAR
+		);
+		
+		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
+		box.headlineAlignment = box.LAYOUT_CENTER;
+		//box.lineTightness = 1.5;	
+		box.textFitting= box.FIT_SCALE_TEXT;
+
+		return box;
+	};
+	
+	this.numberBox = function bodyBox(sheet, size) {
+		var box = markupBox(sheet);
+
+		box.defaultStyle = new TextStyle(
+			FAMILY,		this.numberFamily,
+			SIZE,		size,
+			COLOR,		Color.WHITE,
+			WEIGHT,		WEIGHT_REGULAR,
+			WIDTH,		WIDTH_REGULAR,
+			POSTURE,	POSTURE_REGULAR
+		);
+		
+		iconStyle = new TextStyle(
+			FAMILY,		this.iconFamily,
+			SIZE,		size,
+			COLOR,		Color.WHITE,
+			WEIGHT,		WEIGHT_REGULAR,
+			WIDTH,		WIDTH_REGULAR,
+			POSTURE,	POSTURE_REGULAR
+		);
+		
+		box.setStyleForTag('icon',iconStyle);
+		box.alignment = box.LAYOUT_CENTER | box.LAYOUT_MIDDLE;
+		box.headlineAlignment = box.LAYOUT_CENTER;
+		//box.lineTightness = 1.5;	
+		box.textFitting= box.FIT_SCALE_TEXT;
+
+		return box;
 	};
 	
 	this.abilityBox = function bodyBox(sheet, size) {
@@ -256,9 +306,10 @@ function Xwing2Object() {
 		box.setReplacementForTag('device', '<icon>' + this.textToIconChar('device') + '</icon>');
 		box.setReplacementForTag('cannon', '<icon>' + this.textToIconChar('cannon') + '</icon>');
 		box.setReplacementForTag('crew', '<icon>' + this.textToIconChar('crew') + '</icon>');
+		box.setReplacementForTag('forcepower', '<icon>' + this.textToIconChar('forcepower') + '</icon>');
 		box.setReplacementForTag('gunner', '<icon>' + this.textToIconChar('gunner') + '</icon>');
 		box.setReplacementForTag('missile', '<icon>' + this.textToIconChar('missile') + '</icon>');
-		box.setReplacementForTag('system', '<icon>' + this.textToIconChar('system') + '</icon>');
+		box.setReplacementForTag('sensor', '<icon>' + this.textToIconChar('sensor') + '</icon>');
 		box.setReplacementForTag('team', '<icon>' + this.textToIconChar('team') + '</icon>');
 		box.setReplacementForTag('talent', '<icon>' + this.textToIconChar('talent') + '</icon>');
 		box.setReplacementForTag('torpedo', '<icon>' + this.textToIconChar('torpedo') + '</icon>');
@@ -268,10 +319,10 @@ function Xwing2Object() {
 		box.setReplacementForTag('illicit', '<icon>' + this.textToIconChar('illicit') + '</icon>');
 		box.setReplacementForTag('tech', '<icon>' + this.textToIconChar('tech') + '</icon>');
 		box.setReplacementForTag('modification', '<icon>' + this.textToIconChar('modification') + '</icon>');
-		box.setReplacementForTag('mod', '<icon>' + this.textToIconChar('mod') + '</icon>');
+		box.setReplacementForTag('mod', '<icon>' + this.textToIconChar('modification') + '</icon>');
 		box.setReplacementForTag('title', '<icon>' + this.textToIconChar('title') + '</icon>');
 		box.setReplacementForTag('configuration', '<icon>' + this.textToIconChar('configuration') + '</icon>');
-		box.setReplacementForTag('config', '<icon>' + this.textToIconChar('config') + '</icon>');
+		box.setReplacementForTag('config', '<icon>' + this.textToIconChar('configuration') + '</icon>');
 		
 		box.setReplacementForTag('awing', '<ship>' + this.textToShipChar('awing') + '</ship>');
 		box.setReplacementForTag('bwing', '<ship>' + this.textToShipChar('bwing') + '</ship>');
@@ -453,9 +504,10 @@ function Xwing2Object() {
 			case 'device': iconChar = 'B'; break;
 			case 'cannon': iconChar = 'C'; break;
 			case 'crew': iconChar = 'W'; break;
+			case 'forcepower': iconChar = 'F'; break;
 			case 'gunner': iconChar = 'Y'; break;
 			case 'missile': iconChar = 'M'; break;
-			case 'system': iconChar = 'S'; break;
+			case 'sensor': iconChar = 'S'; break;
 			case 'team': iconChar = 'T'; break;
 			case 'talent': iconChar = 'E'; break;
 			case 'torpedo': iconChar = 'P'; break;
