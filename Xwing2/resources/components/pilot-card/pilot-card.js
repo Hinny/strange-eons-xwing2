@@ -203,10 +203,14 @@ function create(diy) {
 	$UpgradeBarUpgrade8 = #xw2-pilot-upgrade-bar-upgrade-8;
 	$UpgradeBarUpgrade9 = #xw2-pilot-upgrade-bar-upgrade-9;
 	$UpgradeBarUpgrade10 = #xw2-pilot-upgrade-bar-upgrade-10;
+	$UpgradeBarUpgrade11 = #xw2-pilot-upgrade-bar-upgrade-11;
+	$UpgradeBarUpgrade12 = #xw2-pilot-upgrade-bar-upgrade-12;
 }
 
 function createInterface(diy,editor) {
 	bindings = new Bindings(editor,diy);
+
+
 
 	// Main Panel
 	mainHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards");
@@ -325,6 +329,8 @@ function createInterface(diy,editor) {
 	mainPanel.place(pilotPanel,'span,growx,wrap');
 	mainPanel.editorTabScrolling = true;
 
+
+
 	// Custom Ship Panel
 	customShipHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-ships");
 	
@@ -382,12 +388,12 @@ function createInterface(diy,editor) {
 	actionItems.push(ListItem('focus',@xw2-action-focus));
 	actionItems.push(ListItem('evade',@xw2-action-evade));
 	actionItems.push(ListItem('lock',@xw2-action-lock));
+	actionItems.push(ListItem('reinforce',@xw2-action-reinforce));
 	actionItems.push(ListItem('barrelroll',@xw2-action-barrelroll));
 	actionItems.push(ListItem('boost',@xw2-action-boost));
 	actionItems.push(ListItem('cloak',@xw2-action-cloak));
 	actionItems.push(ListItem('slam',@xw2-action-slam));
 	actionItems.push(ListItem('rotate',@xw2-action-rotate));
-	actionItems.push(ListItem('reinforce',@xw2-action-reinforce));
 	actionItems.push(ListItem('coordinate',@xw2-action-coordinate));
 	actionItems.push(ListItem('reload',@xw2-action-reload));
 	actionItems.push(ListItem('jam',@xw2-action-jam));
@@ -457,19 +463,19 @@ function createInterface(diy,editor) {
 	customShipPanel.place(@xw2-agility-value,'',customAgilityBox,'wmin 52,wrap');
 	customShipPanel.place(@xw2-hull-value,'',customHullBox,'wmin 52,wrap');
 	customShipPanel.place(@xw2-shield-value,'',customShieldBox,'wmin 52,span 2,wrap para');
-	customShipPanel.place(@xw2-attack-1,'',customAttackArcBox1, 'wmin 120',customAttackValueBox1,'wmin 52,wrap');
-	customShipPanel.place(@xw2-attack-2,'',customAttackArcBox2, 'wmin 120',customAttackValueBox2,'wmin 52,wrap');
-	customShipPanel.place(@xw2-attack-3,'',customAttackArcBox3, 'wmin 120',customAttackValueBox3,'wmin 52,wrap para');
+	customShipPanel.place(@xw2-attack + " 1",'',customAttackArcBox1, 'wmin 120',customAttackValueBox1,'wmin 52,wrap');
+	customShipPanel.place(@xw2-attack + " 2",'',customAttackArcBox2, 'wmin 120',customAttackValueBox2,'wmin 52,wrap');
+	customShipPanel.place(@xw2-attack + " 3",'',customAttackArcBox3, 'wmin 120',customAttackValueBox3,'wmin 52,wrap para');
 	customShipPanel.place(separator(),'span,growx,wrap para');
-	customShipPanel.place(@xw2-action-1,'',customActionStandardBox1,'wmin 120',customActionStandardRedCheckBox1,'wrap');
+	customShipPanel.place(@xw2-action + " 1",'',customActionStandardBox1,'wmin 120',customActionStandardRedCheckBox1,'wrap');
 	customShipPanel.place('','',customActionLinkedBox1, 'wmin 120', customActionLinkedRedCheckBox1,'wrap para');
-	customShipPanel.place(@xw2-action-2,'',customActionStandardBox2,'wmin 120',customActionStandardRedCheckBox2,'wrap');
+	customShipPanel.place(@xw2-action + " 2",'',customActionStandardBox2,'wmin 120',customActionStandardRedCheckBox2,'wrap');
 	customShipPanel.place('','',customActionLinkedBox2, 'wmin 120', customActionLinkedRedCheckBox2,'wrap para');
-	customShipPanel.place(@xw2-action-3,'',customActionStandardBox3,'wmin 120',customActionStandardRedCheckBox3,'wrap');
+	customShipPanel.place(@xw2-action + " 3",'',customActionStandardBox3,'wmin 120',customActionStandardRedCheckBox3,'wrap');
 	customShipPanel.place('','',customActionLinkedBox3, 'wmin 120', customActionLinkedRedCheckBox3,'wrap para');
-	customShipPanel.place(@xw2-action-4,'',customActionStandardBox4,'wmin 120',customActionStandardRedCheckBox4,'wrap');
+	customShipPanel.place(@xw2-action + " 4",'',customActionStandardBox4,'wmin 120',customActionStandardRedCheckBox4,'wrap');
 	customShipPanel.place('','',customActionLinkedBox4, 'wmin 120', customActionLinkedRedCheckBox4,'wrap para');
-	customShipPanel.place(@xw2-action-5,'',customActionStandardBox5,'wmin 120',customActionStandardRedCheckBox5,'wrap');
+	customShipPanel.place(@xw2-action + " 5",'',customActionStandardBox5,'wmin 120',customActionStandardRedCheckBox5,'wrap');
 	customShipPanel.place('','',customActionLinkedBox5, 'wmin 120', customActionLinkedRedCheckBox5,'wrap para');
 	customShipPanel.place(separator(),'span,growx,wrap para');
 	customShipPanel.place(@xw2-ship-ability-name,'',customShipAbilityNameField,'span,grow,wrap para');
@@ -480,6 +486,9 @@ function createInterface(diy,editor) {
 	customShipPanel.place(customShipIconMarkerPanel,'span,growx,wrap');
 	customShipPanel.editorTabScrolling = true;
 
+
+
+	// Custom Faction Panel
 	customFactionHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-faction");
 	
 	customFactionMainTintPanel = tintPanel();
@@ -536,6 +545,79 @@ function createInterface(diy,editor) {
 	customFactionPanel.place(customFactionSymbolOutlinePanel,'span,growx,wrap');
 	customFactionPanel.editorTabScrolling = true;
 
+
+
+	// Upgrade Bar Panel
+	upgradeBarHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/");
+
+	upgradeBarCostSpinner = spinner( 0, 999, 1, 0 );
+	bindings.add( 'UpgradeBarCost', upgradeBarCostSpinner, [0] );
+	
+	upgradeItems = [];
+	upgradeItems.push(ListItem('-','-'));
+	upgradeItems.push(ListItem('talent',@xw2-upgrade-talent));
+	upgradeItems.push(ListItem('forcepower',@xw2-upgrade-forcepower));
+	upgradeItems.push(ListItem('tech',@xw2-upgrade-tech));
+	upgradeItems.push(ListItem('sensor',@xw2-upgrade-sensor));
+	upgradeItems.push(ListItem('cannon',@xw2-upgrade-cannon));
+	upgradeItems.push(ListItem('turret',@xw2-upgrade-turret));
+	upgradeItems.push(ListItem('torpedo',@xw2-upgrade-torpedo));
+	upgradeItems.push(ListItem('missile',@xw2-upgrade-missile));
+	upgradeItems.push(ListItem('crew',@xw2-upgrade-crew));
+	upgradeItems.push(ListItem('gunner',@xw2-upgrade-gunner));
+	upgradeItems.push(ListItem('astromech',@xw2-upgrade-astromech));
+	upgradeItems.push(ListItem('illicit',@xw2-upgrade-illicit));
+	upgradeItems.push(ListItem('device',@xw2-upgrade-device));
+	upgradeItems.push(ListItem('title',@xw2-upgrade-title));
+	upgradeItems.push(ListItem('modification',@xw2-upgrade-modification));
+	upgradeItems.push(ListItem('configuration',@xw2-upgrade-configuration));
+	
+	upgradeBarUpgradeBox1 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade1',upgradeBarUpgradeBox1,[0]);
+	upgradeBarUpgradeBox2 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade2',upgradeBarUpgradeBox2,[0]);
+	upgradeBarUpgradeBox3 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade3',upgradeBarUpgradeBox3,[0]);
+	upgradeBarUpgradeBox4 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade4',upgradeBarUpgradeBox4,[0]);
+	upgradeBarUpgradeBox5 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade5',upgradeBarUpgradeBox5,[0]);
+	upgradeBarUpgradeBox6 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade6',upgradeBarUpgradeBox6,[0]);
+	upgradeBarUpgradeBox7 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade7',upgradeBarUpgradeBox7,[0]);
+	upgradeBarUpgradeBox8 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade8',upgradeBarUpgradeBox8,[0]);
+	upgradeBarUpgradeBox9 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade9',upgradeBarUpgradeBox9,[0]);
+	upgradeBarUpgradeBox10 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade10',upgradeBarUpgradeBox10,[0]);
+	upgradeBarUpgradeBox11 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade11',upgradeBarUpgradeBox11,[0]);
+	upgradeBarUpgradeBox12 = comboBox(upgradeItems);
+	bindings.add('UpgradeBarUpgrade12',upgradeBarUpgradeBox12,[0]);
+
+	upgradeBarPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref][min:pref][min:pref,grow]','');
+	upgradeBarPanel.setTitle(@xw2-upgrade-bar);
+	upgradeBarPanel.place(upgradeBarHelpButton,'wrap para');
+	upgradeBarPanel.place(@xw2-cost, '', upgradeBarCostSpinner, 'wrap para');
+	upgradeBarPanel.place(@xw2-upgrade + " 1", '', upgradeBarUpgradeBox1, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 2", '', upgradeBarUpgradeBox2, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 3", '', upgradeBarUpgradeBox3, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 4", '', upgradeBarUpgradeBox4, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 5", '', upgradeBarUpgradeBox5, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 6", '', upgradeBarUpgradeBox6, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 7", '', upgradeBarUpgradeBox7, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 8", '', upgradeBarUpgradeBox8, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 9", '', upgradeBarUpgradeBox9, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 10", '', upgradeBarUpgradeBox10, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 11", '', upgradeBarUpgradeBox11, 'wmin 120,wrap');
+	upgradeBarPanel.place(@xw2-upgrade + " 12", '', upgradeBarUpgradeBox12, 'wmin 120,wrap para');
+	upgradeBarPanel.editorTabScrolling = true;
+
+
+
+	// Other
  	diy.setNameField(nameField);
 
 	function actionFunction(actionEvent) {
@@ -742,6 +824,7 @@ function createInterface(diy,editor) {
 	mainPanel.addToEditor(editor, @xw2-info, null, null, 0);
 	customShipPanel.addToEditor(editor, @xw2-custom-ship, null, null, 1);
 	customFactionPanel.addToEditor(editor, @xw2-custom-faction, null, null, 2);
+	upgradeBarPanel.addToEditor(editor, @xw2-upgrade-bar, null, null, 3);
 	editor.addFieldPopulationListener(actionFunction);
 	bindings.bind();
 	
@@ -774,8 +857,10 @@ function createFrontPainter(diy,sheet) {
 	fullAbilityTextBox = Xwing2.abilityBox(sheet, 9);
 	fullAbilityTextBox = Xwing2.abilityBox(sheet, 8.8);
 	reducedAbilityTextBox = Xwing2.abilityBox(sheet, 8);
-	copyRightBox = Xwing2.copyRightBox(sheet,4.5);
+	copyrightBox = Xwing2.copyRightBox(sheet,4.5);
 	tokenNameBox = Xwing2.headingBox(sheet, 8.8);
+	upgradeBox = Xwing2.upgradeBox(sheet,20);
+	costBox = Xwing2.numberBox(sheet,10);
 }
 
 function createBackPainter(diy, sheet) {
@@ -936,7 +1021,8 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	
 	g.drawPolyline([0, 171, 193, 546, 568, 739], [419, 419, 397, 397, 419, 419], 6);
 	if ($$UpgradeBar.yesNo) {
-		//g.drawPolyline([0, 127, 139, 600, 612, 739], [977, 977, 965, 965, 977, 977], 6);
+		g.drawPolyline([0, 341, 363, 363], [952, 952, 974, 1040], 4);
+		g.drawPolyline([739, 399, 377, 377], [952, 952, 974, 1040], 4);
 		//TODO: Draw lineart
 	} else {
 		g.drawPolyline([0, 127, 139, 600, 612, 739], [977, 977, 965, 965, 977, 977], 6);
@@ -1013,7 +1099,7 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	sheet.paintImage(g, imageTemplate,19,317);
 	
 	if ($$UpgradeBar.yesNo) {
-	} else {		
+	} else {
 		// Draw lower panel backgrounds
 		g.setPaint(Color(80 / 255, 80 / 255, 80 / 255));
 		g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
@@ -1063,8 +1149,12 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	}
 	
 	// Draw Copy Right Text
-	copyRightBox.markupText = "\u00a9LFL \u00a9FFG";
-	copyRightBox.drawAsSingleLine(g, R('copy-right'));
+	copyrightBox.markupText = "\u00a9LFL \u00a9FFG";
+	if ($$UpgradeBar.yesNo) {
+		copyrightBox.drawAsSingleLine(g, R('copyright-with-bar'));
+	} else {		
+		copyrightBox.drawAsSingleLine(g, R('copyright-regular'));
+	}
 }
 
 function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
@@ -1093,21 +1183,31 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 		shipModelBox.markupText = getShipStat($ShipModel,'model');
 	}
 	if ($$UpgradeBar.yesNo) {
-		shipModelBox.drawAsSingleLine(g, R('shipmodel-with-bar'));
+		shipModelBox.draw(g, R('shipmodel-with-bar'));
 	} else {
 		shipModelBox.drawAsSingleLine(g, R('shipmodel-regular'));
 	}
 	
 	// Draw the ship icon
-	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {	
+	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
+		if ($$UpgradeBar.yesNo) {
+			$ship-icon-card-portrait-clip-region = $pilot-custom-icon-with-bar-region;
+		} else {
+			$ship-icon-card-portrait-clip-region = $pilot-custom-icon-regular-region;
+		}
 		portraits[1].paint(g,target);
 	} else {
-		if ( $ShipModel == 'custom' ) {
+		if ($ShipModel == 'custom') {
 			shipIcon = $CustomShipIcon;
 		} else {
 			shipIcon = getShipStat($ShipModel, 'icon');
 		}
 		g.setPaint(Color.WHITE);
+		if ($$UpgradeBar.yesNo) {
+			$pilot-icon-region = $pilot-font-icon-with-bar-region;
+		} else {
+			$pilot-icon-region = $pilot-font-icon-regular-region;
+		}
 		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R('icon'), Xwing2.shipFont, 18, sheet.ALIGN_CENTER);
   	}
   	
@@ -1295,6 +1395,33 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 			}
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);
 		}
+	}
+	
+	// Draw Upgrade Bar
+	if ($$UpgradeBar.yesNo) {
+		upgrades = [];
+		upgradeBox.markupText = '';
+		if ($UpgradeBarUpgrade1 != '-') {upgrades.push($UpgradeBarUpgrade1);}
+		if ($UpgradeBarUpgrade2 != '-') {upgrades.push($UpgradeBarUpgrade2);}
+		if ($UpgradeBarUpgrade3 != '-') {upgrades.push($UpgradeBarUpgrade3);}
+		if ($UpgradeBarUpgrade4 != '-') {upgrades.push($UpgradeBarUpgrade4);}
+		if ($UpgradeBarUpgrade5 != '-') {upgrades.push($UpgradeBarUpgrade5);}
+		if ($UpgradeBarUpgrade6 != '-') {upgrades.push($UpgradeBarUpgrade6);}
+		if ($UpgradeBarUpgrade7 != '-') {upgrades.push($UpgradeBarUpgrade7);}
+		if ($UpgradeBarUpgrade8 != '-') {upgrades.push($UpgradeBarUpgrade8);}
+		if ($UpgradeBarUpgrade9 != '-') {upgrades.push($UpgradeBarUpgrade9);}
+		if ($UpgradeBarUpgrade10 != '-') {upgrades.push($UpgradeBarUpgrade10);}
+		if ($UpgradeBarUpgrade11 != '-') {upgrades.push($UpgradeBarUpgrade11);}
+		if ($UpgradeBarUpgrade12 != '-') {upgrades.push($UpgradeBarUpgrade12);}
+		for each (upgrade in upgrades) {
+			upgradeBox.markupText +=  Xwing2.textToIconChar(upgrade);
+		}
+		upgradeBox.markupText += " "; // A bug prevents the text to break lines if no space is present
+		upgradeBox.draw(g, R('upgrade'));
+		
+		cost = $UpgradeBarCost;
+		costBox.markupText = "<icon>0</icon>" + cost.toString();
+		costBox.draw(g, R('cost'));
 	}
 }
 
@@ -1766,6 +1893,8 @@ function onClear() {
 	$UpgradeBarUpgrade8 = '-';
 	$UpgradeBarUpgrade9 = '-';
 	$UpgradeBarUpgrade10 = '-';
+	$UpgradeBarUpgrade11 = '-';
+	$UpgradeBarUpgrade12 = '-';
 }
 
 // These can be used to perform special processing during open/save.
@@ -1803,9 +1932,10 @@ function onRead(diy,ois) {
 		$UpgradeBarUpgrade8 = '-';
 		$UpgradeBarUpgrade9 = '-';
 		$UpgradeBarUpgrade10 = '-';
+		$UpgradeBarUpgrade11 = '-';
+		$UpgradeBarUpgrade12 = '-';
 		diy.version = 3;
-	}
-		
+	}		
 		
 	portraits[0] = ois.readObject();
 	portraits[1] = ois.readObject();

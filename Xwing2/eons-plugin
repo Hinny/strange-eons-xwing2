@@ -1,7 +1,7 @@
 # X-wing 2ed Root File
 #
 
-id = CATALOGUEID{27d21d21-affb-428e-9a72-971d990b44e9:2018-10-13-21-33-8-627}
+id = CATALOGUEID{27d21d21-affb-428e-9a72-971d990b44e9:2018-10-14-14-33-48-389}
 
 priority = GAME
 ui-languages = en
@@ -13,9 +13,9 @@ catalog-homepage = http://github.com/Hinny/strange-eons-xwing2
 catalog-description = Create custom content for <b>Star Wars X-wing Second \
     Edition</b> by FFG.\n<p>This plug-in includes the following \
     components:\n<ul>\n<li> Pilot \
-    Cards\n</ul>\n</p>\n<p>Changelog:\n<ul>\n<li>2018-11-13:\n\t<ul>\n\t<li> Fixed \
-    font issue.\n\t</ul>\n</ul>\n<li>2018-11-06:\n\t<ul>\n\t<li> Pilot \
-    Cards\n\t</ul>\n</ul>
+    Cards\n</ul>\n</p>\n<p>Changelog:\n<ul>\n<li>2018-11-14:\n\t<ul>\n\t<li> Point \
+    cost and upgrade bar option on Pilot cards.\n\t<li> Fixed font \
+    issue.\n\t</ul>\n</ul>\n<li>2018-11-06:\n\t<ul>\n\t<li> Pilot Cards\n\t</ul>\n</ul>
 catalog-tags = game
 
 res://plugin.js
