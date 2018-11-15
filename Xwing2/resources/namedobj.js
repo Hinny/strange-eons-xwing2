@@ -570,7 +570,7 @@ function Xwing2Object() {
 			case 'tiestriker': iconChar = 'T'; break;
 			case 'uwing': iconChar = 'u'; break;
 			case 'tieaggressor': iconChar = 'A'; break;
-			case 'scurrg': iconChar = 'G'; break;
+			case 'scurrg': iconChar = 'H'; break;
 			case 'auzituck': iconChar = '@'; break;
 			case 'sheatipede': iconChar = '%'; break;
 			case 'starwing': iconChar = '&'; break;
