@@ -520,6 +520,9 @@ function Xwing2Object() {
 			case 'modification': iconChar = 'm'; break;
 			case 'title': iconChar = 't'; break;
 			case 'configuration': iconChar = 'n'; break;
+			case 'small': iconChar = '\u00c1'; break;
+			case 'medium': iconChar = '\u00c2'; break;
+			case 'large': iconChar = '\u00c3'; break;
 		}		
 		return iconChar;
 	};

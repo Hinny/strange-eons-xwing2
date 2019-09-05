@@ -40,7 +40,7 @@ function getPortrait(index) {
 }
 
 function create(diy) {
-	diy.version = 3;
+	diy.version = 4;
 	diy.extensionName = 'Xwing2.seext';
 	diy.faceStyle = FaceStyle.CARD_AND_MARKER;
 	diy.transparentFaces = true;
@@ -144,8 +144,8 @@ function create(diy) {
 	$Epithet = #xw2-pilot-epithet;
 	$ShipModel = #xw2-pilot-ship-model;
 	$Faction = #xw2-pilot-faction;
+	$Layout = #xw2-pilot-layout;
 	$Initiative = #xw2-pilot-initiative;
-	$UpgradeBar = #xw2-pilot-upgrade-bar;
 	$UniquePilot = #xw2-pilot-unique;
 	$Droid = #xw2-pilot-droid;
 	$Text = #xw2-pilot-text;
@@ -192,7 +192,10 @@ function create(diy) {
 	$CustomFactionFireArcTint = #xw2-pilot-custom-faction-fire-arc-tint;
 	$CustomFactionDarkEdges = #xw2-pilot-custom-faction-dark-edges;
 	
-	$UpgradeBarCost = #xw2-pilot-upgrade-bar-cost;
+	$CustomLayoutUpgradeBar = #xw2-pilot-custom-layout-upgrade-bar;
+	$CustomLayoutCost = #xw2-pilot-custom-layout-cost;
+	$CustomLayoutSize = #xw2-pilot-custom-layout-size;
+	$Cost = #xw2-pilot-cost;
 	$UpgradeBarUpgrade1 = #xw2-pilot-upgrade-bar-upgrade-1;
 	$UpgradeBarUpgrade2 = #xw2-pilot-upgrade-bar-upgrade-2;
 	$UpgradeBarUpgrade3 = #xw2-pilot-upgrade-bar-upgrade-3;
@@ -211,7 +214,6 @@ function createInterface(diy,editor) {
 	bindings = new Bindings(editor,diy);
 
 
-
 	// Main Panel
 	mainHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards");
 	
@@ -222,6 +224,13 @@ function createInterface(diy,editor) {
 	factionItems.push(ListItem('scum',@xw2-faction-scum));
 	factionBox = comboBox(factionItems);
 	bindings.add('Faction',factionBox,[0,1,2]);	
+
+	layoutItems = [];
+	layoutItems.push(ListItem('custom',@xw2-layout-custom));
+	layoutItems.push(ListItem('standard',@xw2-layout-standard));
+	//layoutItems.push(ListItem('extended',@xw2-layout-fullart));
+	layoutBox = comboBox(layoutItems);
+	bindings.add('Layout',layoutBox,[0]);
 
 	shipItems = [];
 	shipItems.push(ListItem('custom',@xw2-ship-custom-name));
@@ -270,7 +279,6 @@ function createInterface(diy,editor) {
 	shipItems.push(ListItem('scurrg',@xw2-ship-scurrg-name));
 	shipItems.push(ListItem('starviper',@xw2-ship-starviper-name));
 	shipItems.push(ListItem('yv666',@xw2-ship-yv666-name));
-	
 	shipBox = comboBox(shipItems);
 	bindings.add('ShipModel',shipBox,[0,2]);
 
@@ -282,9 +290,6 @@ function createInterface(diy,editor) {
 	initiativeItems = ['0','1','2','3','4','5','6','\u25a0'];
 	initiativeBox = comboBox(initiativeItems);
 	bindings.add('Initiative',initiativeBox,[0,2]);
-
-	upgradeBarCheckbox = checkBox(@xw2-upgrade-bar);
-	bindings.add('UpgradeBar',upgradeBarCheckbox,[0]);
 
 	uniqueCheckbox = checkBox(@xw2-unique);
 	bindings.add('UniquePilot',uniqueCheckbox,[0,2]);
@@ -313,13 +318,13 @@ function createInterface(diy,editor) {
 	mainPanel.setTitle(@xw2-info);
 	mainPanel.place(mainHelpButton,'wrap para');
 	mainPanel.place(@xw2-faction,'',factionBox,'wmin 250,span 3,wrap');	
+	mainPanel.place(@xw2-layout,'',layoutBox,'wmin 250,span 3,wrap');
 	mainPanel.place(@xw2-ship-model,'',shipBox,'wmin 250,span 3,wrap');
 	mainPanel.place(@xw2-pilotname,'',nameField,'span,growx,wrap');
 	mainPanel.place(@xw2-epithet,'',epithetField,'span,growx,wrap');
 	mainPanel.place(@xw2-initiative,'',initiativeBox,'wmin 52');
-	mainPanel.place(uniqueCheckbox,'wrap');
-	mainPanel.place(upgradeBarCheckbox,'');
-	mainPanel.place(droidCheckbox,'wrap');
+	mainPanel.place(uniqueCheckbox,'');
+	mainPanel.place(droidCheckbox,'wrap para');
 	mainPanel.place(separator(),'span,growx,wrap para');
 	mainPanel.place(@xw2-pilottext,'span,grow,wrap para');
 	mainPanel.place(pilotTextArea,'span,grow,wrap para');
@@ -328,7 +333,6 @@ function createInterface(diy,editor) {
 	mainPanel.place(separator(),'span,growx,wrap para');
 	mainPanel.place(pilotPanel,'span,growx,wrap');
 	mainPanel.editorTabScrolling = true;
-
 
 
 	// Custom Ship Panel
@@ -487,7 +491,6 @@ function createInterface(diy,editor) {
 	customShipPanel.editorTabScrolling = true;
 
 
-
 	// Custom Faction Panel
 	customFactionHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/Creating-Pilot-Cards#creating-custom-faction");
 	
@@ -546,12 +549,27 @@ function createInterface(diy,editor) {
 	customFactionPanel.editorTabScrolling = true;
 
 
+	// Custom Layout Panel	
+	customLayoutHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/");
 
-	// Upgrade Bar Panel
-	upgradeBarHelpButton = helpButton("http://github.com/Hinny/strange-eons-xwing2/wiki/");
+	upgradeBarLayoutItems = [];
+	upgradeBarLayoutItems.push(ListItem('-','-'));
+	upgradeBarLayoutItems.push(ListItem('replace',@xw2-replace));
+	upgradeBarLayoutItems.push(ListItem('combine',@xw2-combine));
+	upgradeBarLayoutBox = comboBox(upgradeBarLayoutItems);
+	bindings.add('CustomLayoutUpgradeBar',upgradeBarLayoutBox,[0]);
 
-	upgradeBarCostSpinner = spinner( 0, 999, 1, 0 );
-	bindings.add( 'UpgradeBarCost', upgradeBarCostSpinner, [0] );
+	costLayoutCheckbox = checkBox(@xw2-layout-cost);
+	bindings.add('CustomLayoutCost',costLayoutCheckbox,[0]);
+
+	sizeLayoutItems = [];
+	sizeLayoutItems.push(ListItem('-','-'));
+	sizeLayoutItems.push(ListItem('replace',@xw2-replace));
+	sizeLayoutBox = comboBox(sizeLayoutItems);
+	bindings.add('CustomLayoutSize',sizeLayoutBox,[0]);
+
+	costSpinner = spinner( 0, 999, 1, 0 );
+	bindings.add( 'Cost', costSpinner, [0] );
 	
 	upgradeItems = [];
 	upgradeItems.push(ListItem('-','-'));
@@ -597,25 +615,27 @@ function createInterface(diy,editor) {
 	upgradeBarUpgradeBox12 = comboBox(upgradeItems);
 	bindings.add('UpgradeBarUpgrade12',upgradeBarUpgradeBox12,[0]);
 
-	upgradeBarPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref][min:pref][min:pref,grow]','');
-	upgradeBarPanel.setTitle(@xw2-upgrade-bar);
-	upgradeBarPanel.place(upgradeBarHelpButton,'wrap para');
-	upgradeBarPanel.place(@xw2-cost, '', upgradeBarCostSpinner, 'wrap para');
-	upgradeBarPanel.place(@xw2-upgrade + " 1", '', upgradeBarUpgradeBox1, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 2", '', upgradeBarUpgradeBox2, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 3", '', upgradeBarUpgradeBox3, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 4", '', upgradeBarUpgradeBox4, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 5", '', upgradeBarUpgradeBox5, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 6", '', upgradeBarUpgradeBox6, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 7", '', upgradeBarUpgradeBox7, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 8", '', upgradeBarUpgradeBox8, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 9", '', upgradeBarUpgradeBox9, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 10", '', upgradeBarUpgradeBox10, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 11", '', upgradeBarUpgradeBox11, 'wmin 120,wrap');
-	upgradeBarPanel.place(@xw2-upgrade + " 12", '', upgradeBarUpgradeBox12, 'wmin 120,wrap para');
-	upgradeBarPanel.editorTabScrolling = true;
-
-
+	customLayoutPanel = new Grid('','[min:pref][min:pref][min:pref][min:pref][min:pref][min:pref,grow]','');
+	customLayoutPanel.setTitle(@xw2-custom-faction);
+	customLayoutPanel.place(customLayoutHelpButton,'wrap para');
+	customLayoutPanel.place(@xw2-layout-upgradebar, '', upgradeBarLayoutBox, 'wrap');
+	customLayoutPanel.place(costLayoutCheckbox,'wrap');
+	customLayoutPanel.place(@xw2-layout-size, '', sizeLayoutBox, 'wrap para');
+	customLayoutPanel.place(separator(),'span,growx,wrap para');
+	customLayoutPanel.place(@xw2-cost, '', costSpinner, 'wrap para');
+	customLayoutPanel.place(@xw2-upgrade + " 1", '', upgradeBarUpgradeBox1, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 2", '', upgradeBarUpgradeBox2, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 3", '', upgradeBarUpgradeBox3, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 4", '', upgradeBarUpgradeBox4, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 5", '', upgradeBarUpgradeBox5, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 6", '', upgradeBarUpgradeBox6, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 7", '', upgradeBarUpgradeBox7, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 8", '', upgradeBarUpgradeBox8, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 9", '', upgradeBarUpgradeBox9, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 10", '', upgradeBarUpgradeBox10, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 11", '', upgradeBarUpgradeBox11, 'wmin 120,wrap');
+	customLayoutPanel.place(@xw2-upgrade + " 12", '', upgradeBarUpgradeBox12, 'wmin 120,wrap para');
+	customLayoutPanel.editorTabScrolling = true;
 
 	// Other
  	diy.setNameField(nameField);
@@ -800,6 +820,7 @@ function createInterface(diy,editor) {
 			if (factionBox.getSelectedItem() != 'custom') {
 				customFactionMainTintPanel.setVisible(false);
 				customFactionFireArcTintPanel.setVisible(false);
+				custonFactionDarkEdgesCheckbox.setVisible(false);
 				customFactionUpperPanel.setVisible(false);
 				customFactionLowerPanel.setVisible(false);
 				customFactionSymbolOutlinePanel.setVisible(false);
@@ -809,12 +830,67 @@ function createInterface(diy,editor) {
 			} else {
 				customFactionMainTintPanel.setVisible(true);
 				customFactionFireArcTintPanel.setVisible(true);
+				custonFactionDarkEdgesCheckbox.setVisible(true);
 				customFactionUpperPanel.setVisible(true);
 				customFactionLowerPanel.setVisible(true);
 				customFactionSymbolOutlinePanel.setVisible(true);
 				customFactionSymbolFrontPanel.setVisible(true);
 				customFactionSymbolBackPanel.setVisible(true);
 				customFactionBackgroundPanel.setVisible(true);
+			}
+			if (layoutBox.getSelectedItem() != 'custom') {
+				upgradeBarLayoutBox.setEnabled(false);
+				costLayoutCheckbox.setEnabled(false);
+				sizeLayoutBox.setEnabled(false);
+				costSpinner.setEnabled(false);
+				upgradeBarUpgradeBox1.setEnabled(false);
+				upgradeBarUpgradeBox2.setEnabled(false);
+				upgradeBarUpgradeBox3.setEnabled(false);
+				upgradeBarUpgradeBox4.setEnabled(false);
+				upgradeBarUpgradeBox5.setEnabled(false);
+				upgradeBarUpgradeBox6.setEnabled(false);
+				upgradeBarUpgradeBox7.setEnabled(false);
+				upgradeBarUpgradeBox8.setEnabled(false);
+				upgradeBarUpgradeBox9.setEnabled(false);
+				upgradeBarUpgradeBox10.setEnabled(false);
+				upgradeBarUpgradeBox11.setEnabled(false);
+				upgradeBarUpgradeBox12.setEnabled(false);
+			} else {
+				upgradeBarLayoutBox.setEnabled(true);
+				costLayoutCheckbox.setEnabled(true);
+				sizeLayoutBox.setEnabled(true);
+				if (costLayoutCheckbox.isSelected()){
+					costSpinner.setEnabled(true);
+				} else {
+					costSpinner.setEnabled(false);
+				}
+				if (upgradeBarLayoutBox.getSelectedItem() == '-') {
+					upgradeBarUpgradeBox1.setEnabled(false);
+					upgradeBarUpgradeBox2.setEnabled(false);
+					upgradeBarUpgradeBox3.setEnabled(false);
+					upgradeBarUpgradeBox4.setEnabled(false);
+					upgradeBarUpgradeBox5.setEnabled(false);
+					upgradeBarUpgradeBox6.setEnabled(false);
+					upgradeBarUpgradeBox7.setEnabled(false);
+					upgradeBarUpgradeBox8.setEnabled(false);
+					upgradeBarUpgradeBox9.setEnabled(false);
+					upgradeBarUpgradeBox10.setEnabled(false);
+					upgradeBarUpgradeBox11.setEnabled(false);
+					upgradeBarUpgradeBox12.setEnabled(false);
+				} else {
+					upgradeBarUpgradeBox1.setEnabled(true);
+					upgradeBarUpgradeBox2.setEnabled(true);
+					upgradeBarUpgradeBox3.setEnabled(true);
+					upgradeBarUpgradeBox4.setEnabled(true);
+					upgradeBarUpgradeBox5.setEnabled(true);
+					upgradeBarUpgradeBox6.setEnabled(true);
+					upgradeBarUpgradeBox7.setEnabled(true);
+					upgradeBarUpgradeBox8.setEnabled(true);
+					upgradeBarUpgradeBox9.setEnabled(true);
+					upgradeBarUpgradeBox10.setEnabled(true);
+					upgradeBarUpgradeBox11.setEnabled(true);
+					upgradeBarUpgradeBox12.setEnabled(true);
+				}
 			}
 		} catch(ex) {
 			Error.handleUncaught(ex);
@@ -824,13 +900,14 @@ function createInterface(diy,editor) {
 	mainPanel.addToEditor(editor, @xw2-info, null, null, 0);
 	customShipPanel.addToEditor(editor, @xw2-custom-ship, null, null, 1);
 	customFactionPanel.addToEditor(editor, @xw2-custom-faction, null, null, 2);
-	upgradeBarPanel.addToEditor(editor, @xw2-upgrade-bar, null, null, 3);
+	customLayoutPanel.addToEditor(editor, @xw2-custom-layout, null, null, 3);
 	editor.addFieldPopulationListener(actionFunction);
 	bindings.bind();
 	
 	// Add action listeners
 	shipBox.addActionListener(actionFunction);
 	factionBox.addActionListener(actionFunction);
+	layoutBox.addActionListener(actionFunction);
 	uniqueCheckbox.addActionListener(actionFunction);
 	customActionStandardBox1.addActionListener(actionFunction);
 	customActionStandardRedCheckBox1.addActionListener(actionFunction);
@@ -848,13 +925,14 @@ function createInterface(diy,editor) {
 	customActionStandardRedCheckBox5.addActionListener(actionFunction);
 	customActionLinkedBox5.addActionListener(actionFunction);
 	customShipIconBox.addActionListener(actionFunction);
+	costLayoutCheckbox.addActionListener(actionFunction);
+	upgradeBarLayoutBox.addActionListener(actionFunction);
 }
 	
 function createFrontPainter(diy,sheet) {
 	nameBox = Xwing2.headingBox(sheet,11);
 	epithetBox = Xwing2.epithetBox(sheet,7.5);
 	shipModelBox = Xwing2.headingBox(sheet,7.5);
-	fullAbilityTextBox = Xwing2.abilityBox(sheet, 9);
 	fullAbilityTextBox = Xwing2.abilityBox(sheet, 8.8);
 	reducedAbilityTextBox = Xwing2.abilityBox(sheet, 8);
 	copyrightBox = Xwing2.copyRightBox(sheet,4.5);
@@ -1013,20 +1091,18 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	gradientPaint = new java.awt.GradientPaint(0, 50, Color(24 / 255, 20 / 255, 21 / 255), 0, 380, mainColor);
 	gradiantArt = createTexturedImage(gradiantArt, gradientPaint);
 	g.drawImage(gradiantArt, 609-xMod, 470, null);
-	
+
 	// Draw Line Art
 	g.setPaint(mainColor);
 	g.setStroke(BasicStroke(2));
 	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	
 	g.drawPolyline([0, 171, 193, 546, 568, 739], [419, 419, 397, 397, 419, 419], 6);
-	if ($$UpgradeBar.yesNo) {
-		g.drawPolyline([0, 341, 363, 363], [952, 952, 974, 1040], 4);
-		g.drawPolyline([739, 399, 377, 377], [952, 952, 974, 1040], 4);
-		//TODO: Draw lineart
-	} else {
-		g.drawPolyline([0, 127, 139, 600, 612, 739], [977, 977, 965, 965, 977, 977], 6);
+	g.drawPolyline([0, 127, 139, 600, 612, 739], [977, 977, 965, 965, 977, 977], 6);
+	if ($Layout == 'custom' && $CustomLayoutUpgradeBar == 'combine') {
+		g.drawLine(0, 997, 739, 997);
 	}
+
 	g.drawPolyline([0, 586-xMod, 608-xMod, 608-xMod, 586-xMod, 0], [447, 447, 469, 783, 805, 805], 6);
 	g.drawPolyline([739, 650-xMod, 628-xMod, 628-xMod, 650-xMod, 739], [447, 447, 469, 918, 940, 940], 6);	
 		
@@ -1098,50 +1174,72 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	imageTemplate = 'pilot-initiative-background-template';
 	sheet.paintImage(g, imageTemplate,19,317);
 	
-	if ($$UpgradeBar.yesNo) {
+	// Draw lower panel backgrounds
+	g.setPaint(Color(80 / 255, 80 / 255, 80 / 255));
+	if ($Layout == 'custom' && $CustomLayoutUpgradeBar != '-') {
+		g.fillPolygon([0, 99, 111, 111, 0],
+			[958, 958, 970, 1040, 1040], 5);
+		g.fillPolygon([739, 640, 628, 628, 739],
+			[958, 958, 970, 1040, 1040], 5);
 	} else {
-		// Draw lower panel backgrounds
-		g.setPaint(Color(80 / 255, 80 / 255, 80 / 255));
 		g.fillPolygon([0, 99, 111, 111, 138, 601, 628, 628, 640, 739, 739, 0],
 			[958, 958, 970, 990, 1011, 1011, 990, 970, 958, 958, 1040, 1040], 12);
+	}
 		
-		// Draw lower panel drop shadow
-		dropShadow = ImageUtils.create(742, 82, true);
-		gTemp = dropShadow.createGraphics();
-		gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
+	// Draw lower panel drop shadow
+	dropShadow = ImageUtils.create(742, 82, true);
+	gTemp = dropShadow.createGraphics();
+	gTemp.setPaint(Color(30 / 255, 30 / 255, 30 / 255));
+	if ($Layout == 'custom' && $CustomLayoutUpgradeBar != '-') {
+		gTemp.fillPolygon([0, 99, 107, 107, 0],
+			[7, 7, 15, 82, 82], 5);
+		gTemp.fillPolygon([742, 646, 638, 638, 742],
+			[7, 7, 15, 82, 82], 5);
+	} else {
 		gTemp.fillPolygon([0, 99, 107, 107, 139, 606, 638, 638, 646, 742, 742, 0],
 			[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
-		blur = new BlurFilter(1,3);
-		blur.filter(dropShadow,dropShadow);
-		g.drawImage(dropShadow, 0, 961, null);
-		
-		// Draw lower panel
-		if ($Faction == 'custom') {
-			panel = ImageUtils.create(739, 82, true);
-			gTemp = panel.createGraphics();
-			portraits[4].paint(gTemp, target);
-			mask = createLowerPanelImage();
-			panel = applyAlphaMaskToImage(panel, mask);
-			g.drawImage(panel, 0, 958, null);
+	}
+
+	blur = new BlurFilter(1,3);
+	blur.filter(dropShadow,dropShadow);
+	g.drawImage(dropShadow, 0, 961, null);
+	
+	// Draw lower panel
+	if ($Faction == 'custom') {
+		panel = ImageUtils.create(739, 82, true);
+		gTemp = panel.createGraphics();
+		portraits[4].paint(gTemp, target);
+		mask = createLowerPanelImage();
+		panel = applyAlphaMaskToImage(panel, mask);
+		g.drawImage(panel, 0, 958, null);
+	} else {
+		if ($Layout == 'custom' && $CustomLayoutUpgradeBar != '-') {
+			imageTemplate = 'pilot-' + $Faction + '-lower-cropped-panel-template';
 		} else {
-			imageTemplate = 'pilot-' + $Faction + '-lower-panel-template';
-			sheet.paintImage(g, imageTemplate,0,965);
+			imageTemplate = 'pilot-' + $Faction + '-lower-regular-panel-template';
 		}
-		// Draw panel line art
-		// TODO: Make 3D fx
-		g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-		g.setStroke(BasicStroke(1.0));
-		g.drawLine(0, 331, 125, 331);
-		g.drawLine(0, 416, 107, 416);
-		g.drawLine(739, 331, 614, 331);
-		g.drawLine(739, 416, 632, 416);
-		g.drawPolyline([162, 168, 571, 577], [309, 315, 315, 309], 4);
+		sheet.paintImage(g, imageTemplate,0,965);
+	}
+	// Draw panel line art
+	// TODO: Make 3D fx
+	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
+	g.setStroke(BasicStroke(1.0));
+	g.drawLine(0, 331, 125, 331);
+	g.drawLine(0, 416, 107, 416);
+	g.drawLine(739, 331, 614, 331);
+	g.drawLine(739, 416, 632, 416);	
+	g.drawPolyline([162, 168, 571, 577], [309, 315, 315, 309], 4);
+	
+	if ($Layout == 'custom' && $CustomLayoutUpgradeBar != '-') {
+		g.drawLine(0, 1030, 104, 1030);
+		g.drawLine(739, 1030, 635, 1030);
+	} else {
 		g.drawPolyline([0, 208, 218], [1030, 1030, 1040], 3);
 		g.drawPolyline([739, 531, 521], [1030, 1030, 1040], 3);
-		
-		imageTemplate = 'pilot-icon-background-template';
-		sheet.paintImage(g, imageTemplate,19,965);
 	}
+	
+	imageTemplate = 'pilot-icon-background-template';
+	sheet.paintImage(g, imageTemplate,19,965);
 	
 	// Draw faction symbol
 	if ($Faction == 'custom') {
@@ -1150,9 +1248,9 @@ function paintFrontFaceFrame(g, sheet, textBoxSize, actionsInActionBar, mainColo
 	
 	// Draw Copy Right Text
 	copyrightBox.markupText = "\u00a9LFL \u00a9FFG";
-	if ($$UpgradeBar.yesNo) {
+	if ($Layout == 'custom' && $CustomLayoutUpgradeBar != '-') {
 		copyrightBox.drawAsSingleLine(g, R('copyright-with-bar'));
-	} else {		
+	} else {
 		copyrightBox.drawAsSingleLine(g, R('copyright-regular'));
 	}
 }
@@ -1182,19 +1280,15 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 	} else {
 		shipModelBox.markupText = getShipStat($ShipModel,'model');
 	}
-	if ($$UpgradeBar.yesNo) {
-		shipModelBox.draw(g, R('shipmodel-with-bar'));
-	} else {
+	if ($Layout == 'standard' || ($Layout == 'custom' && $CustomLayoutUpgradeBar == '-')) {
 		shipModelBox.drawAsSingleLine(g, R('shipmodel-regular'));
+	} else if ($Layout == 'custom' && $CustomLayoutUpgradeBar == 'combine') {
+		shipModelBox.drawAsSingleLine(g, R('shipmodel-combined'));
 	}
-	
+
 	// Draw the ship icon
 	if ($ShipModel == 'custom' && $CustomShipIcon == 'custom') {
-		if ($$UpgradeBar.yesNo) {
-			$ship-icon-card-portrait-clip-region = $pilot-custom-icon-with-bar-region;
-		} else {
-			$ship-icon-card-portrait-clip-region = $pilot-custom-icon-regular-region;
-		}
+		$ship-icon-card-portrait-clip-region = $pilot-custom-icon-regular-region;
 		portraits[1].paint(g,target);
 	} else {
 		if ($ShipModel == 'custom') {
@@ -1203,25 +1297,34 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 			shipIcon = getShipStat($ShipModel, 'icon');
 		}
 		g.setPaint(Color.WHITE);
-		if ($$UpgradeBar.yesNo) {
-			$pilot-icon-region = $pilot-font-icon-with-bar-region;
-		} else {
-			$pilot-icon-region = $pilot-font-icon-regular-region;
-		}
+		$pilot-icon-region = $pilot-font-icon-regular-region;
 		sheet.drawTitle(g, Xwing2.textToShipChar(shipIcon), R('icon'), Xwing2.shipFont, 18, sheet.ALIGN_CENTER);
   	}
   	
 	// Draw Initiative
-	if ($Initiative == '\u25a0') {
-		initRect = R('initiative-square-border', 0, 0);
-		g.setPaint(Color.BLACK);
-		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
-		initRect = R('initiative-square', 0, 0);
-		g.setPaint(Xwing2.getColor('initiative'));
-		g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
+	if ($Layout == 'custom' && $CustomLayoutSize == 'replace') {
+		//draw size icon instead of initiative
+		g.setPaint(Color.WHITE);
+		if ($ShipModel == 'custom') {
+			shipSize = $CustomShipSize;
+		} else {
+			shipSize = getShipStat($ShipModel, 'size');
+		}		
+		sheet.drawTitle(g, Xwing2.textToIconChar(shipSize), R('initiative'), Xwing2.iconFont, 10.5, sheet.ALIGN_CENTER);		
 	} else {
-		sheet.drawOutlinedTitle( g, $Initiative, R('initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
+		if ($Initiative == '\u25a0') {
+			initRect = R('initiative-square-border', 0, 0);
+			g.setPaint(Color.BLACK);
+			g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
+			initRect = R('initiative-square', 0, 0);
+			g.setPaint(Xwing2.getColor('initiative'));
+			g.fillRect(initRect.getX(), initRect.getY(), initRect.getWidth(), initRect.getHeight());
+		} else {
+			sheet.drawOutlinedTitle( g, $Initiative, R('initiative', 0, 0), Xwing2.numberFont, 18, 2, Xwing2.getColor('initiative'), Color.BLACK, sheet.ALIGN_CENTER, true);
+		}	
 	}
+	
+
   	
   	// Draw the Pilot Ability/Flavour Text and Ship ability
 	if ($$UniquePilot.yesNo) {
@@ -1396,9 +1499,9 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 			sheet.drawTitle(g, Xwing2.textToIconChar(actions[i][0]), Region(x.toString() + ',' + y.toString() + ',100,100'), Xwing2.actionFont, 12, sheet.ALIGN_CENTER);
 		}
 	}
-	
+
 	// Draw Upgrade Bar
-	if ($$UpgradeBar.yesNo) {
+	if ($Layout == 'custom' && $CustomLayoutUpgradeBar != '-') {
 		upgrades = [];
 		upgradeBox.markupText = '';
 		if ($UpgradeBarUpgrade1 != '-') {upgrades.push($UpgradeBarUpgrade1);}
@@ -1417,11 +1520,16 @@ function paintFrontFaceInfo(g, diy, sheet, textBoxSize) {
 			upgradeBox.markupText +=  Xwing2.textToIconChar(upgrade);
 		}
 		upgradeBox.markupText += " "; // A bug prevents the text to break lines if no space is present
-		upgradeBox.draw(g, R('upgrade'));
-		
-		cost = $UpgradeBarCost;
-		costBox.markupText = "<icon>0</icon>" + cost.toString();
-		costBox.draw(g, R('cost'));
+		if ($CustomLayoutUpgradeBar == 'combine') {
+			upgradeBox.draw(g, R('upgrade-combined'));
+		} else {
+			upgradeBox.draw(g, R('upgrade-full'));
+		}
+	}
+	
+	// Draw Cost
+	if ($Layout == 'custom' && $$CustomLayoutCost.yesNo) {
+		sheet.drawOutlinedTitle(g, $Cost, R('cost', 0, 0), Xwing2.numberFont, 10, 2, Color.WHITE, Color.BLACK, sheet.ALIGN_CENTER, true);
 	}
 }
 
@@ -1834,7 +1942,7 @@ function onClear() {
 	$Epithet = '';
 	$ShipModel = 'custom';
 	$Faction = 'custom';
-	$UpgradeBar = 'no';
+	$Layout = 'standard';
 	$Initiative = '1';
 	$UniquePilot = 'no';
 	$Droid = 'no';
@@ -1881,7 +1989,11 @@ function onClear() {
 	$CustomFactionMainTint = '0.0, 0.0, 1.0';
 	$CustomFactionFireArcTint = '0.0, 0.0, 1.0';
 	$CustomFactionDarkEdges = 'no';
-	
+
+	$CustomLayoutUpgradeBar = '-';
+	$CustomLayoutCost = 'no';
+	$CustomLayoutSize = '-';
+			
 	$UpgradeBarCost = '0';
 	$UpgradeBarUpgrade1 = '-';
 	$UpgradeBarUpgrade2 = '-';
@@ -1920,8 +2032,6 @@ function onRead(diy,ois) {
 		diy.version = 2;
 	}
 	if( diy.version < 3 ) {
-		$UpgradeBar = 'no';
-		$UpgradeBarCost = '0';
 		$UpgradeBarUpgrade1 = '-';
 		$UpgradeBarUpgrade2 = '-';
 		$UpgradeBarUpgrade3 = '-';
@@ -1936,6 +2046,14 @@ function onRead(diy,ois) {
 		$UpgradeBarUpgrade12 = '-';
 		diy.version = 3;
 	}		
+	if( diy.version < 4 ) {
+		$Layout = 'standard';
+		$Cost = '0';
+		$CustomLayoutUpgradeBar = '-';
+		$CustomLayoutCost = 'no';
+		$CustomLayoutSize = '-';
+		diy.version = 4;
+	}
 		
 	portraits[0] = ois.readObject();
 	portraits[1] = ois.readObject();
@@ -2120,9 +2238,16 @@ function createLowerPanelImage() {
 	image = ImageUtils.create(739, 82, true);
 	g = image.createGraphics();
 	g.setPaint(Color(0 / 255, 0 / 255, 0 / 255));
-
-	g.fillPolygon([0, 96, 104, 104, 136, 603, 635, 635, 643, 739, 739, 0],
-		[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
+	if ($Layout == 'custom' && $CustomLayoutUpgradeBar != '-') {
+		g.fillPolygon([0, 96, 104, 104, 0],
+			[7, 7, 15, 82, 82], 5);
+		g.fillPolygon([739, 643, 635, 635, 739],
+			[7, 7, 15, 82, 82], 5);
+	} else {
+		g.fillPolygon([0, 96, 104, 104, 136, 603, 635, 635, 643, 739, 739, 0],
+			[7, 7, 15, 35, 60, 60, 35, 15, 7, 7, 82, 82], 12);
+	}
+ 
     return image;
 }
 
